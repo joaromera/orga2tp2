@@ -20,10 +20,6 @@ void temperature_c    (
 	unsigned char (*src_matrix)[src_row_size] = (unsigned char (*)[src_row_size]) src;
 	unsigned char (*dst_matrix)[dst_row_size] = (unsigned char (*)[dst_row_size]) dst;
 
-	// ~ completar
-
-
-
 	for (int i_d = 0, i_s = 0; i_d < height; i_d++, i_s++) {
 		for (int j_d = 0, j_s = 0; j_d < width; j_d++, j_s++) {
 			bgra_t *p_d = (bgra_t*)&dst_matrix[i_d][j_d*4];
@@ -33,7 +29,6 @@ void temperature_c    (
 	}
 
     for(int i = 0; i < height; i++){
-
         for(int j = 0; j < width * 4; j += 4){
             unsigned char temperature = (unsigned char)((src_matrix[i][j] + src_matrix[i][j + 1] + src_matrix[i][j + 2]) / 3);
             if(temperature < 32){
@@ -41,7 +36,6 @@ void temperature_c    (
                 dst_matrix[i][j + 1] = 0;
                 dst_matrix[i][j + 2] = (unsigned char )(128 + temperature * 4);
 //                dst_matrix[i][j + 3] = src_matrix[i][j + 3];
-
             }
             else if(between(temperature,32,95)){
                 dst_matrix[i][j] 	 = 0;
@@ -67,8 +61,6 @@ void temperature_c    (
                 dst_matrix[i][j + 2] = 0;
 //                dst_matrix[i][j + 3] = src_matrix[i][j + 3];
             }
-
         }
     }
-
 }

@@ -45,8 +45,6 @@ void ondas_c (
 	unsigned char (*src_matrix)[src_row_size] = (unsigned char (*)[src_row_size]) src;
 	unsigned char (*dst_matrix)[dst_row_size] = (unsigned char (*)[dst_row_size]) dst;
 
-	//pixel = prof · 64 + Isrc(x, y)
-	//Idst(x, y) = saturar(pixel)
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width * 4; j++) {
 			float onda = profundidad(i,j,x0,y0) * 64 + src_matrix[i][j];
