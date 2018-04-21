@@ -53,7 +53,7 @@ void ondas_c (
 			} else if (onda > 255) {
 				onda = 255;
 			}
-			dst_matrix[i][j] = onda;
+			dst_matrix[i][j] = (unsigned char) onda;
 		}
 	}
 }
