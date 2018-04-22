@@ -9,7 +9,7 @@ Un color de la imagen \textbf{blit} es considerado como transparente,
 para que en la combinaci\'on algunos pixeles del \textbf{blit} queden por encima de la imagen original y otros no se vean.
 
 Para este trabajo pr\'actico, la imagen \textbf{blit} ser\'a una imagen de Per\'on.
-Decimos que una im\'agen ha sido ``Peronizada'' cuando en su extremo inferior derecho podemos ver a Per\'on agitando su brazo.
+Decimos que una im\'agen ha sido ``Peronizada'' cuando en su extremo superior derecho podemos ver a Per\'on agitando su brazo.
 % La aplicaci\'on de este filtro consiste en generar una nueva imagen combinando la original con la de Per\'on (blit) para as\'i 
 % obtener una versi\'on ``Peronizada'' de la im\'agen fuente.
 
@@ -64,10 +64,15 @@ sus componentes de color, $\alpha$, $\beta$ y $\gamma$ son coeficientes entre
 $0$ y $1$, y $\epsilon$ es un exponente entre $1$ e $\infty$.\\
 
 En nuestro caso se implementar'a la funci'on de conversi'on a escala de grises 
-para los casos extremos, donde $\epsilon$ en la funci'on vale $\epsilon = 1$ o 
+para un casos extremo, donde $\epsilon$ en la funci'on vale  
 $\epsilon = \infty$. Adem'as, se fijar'an los par'ametros restantes en 
-$\alpha = 1/4$, $\beta = 1/2$ y $\gamma = 1/4$. Luego, tenemos dos posibles
-funciones para monocromatizar:
+$\alpha = 1/4$, $\beta = 1/2$ y $\gamma = 1/4$. Luego, tenemos la siguiente
+funcion para monocromatizar:
+
+%para los casos extremos, donde $\epsilon$ en la funci'on vale $\epsilon = 1$ o 
+%$\epsilon = \infty$. Adem'as, se fijar'an los par'ametros restantes en 
+%$\alpha = 1/4$, $\beta = 1/2$ y $\gamma = 1/4$. Luego, tenemos dos posibles
+%funciones para monocromatizar:
 
 %\begin{center}
 %  $I_{out\_uno}(p) = \frac{(R + 2G + B)}{4} (\epsilon = 1)$
@@ -77,7 +82,6 @@ funciones para monocromatizar:
   $I_{out\_infinito}(p) = max(R, G, B) (\epsilon = \infty)$
 \end{center}
 
-(Cada p'ixel $p$ se considera compuesto por tres componentes $R$, $G$ y $B$.)
 
 \subsubsection*{Implementación y uso}
 \noindent Funciones: \\
@@ -200,9 +204,9 @@ Es decir $dst(x, y) = $
     \end{matrix}$
 \end{center}
 
-\textbf{Importante:} Este filtro, a diferencia de los anteriores, opera sobre imágenes en escala de grises (1 componente de color por píxel).
-
-%~ Los bordes que no se pueden procesar quedan en negro.
+Este filtro opera sobre imágenes en escala de grises (1 componente de color por píxel).
+En los bordes que no se pueden procesar según la fórmula anterior (por estar a los costados de la
+imagen), aplica la fórmula $dst(x, y) = src(x,y)$.
 
 \subsubsection*{Implementación y uso}
 

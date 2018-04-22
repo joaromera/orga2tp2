@@ -1,0 +1,26 @@
+Preguntas frecuentes:
+
+- Que se puede asumir del ancho de las imagenes? 
+
+  Que el ancho es múltiplo de 4 pixeles
+
+- Que hacemos en los costados con el filtro edge?
+
+  En los pixeles que están justo en un borde (i.e. filas 1 y height, columnas 1 y width),
+  se aplica directamente dst(x, y) = src(x, y)
+
+- En blit, en que posicion se ubica Perón
+
+  Famoso por haber ideado la "Tercera Posición", la ídem fue cambiando con el paso
+  de los años. En nuestro TP se ubicará arriba y a la derecha.
+
+- Donde está Perón?
+
+  Pregunta de difícil respuesta, aquí pasamos su foto para usar en blit, debe grabarse en
+  codigo/img/blitsmall.bmp y en codigo/tests/img/blitsmall.bmp
+
+- Puede ser que la implementacion de ondas de la cátedra tenga invertidos x e y a la hora
+  de generar las ondas?
+
+  Así es, en el binario que aquí les pasamos eso fue corregido, por lo que deberán copiar
+  el archivo tp2catedra a codigo/tests/
