@@ -32,6 +32,15 @@ float profundidad (int x, int y, int x0, int y0) {
 	return a * s_taylor;
 }
 
+float saturar(float onda) {
+	if (onda < 0) {
+		onda = 0;
+	} else if (onda > 255) {
+		onda = 255;
+	}
+	return onda;
+}
+
 void ondas_c (
 	unsigned char *src,
 	unsigned char *dst,
@@ -46,14 +55,18 @@ void ondas_c (
 	unsigned char (*dst_matrix)[dst_row_size] = (unsigned char (*)[dst_row_size]) dst;
 
 	for (int i = 0; i < height; i++) {
-		for (int j = 0; j < width * 4; j++) {
-			float onda = profundidad(i,j,x0,y0) * 64 + src_matrix[i][j];
-			if (onda < 0) {
-				onda = 0;
-			} else if (onda > 255) {
-				onda = 255;
-			}
-			dst_matrix[i][j] = (unsigned char) onda;
+		for (int j = 0; j < width * 4; j += 4) {
+			float rojo = profundidad(j,i,x0,y0) * 64 + src_matrix[i][j];
+			rojo = saturar(rojo);
+			dst_matrix[i][j] = (unsigned char) rojo;
+
+			float verde = profundidad(j,i,x0,y0) * 64 + src_matrix[i][j + 1];
+			verde = saturar(verde);
+			dst_matrix[i][j + 1] = (unsigned char) verde;
+
+			float azul = profundidad(j,i,x0,y0) * 64 + src_matrix[i][j + 2];
+			azul = saturar(azul);
+			dst_matrix[i][j + 2] = (unsigned char) azul;
 		}
 	}
 }

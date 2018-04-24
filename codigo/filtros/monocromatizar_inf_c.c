@@ -16,6 +16,7 @@ void monocromatizar_inf_c (
 			dst_matrix[i][j] = grey;
 			dst_matrix[i][j+1] = grey;
 			dst_matrix[i][j+2] = grey;
+			dst_matrix[i][j+3] = src_matrix[i][j+3];
 		}
 	}
 }
