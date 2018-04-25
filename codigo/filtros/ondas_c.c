@@ -32,13 +32,13 @@ float profundidad (int x, int y, int x0, int y0) {
 	return a * s_taylor;
 }
 
-float saturar(float onda) {
-	if (onda < 0) {
-		onda = 0;
-	} else if (onda > 255) {
-		onda = 255;
+float saturar(float color) {
+	if (color < 0) {
+		color = 0;
+	} else if (color > 255) {
+		color = 255;
 	}
-	return onda;
+	return color;
 }
 
 void ondas_c (
@@ -56,19 +56,17 @@ void ondas_c (
 
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width * 4; j += 4) {
-			float rojo = profundidad(i, j, width * 4 / 2, height / 2) * 64 + src_matrix[i][j];
-			rojo = saturar(rojo);
-			dst_matrix[i][j] = (unsigned char) rojo;
+			float azul = profundidad(i, j / 4, x0, y0) * 64 + src_matrix[i][j];
+			azul = saturar(azul);
+			dst_matrix[i][j] = azul;
 
-			float verde = profundidad(i, j, width * 4 / 2, height / 2) * 64 + src_matrix[i][j + 1];
+			float verde = profundidad(i, j / 4, x0, y0) * 64 + src_matrix[i][j + 1];
 			verde = saturar(verde);
 			dst_matrix[i][j + 1] = (unsigned char) verde;
 
-			float azul = profundidad(i, j, width * 4 / 2, height / 2) * 64 + src_matrix[i][j + 2];
-			azul = saturar(azul);
-			dst_matrix[i][j + 2] = (unsigned char) azul;
+			float rojo = profundidad(i, j / 4, x0, y0) * 64 + src_matrix[i][j + 2];
+			rojo = saturar(rojo);
+			dst_matrix[i][j + 2] = (unsigned char) rojo;
 		}
 	}
 }
-
-
