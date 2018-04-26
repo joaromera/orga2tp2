@@ -26,8 +26,15 @@
 extern blit_c
 
 section .data
+    align 16 
+
+    mask_0_255_0_255: db 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 3, 255
+
+
 
 DEFAULT REL
+
+
 
 section .text
 
@@ -44,6 +51,9 @@ blit_asm:
 	add ecx, eax	; ECX = w*h
 					;contador para procesar de a 4 pixeles
 	shr rcx, 2		; RCX = W*H/4 
+
+	movdqu xmm1, [mask_0_255_0_255]; xmm1=|0 255 0 255|0 255 0 255|0 255 0 255|0 255 0 255|
+	pxor xmm2, xmm2; xmm2=|0 0 0 0|0 0 0 0|0 0 0 0|0 0 0 0|
 	.ciclo:
 		movdqu xmm0, [rdi]; xmm0= |p4|p3|p2|p1|
 
