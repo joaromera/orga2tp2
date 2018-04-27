@@ -39,6 +39,27 @@ DEFAULT REL
 section .text
 
 global blit_asm
+<<<<<<< HEAD
+	blit_asm:
+		push rbp
+		mov rbp, rsp
+		mov eax, edx
+		mul ecx						;[EDX:EAX]
+		mov ecx, edx
+		shl rcx, 32
+		add ecx, eax
+		shr rcx, 2
+		
+		.ciclo:
+			movdqu xmm0, [rdi]
+			movdqu [rsi], xmm0
+			add rsi, 16
+			add rdi, 16
+			loop .ciclo
+
+		pop rbp
+	ret
+=======
 blit_asm:
 ;COMPLETAR
 	push rbp
@@ -63,7 +84,7 @@ blit_asm:
 			;/** comparacion cpm 255 0 255**//
 							;levantamos imgen blit	
 			
-			movdqu xmm3, [rbx] ; xmm3=|b4|b3|b2|b1|
+			movdqu xmm3, [rbx] ; xm3=|b4|b3|b2|b1|
 			
 			movdqu xmm4, xmm1; xmm4 =|0 255 0 255|0 255 0 255|0 255 0 255|0 255 0 255| 		
 			pcmpeqb	xmm4, xmm3; xmm1 =|||||
@@ -97,3 +118,4 @@ blit_asm:
 	
 	pop rbp
 	ret
+>>>>>>> 4d760bda998b52944a736836683e52c890faaf54

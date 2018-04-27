@@ -3,16 +3,17 @@ global temperature_asm
 section .data
     align 16 
     maskBlend: dd 0, 1, 0, 1
-    div3: dq 3
+    div3: times 4 dd 3
     const128: dq 128
     const32: dq 32
     const96: dq 96
-    mask1: db 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3
+    mask1: db 0, 0, 0, 0, 2, 2, 2, 2, 1, 1, 1, 1, 3, 3, 3, 3
     mask32: times 16 db 32
     mask96: times 16 db 96
     mask160: times 16 db 160
     mask224: times 16 db 224
 section .text
+
 ;void temperature_asm(unsigned char *src,
 ;              unsigned char *dst,
 ;              int width,
@@ -51,7 +52,7 @@ temperature_asm:
 	add ecx, eax
 	shr rcx, 2
 
-    
+    cvtdq2ps xmm8, xmm8
     
     .ciclo:
         cmp rcx, 0
@@ -64,79 +65,66 @@ temperature_asm:
         punpcklbw xmm2, xmm7    ; xmm2 = |    p2    |    p1    |
         punpckhbw xmm1, xmm7    ; xmm1 = |    p4    |    p3    |
 
-        pslld xmm1, 8          ; Shifteo a izquierda para olvidarme del alfa
-        pslld xmm2, 8
-        psrld xmm1, 8
-        psrld xmm2, 8
+        psllq xmm1, 16          ; Shifteo a izquierda para olvidarme del alfa
+        psllq xmm2, 16
+        psrlq xmm1, 16
+        psrlq xmm2, 16
 
         phaddw xmm2, xmm2       ; xmm2 = Suma horizontal de a word
         phaddw xmm1, xmm1       ; xmm1 = Suma horizontal de a word
 
-        pslld xmm2, 16
-        pslld xmm1, 16
-        psrld xmm2, 16
+        phaddw xmm2, xmm2       ; xmm2 = Suma horizontal de a word
+        phaddw xmm1, xmm1       ; xmm1 = Suma horizontal de a word
+
+        ; pslld xmm2, 16
+        ; pslld xmm1, 16
+        ; psrld xmm2, 16
+        ; psrld xmm1, 16
+
+        ; phaddd xmm2, xmm2       ; xmm2 = Suma horizontal de a double word
+        ; phaddd xmm1, xmm1       ; xmm1 = Suma horizontal de a double word
+        
+        blendps xmm1, xmm2, 5   ; xmm1 = |  t4  |  t2  |  t3  |  t1 |
         psrld xmm1, 16
-
-        phaddd xmm2, xmm2       ; xmm2 = Suma horizontal de a double word
-        phaddd xmm1, xmm1       ; xmm1 = Suma horizontal de a double word
         
-        cvtdq2ps xmm2, xmm2     ; Convierto los valores de xmm2 a float
         cvtdq2ps xmm1, xmm1     ; Convierto los valores de xmm1 a float
-
-        ;blendps xmm1, xmm2, 5   ; xmm1 = |  t4  |  t2  |  t3  |  t1 |
-
-        ;divps xmm2, xmm8        ; Divido todo por 3
-    
-        ;cvtps2dq xmm1, xmm1
         
+        divps xmm1, xmm8        ; Divido todo por 3
+
+        cvtps2dq xmm1, xmm1
+
         packusdw xmm1, xmm1     ; xmm1 = |  t4  |  t3  |  t2   |  t1  |
         packuswb xmm1, xmm1
 
-        
+        pshufb xmm1, xmm10
 
-
-        movdqu xmm4, xmm1   ; <t, t, t, t>          t < 32   <0, 0, 0, 4t + 128>
-        ; paddd  xmm4, xmm4   ; <2t, 2t, 2t, 2t>
-        ; paddd  xmm4, xmm4   ; <3t, 3t, 3t, 3t>
-        ; paddd  xmm4, xmm4   ; <4t, 4t, 4t, 4t>
-        ; paddd  xmm4, xmm9   ; <4t + 128, 4t + 128, 4t + 128, 4t + 128>
-        ; packusdw xmm4, xmm4
-        ; packuswb xmm4, xmm4
-        ; pshufb xmm4, xmm10
-        ; pslld xmm4, 24     ; <4t + 128, 0, 0, 0>
-        ; psrld xmm4, 24     ; <0, 0, 0, 4t + 128>
+        movdqu xmm2, [const128]
+        ; <t, t, t, t>          t < 32   <0, 0, 0, 4t + 128>
+        movdqu xmm4, xmm1   
+        paddd  xmm4, xmm4   ; <2t, 2t, 2t, 2t>
+        paddd  xmm4, xmm4   ; <3t, 3t, 3t, 3t>
+        paddd  xmm4, xmm4   ; <4t, 4t, 4t, 4t>
+        paddd  xmm4, xmm2   ; <4t + 128, 4t + 128, 4t + 128, 4t + 128>
+        pslld xmm4, 24     ; <4t + 128, 0, 0, 0>
+        psrld xmm4, 24     ; <0, 0, 0, 4t + 128>
         
 
 
         movdqu xmm5, xmm1   ;<t, t, t, t>           32 <= t < 96    <0, 0, (t - 32) * 4, 255>
-        ; ;pslld xmm5, 24      ;<255, 0, 0, 0>
-        ; ;psrld xmm5, 24      ;<0, 0, 0, 255>
-        ; paddd xmm5, xmm2    ;<t, t, t, 255>
-        ; paddd xmm5, xmm2
-        ; paddd xmm5, xmm2    ;<(t - 32) * 4, (t - 32) * 4, (t - 32) * 4, 255>
-        ; paddd xmm5, xmm2
-        ; psubd xmm5, xmm11   ;
-        ; psubd xmm5, xmm11   ;
-        ; psubd xmm5, xmm11        
-        ; psubd xmm5, xmm11
-        ; packusdw xmm5, xmm5
-        ; packuswb xmm5, xmm5
-        ; pshufb xmm5, xmm10
-        ; pinsrb xmm5, r9b, 12
-        ; pinsrb xmm5, r9b, 8
-        ; pinsrb xmm5, r9b, 4
-        ; pinsrb xmm5, r9b, 0
+        paddd xmm5, xmm1
+        paddd xmm5, xmm1
+        paddd xmm5, xmm1    ;<(t - 32) * 4, (t - 32) * 4, (t - 32) * 4, (t - 32) * 4>
+        psubd xmm5, xmm11   
+        psubd xmm5, xmm11   
+        psubd xmm5, xmm11        
+        psubd xmm5, xmm11
+        pinsrb xmm5, r9b, 12
+        pinsrb xmm5, r9b, 8
+        pinsrb xmm5, r9b, 4
+        pinsrb xmm5, r9b, 0
 
-        ; pslld xmm5, 16
-        ; psrld xmm5, 16
-        ; pinsrb xmm5, r9b, 12
-        ; pinsrb xmm5, r9b, 8
-        ; pinsrb xmm5, r9b, 4
-        ; pinsrb xmm5, r9b, 0    
-
-        ;psllw xmm5, 8       ;<(t - 32) * 4, 255, 0, 0>
-        ;psrlw xmm5, 8       ;<0, 0, (t - 32) * 4, 255>
-
+        pslld xmm5, 16
+        psrld xmm5, 16    
 
         movdqu xmm3, xmm1   ;<t, t, t, t>       96 <= t < 160
         ; ;psllw xmm3, 4       ;<t, t, t, 0>
@@ -152,35 +140,29 @@ temperature_asm:
         ; ;psubd xmm3, [const96]
 
 
+        ;160 <= t < 224  <0, 255, 255 + 640 - 4t, 0>
+        movdqu xmm6, xmm7   ;<0, 0, 0, 0>
+        pinsrb xmm6, r9b, 13
+        pinsrb xmm6, r9b, 9
+        pinsrb xmm6, r9b, 5
+        pinsrb xmm6, r9b, 1          
+        psubd xmm6, xmm1
+        paddd xmm6, xmm2
+        psubd xmm6, xmm1
+        paddd xmm6, xmm2
+        psubd xmm6, xmm1
+        paddd xmm6, xmm2
+        psubd xmm6, xmm1
+        paddd xmm6, xmm2
+        paddd xmm6, xmm2    ;<640 - 4t, 640 - 4t, 255 + 640 - 4t, 640 - 4t>
 
+        pslld xmm6, 24       ;<255 + 640 - 4t, 0, 0, 0>
+        psrld xmm6, 16      ;<0, 0, 255 + 640 - 4t, 0>
 
-
-
-        movdqu xmm6, xmm1   ;<t, t, t, t>           160 <= t < 224  <0, 255, 255 + 640 - 4t, 0>
-        ; psubd xmm6, xmm2
-        ; paddd xmm6, xmm9
-        ; paddd xmm6, xmm9
-        ; paddd xmm6, xmm9
-        ; paddd xmm6, xmm9
-        ; paddd xmm6, xmm9    ;<255, 255, t + 640, 255>
-                
-        ; psubd xmm6, xmm2
-        ; psubd xmm6, xmm2
-        ; psubd xmm6, xmm2
-        ; psubd xmm6, xmm2    ;<255 - 4t, 255 - 4t, 640 - 4t, 255 - 4t>
-        ; paddd xmm6, xmm9
-        ; paddd xmm6, xmm9    ;<255 * 2 - 4t, 255 * 2 - 4t, 255 + 640 -4t, 255 * 2 -4t>
-        ; ;psllw xmm6, 8       ;<255 + 640 - 4t, 255 * 2 - 4t, 0, 0>
-        ; ;psrlw xmm6, 12      ;<0, 0, 255 + 640 - 4t, 0>
-        ; ;pinsrb xmm6, r9b, 14
-        ; ;pinsrb xmm6, r9b, 10
-        ; ;pinsrb xmm6, r9b, 6
-        ; ;pinsrb xmm6, r9b, 2 ;<0, 255, 255 + 640 - 4t, 0>
-        ; packusdw xmm6, xmm6
-        ; packuswb xmm6, xmm6
-        ; pshufb xmm6, xmm10
-
-
+        pinsrb xmm6, r9b, 14
+        pinsrb xmm6, r9b, 10
+        pinsrb xmm6, r9b, 6
+        pinsrb xmm6, r9b, 2 ;<0, 255, 255 + 640 - 4t, 0>
 
 
         movdqu xmm7, xmm1   ;<t, t, t, t>                           224 <= t    <0,255 - 4t + 640, 0, 0>
@@ -232,7 +214,7 @@ temperature_asm:
         ; por xmm12, xmm15
         ; por xmm12, xmm1        ; Las temperaturas de cada pixel estan en xmm12
 
-        movdqu [rsi], xmm2
+        movdqu [rsi], xmm6
         add rsi, 16
 		add rdi, 16
         dec rcx

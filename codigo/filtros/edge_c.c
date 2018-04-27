@@ -33,9 +33,7 @@ void edge_c (unsigned char *src, unsigned char *dst, int width, int height, int 
 			} else if (edge > 255) {
 				edge = 255;
 			}
-
 			dst_matrix[i][j] = (unsigned char) edge;
 		}
 	}
-
 }
