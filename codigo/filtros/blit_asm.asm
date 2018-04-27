@@ -54,8 +54,38 @@ blit_asm:
 
 	movdqu xmm1, [mask_0_255_0_255]; xmm1=|0 255 0 255|0 255 0 255|0 255 0 255|0 255 0 255|
 	pxor xmm2, xmm2; xmm2=|0 0 0 0|0 0 0 0|0 0 0 0|0 0 0 0|
+	
+	mov rbx, [rbp+8]; rbx= blit
+
 	.ciclo:
 		movdqu xmm0, [rdi]; xmm0= |p4|p3|p2|p1|
+
+			;/** comparacion cpm 255 0 255**//
+							;levantamos imgen blit	
+			
+			movdqu xmm3, [rbx] ; xmm3=|b4|b3|b2|b1|
+			
+			movdqu xmm4, xmm1; xmm4 =|0 255 0 255|0 255 0 255|0 255 0 255|0 255 0 255| 		
+			pcmpeqb	xmm4, xmm3; xmm1 =|||||
+			pand xmm4, xmm3; xmm4 = ||||| 	 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
