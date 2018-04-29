@@ -41,16 +41,16 @@ section .text
 global blit_asm
 blit_asm:
 ;COMPLETAR
-	push rbp
-	mov rbp, rsp
+	; push rbp
+	; mov rbp, rsp
 	
-	mov eax, edx	; EAX= w				
-	mul ecx			; [EDX:EAX]
-	mov ecx, edx	;
-	shl rcx, 32
-	add ecx, eax	; ECX = w*h
-					;contador para procesar de a 4 pixeles
-	shr rcx, 2		; RCX = W*H/4 
+	; mov eax, edx	; EAX= w				
+	; mul ecx			; [EDX:EAX]
+	; mov ecx, edx	;
+	; shl rcx, 32
+	; add ecx, eax	; ECX = w*h
+	; 				;contador para procesar de a 4 pixeles
+	; shr rcx, 2		; RCX = W*H/4 
 
 	; movdqu xmm1, [mask_0_255_0_255]; xmm1=|0 255 0 255|0 255 0 255|0 255 0 255|0 255 0 255|
 	; pxor xmm2, xmm2; xmm2=|0 0 0 0|0 0 0 0|0 0 0 0|0 0 0 0|
