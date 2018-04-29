@@ -1,15 +1,16 @@
 global temperature_asm
 
 section .data
-    align 16 
+    ;align 16 
     maskshuf: times 16 db 11111111b
     div3: times 4 dd 3
     mask128: times 16 db 128
     mask1: db 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3
-    mask32: times 16 db 32
-    mask96: times 16 db 96
-    mask160: times 16 db 160
-    mask224: times 16 db 224
+    maskreverse: db 2, 1, 0, 3, 6, 5, 4, 7, 10, 9, 8, 11, 14, 13, 12, 15
+    mask32: times 4 dd 32
+    mask96: times 4 dd 96
+    mask160: times 4 dd 160
+    mask224: times 4 dd 224
 section .text
 
 ;void temperature_asm(unsigned char *src,
@@ -53,17 +54,15 @@ temperature_asm:
     cvtdq2ps xmm8, xmm8
     
     .ciclo:
-        pxor xmm4, xmm4
-        pxor xmm5, xmm5
-        pxor xmm3, xmm3
-        pxor xmm6, xmm6
     
+
+        cmp rcx, 0
+        je .fin
         movdqu xmm12, [mask32]
         movdqu xmm13, [mask96]
         movdqu xmm14, [mask160]
         movdqu xmm15, [mask224]
-        cmp rcx, 0
-        je .fin
+        movdqu xmm9,  [maskshuf]
         movdqu xmm0, [rdi]      ; xmm0 = | p4 | p3 | p2 | p1 | Pixeles originales
         movdqu xmm1, xmm0       ; xmm1 = | p4 | p3 | p2 | p1 |
         movdqu xmm2, xmm0       ; xmm2 = | p4 | p3 | p2 | p1 |
@@ -72,10 +71,10 @@ temperature_asm:
         punpcklbw xmm2, xmm7    ; xmm2 = |    p2    |    p1    |
         punpckhbw xmm1, xmm7    ; xmm1 = |    p4    |    p3    |
 
-        psllq xmm1, 16          ; Shifteo a izquierda para olvidarme del alfa
-        psllq xmm2, 16
-        psrlq xmm1, 16
-        psrlq xmm2, 16
+        ; psllq xmm1, 16          ; Shifteo a izquierda para olvidarme del alfa
+        ; psllq xmm2, 16
+        ; psrlq xmm1, 16
+        ; psrlq xmm2, 16
 
         phaddw xmm2, xmm2       ; xmm2 = Suma horizontal de a word
         phaddw xmm1, xmm1       ; xmm1 = Suma horizontal de a word
@@ -132,8 +131,8 @@ temperature_asm:
         pinsrb xmm5, r9b, 4
         pinsrb xmm5, r9b, 0                     ;<b, b, (t - 32) * 4, 255>
 
-        pslld xmm5, 16                           ;<(t - 32) * 4 , 255, 0, 0>
-        psrld xmm5, 16                           ;<0, 0, x, 255>
+        pslld xmm5, 16                          ;<(t - 32) * 4 , 255, 0, 0>
+        psrld xmm5, 16                          ;<0, 0, x, 255>
 
 
 
@@ -159,7 +158,7 @@ temperature_asm:
         psubb  xmm3, xmm1
         psubb  xmm3, xmm1
         psubb  xmm3, xmm1   ;<b , b, b, 255 - 4t>
-        paddb xmm3, xmm11
+        paddb  xmm3, xmm11
         ;paddb  xmm3, xmm13
         ;paddb  xmm3, xmm13
         ;paddb  xmm3, xmm13
@@ -225,10 +224,10 @@ temperature_asm:
         pslld xmm7, 16     ;<0, 255 - (t - 224) * 4, 0, 0>
 
         psrld xmm1,  24
-        psrld xmm12, 24
-        psrld xmm13, 24
-        psrld xmm14, 24
-        psrld xmm15, 24
+        ; psrld xmm12, 24
+        ; psrld xmm13, 24
+        ; psrld xmm14, 24
+        ; psrld xmm15, 24
 
         pcmpgtd xmm12, xmm1     ; [32 > t?...] Me quedo con t < 32
         pcmpgtd xmm13, xmm1     ; [96 > t?...] Me quedo con t < 96
@@ -251,11 +250,13 @@ temperature_asm:
         pand xmm15, xmm6        ; [t<224, t<224, 0, 0 ,t<224]
         pand  xmm9, xmm7        ; [t>224, t>224, 0, 0 ,t>224]
 
-
         por xmm12, xmm13
         por xmm12, xmm14
         por xmm12, xmm15
         por xmm12, xmm9        ; Las temperaturas de cada pixel estan en xmm12
+
+        movdqu xmm7, [maskreverse]
+        pshufb xmm12, xmm7
 
         movdqu [rsi], xmm12
         
