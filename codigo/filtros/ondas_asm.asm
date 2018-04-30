@@ -1,14 +1,3 @@
-; void ondas_asm (
-; 	unsigned char *src,
-; 	unsigned char *dst,
-; 	int width,
-; 	int height,
-; 	int src_row_size,
-;   int dst_row_size,
-;	int x0,
-;	int y0
-; );
-
 ; Parámetros:
 ; 	rdi = src
 ; 	rsi = dst
@@ -116,10 +105,10 @@ ondas_asm:
 		subps xmm5, xmm7					;xmm5 <- T = k*2*PI-PI
 
 		divps xmm3, xmm15					;r/traindiwth
-		mulps xmm3, xmm3					;r/trainwidth * trainwidth
-		paddd xmm3, xmm10					;1 + (r/trainwidth * trainwidth)
+		mulps xmm3, xmm3					;r/trainwidth * r/trainwidth
+		paddd xmm3, xmm10					;1 + (r/trainwidth * r/trainwidth)
 		movdqu xmm4, xmm10					;xmm4 <- |1|1|1|1|
-		divps xmm4, xmm3					;a = 1 / 1 + (r/trainwidth * trainwidth)
+		divps xmm4, xmm3					;a = 1 / 1 + (r/trainwidth * r/trainwidth)
 
 											;xmm5 <- t
 											;xmm4 <- a
@@ -168,11 +157,6 @@ ondas_asm:
 
 			divps xmm3, xmm2
 			subps xmm1, xmm3					;x - x^3 / 6 + x^5 / 120 - x^7 / 5040
-
-			mov rax, 64
-			movq xmm2, rax
-			packusdw xmm2, xmm2
-			packusdw xmm2, xmm2
 
 			mulps xmm4, xmm1					;XMM4 <- PROFUNDIDAD
 
