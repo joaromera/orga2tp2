@@ -39,6 +39,7 @@ ondas_asm:
 	mov r15, 6
 	mov r14, 120
 	mov rbx, 5040
+	shr rdx, 2
 
 	movdqu xmm15, [trainwidth]
 	cvtdq2ps xmm15, xmm15
@@ -177,8 +178,8 @@ ondas_asm:
 
 	movdqu [rsi], xmm0
 
-	add rsi, 16
-	add rdi, 16
+	mov rsi, [rsi + 16]
+	mov rdi, [rdi + 16]
 	inc r11
 	paddsb xmm11, xmm10
 	paddsb xmm11, xmm10
