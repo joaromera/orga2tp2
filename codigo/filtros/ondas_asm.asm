@@ -13,13 +13,14 @@ extern ondas_c
 global ondas_asm
 
 section .data
+	maskShuf: db 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3
 	mask1: times 4 dd 1
 	mask2: dd 0, 1, 2, 3
 	mask3: times 4 dd 0
-	radio: times 4 dd 35
-	wavelenght: times 4 dd 64
+	radio: times 4 dd 35.0
+	wavelenght: times 4 dd 64.0
 	pi: times 4 dd 3.14159
-	todosdos: times 4 dd 2
+	todosdos: times 4 dd 2.0
 	trainwidth: times 4 dd 3.4
 
 section .text
@@ -39,33 +40,32 @@ ondas_asm:
 	mov r15, 6
 	mov r14, 120
 	mov rbx, 5040
+	shr rdx, 2
 
 	movdqu xmm15, [trainwidth]
-	cvtdq2ps xmm15, xmm15
 	movdqu xmm6, [pi]
-	cvtdq2ps xmm6, xmm6
 	movdqu xmm7, [todosdos]
-	cvtdq2ps xmm7, xmm7
 	movdqu xmm8, [wavelenght]
-	cvtdq2ps xmm8, xmm8
 	movdqu xmm9, [radio]
-	cvtdq2ps xmm9, xmm9
 	movdqu xmm10, [mask1]				;xmm10 <- |1|1|1|1| para incrementar los indices empaquetados
 	movdqu xmm11, [mask2]				;xmm11 <- |0|1|2|3| primeros indices para columnas
 	movdqu xmm12, [mask3]				;xmm12 <- |0|0|0|0| indices para filas
 	mov r12, [rbp + 16]					;x0
 	mov r13, [rbp + 24]					;y0
-	
+
+	;pxor xmm13, xmm13
 	movq xmm13, r12
 	packusdw xmm13, xmm13
 	packusdw xmm13, xmm13				;xmm13 <- |x0|x0|x0|x0|
 
+	;pxor xmm14, xmm14
 	movq xmm14, r13
 	packusdw xmm14, xmm14
 	packusdw xmm14, xmm14				;xmm13 <- |y0|y0|y0|y0|
 
 	xor r10, r10						
 	xor r11, r11
+
 
 	.cicloext:
 	xor r11, r11
@@ -102,28 +102,32 @@ ondas_asm:
 		
 		movdqu xmm5, xmm4
 		mulps xmm5, xmm7
-		subps xmm5, xmm7					;xmm5 <- T = k*2*PI-PI
+		mulps xmm5, xmm6 
+		subps xmm5, xmm6					;xmm5 <- T = k*2*PI-PI
 
 		divps xmm3, xmm15					;r/traindiwth
 		mulps xmm3, xmm3					;r/trainwidth * r/trainwidth
-		paddd xmm3, xmm10					;1 + (r/trainwidth * r/trainwidth)
+		cvtdq2ps xmm10, xmm10
+		addps xmm3, xmm10					;1 + (r/trainwidth * r/trainwidth)
 		movdqu xmm4, xmm10					;xmm4 <- |1|1|1|1|
+		cvtps2dq xmm10, xmm10
 		divps xmm4, xmm3					;a = 1 / 1 + (r/trainwidth * r/trainwidth)
 
 											;xmm5 <- t
 											;xmm4 <- a
 
 			;sin taylor
-			movdqu xmm1, xmm5					;xmm2 <- t
+			movdqu xmm1, xmm5					;xmm1 <- t
 
 			movdqu xmm3, xmm5					;calculamos x al cubo
 			mulps xmm3, xmm5
 			mulps xmm3, xmm5
-			mulps xmm3, xmm5
+			;mulps xmm3, xmm5
 
 			movq xmm2, r15
-			packusdw xmm2, xmm2
-			packusdw xmm2, xmm2
+			packssdw xmm2, xmm2
+			packssdw xmm2, xmm2
+			cvtdq2ps xmm2, xmm2
 
 			divps xmm3, xmm2
 			subps xmm1, xmm3					;x - x^3 / 6
@@ -133,11 +137,12 @@ ondas_asm:
 			mulps xmm3, xmm5
 			mulps xmm3, xmm5
 			mulps xmm3, xmm5
-			mulps xmm3, xmm5
+			;mulps xmm3, xmm5
 
 			movq xmm2, r14
-			packusdw xmm2, xmm2
-			packusdw xmm2, xmm2
+			packssdw xmm2, xmm2
+			packssdw xmm2, xmm2
+			cvtdq2ps xmm2, xmm2
 
 			divps xmm3, xmm2
 			addps xmm1, xmm3					;x - x^3 / 6 + x^5 / 120
@@ -149,11 +154,12 @@ ondas_asm:
 			mulps xmm3, xmm5
 			mulps xmm3, xmm5
 			mulps xmm3, xmm5
-			mulps xmm3, xmm5
+			;mulps xmm3, xmm5
 
 			movq xmm2, rbx
-			packusdw xmm2, xmm2
-			packusdw xmm2, xmm2
+			packssdw xmm2, xmm2
+			packssdw xmm2, xmm2
+			cvtdq2ps xmm2, xmm2
 
 			divps xmm3, xmm2
 			subps xmm1, xmm3					;x - x^3 / 6 + x^5 / 120 - x^7 / 5040
@@ -162,8 +168,9 @@ ondas_asm:
 
 			mov rax, 64
 			movq xmm2, rax
-			packusdw xmm2, xmm2
-			packusdw xmm2, xmm2
+			packssdw xmm2, xmm2
+			packssdw xmm2, xmm2
+			cvtdq2ps xmm2, xmm2
 
 			mulps xmm4, xmm2					;XMM4 <- PROFUNDIDAD * 64
 
@@ -171,24 +178,27 @@ ondas_asm:
 	movdqu xmm0, [rdi]
 
 	cvtps2dq xmm4, xmm4
-	packssdw xmm4, xmm4
-	packsswb xmm4, xmm4
-	paddsb xmm0, xmm4
+	packusdw xmm4, xmm4
+	packuswb xmm4, xmm4
+	pshufb   xmm4, [maskShuf]
+	pslld xmm4, 8
+	psrld xmm4, 8
+	paddusb  xmm0, xmm4
 
 	movdqu [rsi], xmm0
 
 	add rsi, 16
 	add rdi, 16
 	inc r11
-	paddsb xmm11, xmm10
-	paddsb xmm11, xmm10
-	paddsb xmm11, xmm10
-	paddsb xmm11, xmm10 
+	paddd xmm11, xmm10
+	paddd xmm11, xmm10
+	paddd xmm11, xmm10
+	paddd xmm11, xmm10 
 	jmp .cicloint
 
 	.proxfila:
 		inc r10
-		paddsb xmm12, xmm10
+		paddd xmm12, xmm10
 		movdqu xmm11, [mask2]
 		jmp .cicloext
 	
