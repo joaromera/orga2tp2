@@ -28,7 +28,10 @@ section .data
 	mask2: dd 0, 1, 2, 3
 	mask3: times 4 dd 0
 	radio: times 4 dd 35
-	wavelenght: times 4 dd 64.0
+	wavelenght: times 4 dd 64
+	pi: times 4 dd 3.14159
+	todosdos: times 4 dd 2
+	trainwidth: times 4 dd 3.4
 
 section .text
 
@@ -36,53 +39,181 @@ ondas_asm:
 	;; TODO: Implementar
 
 	push rbp
-	mov rbp, rsp
+	mov rbp, rsp						;alineada
+	push rbx
+	push r12
+	push r13
+	push r14
+	push r15							;desalineada
+	sub rsp, 8
+
+	mov r15, 6
+	mov r14, 120
+	mov rbx, 5040
+
+	movdqu xmm15, [trainwidth]
+	cvtdq2ps xmm15, xmm15
+	movdqu xmm6, [pi]
+	cvtdq2ps xmm6, xmm6
+	movdqu xmm7, [todosdos]
+	cvtdq2ps xmm7, xmm7
 	movdqu xmm8, [wavelenght]
 	cvtdq2ps xmm8, xmm8
 	movdqu xmm9, [radio]
+	cvtdq2ps xmm9, xmm9
 	movdqu xmm10, [mask1]				;xmm10 <- |1|1|1|1| para incrementar los indices empaquetados
 	movdqu xmm11, [mask2]				;xmm11 <- |0|1|2|3| primeros indices para columnas
 	movdqu xmm12, [mask3]				;xmm12 <- |0|0|0|0| indices para filas
 	mov r12, [rbp + 16]					;x0
 	mov r13, [rbp + 24]					;y0
-	xor r10, r10						
-	xor r11, r11
 	
-	mov r12, 1							;xmm12 <- x0
 	movq xmm13, r12
 	packusdw xmm13, xmm13
 	packusdw xmm13, xmm13				;xmm13 <- |x0|x0|x0|x0|
 
-	mov r13, 2							;xmm13 <- y0
 	movq xmm14, r13
 	packusdw xmm14, xmm14
 	packusdw xmm14, xmm14				;xmm13 <- |y0|y0|y0|y0|
 
+	xor r10, r10						
+	xor r11, r11
+
 	.cicloext:
 	xor r11, r11
-	; cmp r10, rdx						;verificar si es la ultima columna de la fila
-	; je .fin
+	cmp r10, rcx						;verificar si es ultima fila de la imagen
+	je .fin
 
-	;CALCULO DE PROFUNDIDAD
-	movdqu xmm3, xmm11					;x - x0
-	psubd xmm3, xmm13
+	.cicloint:
+	cmp r11, rdx						;verificar si es la ultima columna de la fila
+	je .proxfila
 
-	movdqu xmm4, xmm12					;y - y0
-	psubd xmm4, xmm14						
+		;CALCULO DE PROFUNDIDAD
+		movdqu xmm3, xmm11					;x - x0
+		psubd xmm3, xmm13
 
-	pmulld xmm3, xmm3					;dx*dx
-	pmulld xmm4, xmm4					;dy*dy
+		movdqu xmm4, xmm12					;y - y0
+		psubd xmm4, xmm14						
 
-	paddd xmm3, xmm4					;dx*dx+dy*dy
-	cvtdq2ps xmm3, xmm3
-	sqrtps xmm3, xmm3					;(dx*dx+dy*dy)^(1/2)
-	subps xmm3, xmm9					;(dx*dx+dy*dy)^(1/2) - RADIO
-	divps xmm3, xmm8
+		pmulld xmm3, xmm3					;dx*dx
+		pmulld xmm4, xmm4					;dy*dy
 
+		paddd xmm3, xmm4					;dx*dx+dy*dy
+		cvtdq2ps xmm3, xmm3
+		sqrtps xmm3, xmm3					;(dx*dx+dy*dy)^(1/2)
+		subps xmm3, xmm9					;(dx*dx+dy*dy)^(1/2) - RADIO
+		divps xmm3, xmm8					;R <- ((dx*dx+dy*dy)^(1/2) - RADIO)/WAVELENGTH	
 
-	; cmp r11, rcx						;verificar si es ultima fila de la imagen
-	; je .cicloext
+		cvtps2dq xmm5, xmm3					;trunco
+		cvtdq2ps xmm5, xmm5
+		movdqu xmm4, xmm3
+		subps xmm4, xmm5					;K  <- r - floor(r)								
 
+											;xmm3 <- R
+											;xmm4 <- K
+		
+		movdqu xmm5, xmm4
+		mulps xmm5, xmm7
+		subps xmm5, xmm7					;xmm5 <- T = k*2*PI-PI
+
+		divps xmm3, xmm15					;r/traindiwth
+		mulps xmm3, xmm3					;r/trainwidth * trainwidth
+		paddd xmm3, xmm10					;1 + (r/trainwidth * trainwidth)
+		movdqu xmm4, xmm10					;xmm4 <- |1|1|1|1|
+		divps xmm4, xmm3					;a = 1 / 1 + (r/trainwidth * trainwidth)
+
+											;xmm5 <- t
+											;xmm4 <- a
+
+			;sin taylor
+			movdqu xmm1, xmm5					;xmm2 <- t
+
+			movdqu xmm3, xmm5					;calculamos x al cubo
+			mulps xmm3, xmm5
+			mulps xmm3, xmm5
+			mulps xmm3, xmm5
+
+			movq xmm2, r15
+			packusdw xmm2, xmm2
+			packusdw xmm2, xmm2
+
+			divps xmm3, xmm2
+			subps xmm1, xmm3					;x - x^3 / 6
+
+			movdqu xmm3, xmm5					;calculamos x a la quinta
+			mulps xmm3, xmm5
+			mulps xmm3, xmm5
+			mulps xmm3, xmm5
+			mulps xmm3, xmm5
+			mulps xmm3, xmm5
+
+			movq xmm2, r14
+			packusdw xmm2, xmm2
+			packusdw xmm2, xmm2
+
+			divps xmm3, xmm2
+			addps xmm1, xmm3					;x - x^3 / 6 + x^5 / 120
+
+			movdqu xmm3, xmm5					;calculamos x a la septima
+			mulps xmm3, xmm5
+			mulps xmm3, xmm5
+			mulps xmm3, xmm5
+			mulps xmm3, xmm5
+			mulps xmm3, xmm5
+			mulps xmm3, xmm5
+			mulps xmm3, xmm5
+
+			movq xmm2, rbx
+			packusdw xmm2, xmm2
+			packusdw xmm2, xmm2
+
+			divps xmm3, xmm2
+			subps xmm1, xmm3					;x - x^3 / 6 + x^5 / 120 - x^7 / 5040
+
+			mov rax, 64
+			movq xmm2, rax
+			packusdw xmm2, xmm2
+			packusdw xmm2, xmm2
+
+			mulps xmm4, xmm1					;XMM4 <- PROFUNDIDAD
+
+			mov rax, 64
+			movq xmm2, rax
+			packusdw xmm2, xmm2
+			packusdw xmm2, xmm2
+
+			mulps xmm4, xmm2					;XMM4 <- PROFUNDIDAD * 64
+
+	;agrego profundidad
+	movdqu xmm0, [rdi]
+
+	cvtps2dq xmm4, xmm4
+	packssdw xmm4, xmm4
+	packsswb xmm4, xmm4
+	paddsb xmm0, xmm4
+
+	movdqu [rsi], xmm0
+
+	add rsi, 16
+	add rdi, 16
+	inc r11
+	paddsb xmm11, xmm10
+	paddsb xmm11, xmm10
+	paddsb xmm11, xmm10
+	paddsb xmm11, xmm10 
+	jmp .cicloint
+
+	.proxfila:
+		inc r10
+		paddsb xmm12, xmm10
+		movdqu xmm11, [mask2]
+		jmp .cicloext
+	
 	.fin:
+		add rsp, 8
+		pop r15
+		pop r14
+		pop r13
+		pop r12
+		pop rbx
 		pop rbp
 		ret
