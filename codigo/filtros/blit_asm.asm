@@ -11,7 +11,9 @@
 ;	pila_4 = [rbp+32] = b_row_size
 extern blit_c
 section .data
-    align 16 
+    align 16
+	maskMagenta: db 255,0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0
+	maskCero: db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 
 DEFAULT REL
 section .text
 global blit_asm
@@ -19,6 +21,8 @@ blit_asm:
 	push rbp
 	mov rbp, rsp
 
+	movdqu xmm15, [maskMagenta]
+	movdqu xmm13, [maskCero]
 	mov rax, rdx
 	mov rbx, rcx
 	mov r15, [rbp+16]
@@ -80,8 +84,17 @@ blit_asm:
 	.insertblit:
 		cmp r11, rdx
 		je .proxfila
-		movdqu xmm0, [r15]
-		movdqu [rsi], xmm0
+		movdqu xmm0, [rdi]
+		movdqu xmm14, [r15]
+		pcmpeqb xmm15, xmm14   ; filtro los valores color magenta
+		movdqu xmm12, xmm15	   ; paso la mascara a xmm12
+		pcmpeqb xmm15, xmm13   ; filtro los valores que no son magenta
+		pand xmm12, xmm0       ; Me quedo con los velores de xmm0 que tengo que poner en la imagen
+		pand xmm15, xmm14      ; Me quedo con los valores de blit que tengo que poner en la imagen
+		por xmm15, xmm12 	   ; Junto los dos valores en xmm15
+		movdqu [rsi], xmm15	   ; Copio todo a dst
+		movdqu xmm15, [maskMagenta]
+		movdqu xmm13, [maskCero]
 		add r15, 16
 		add rsi, 16
 		add rdi, 16

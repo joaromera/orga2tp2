@@ -23,6 +23,7 @@ section .data
 	todosdos: times 4 dd 2.0
 	trainwidth: times 4 dd 3.4
 
+
 section .text
 
 ondas_asm:
@@ -53,12 +54,12 @@ ondas_asm:
 	mov r12, [rbp + 16]					;x0
 	mov r13, [rbp + 24]					;y0
 
-	;pxor xmm13, xmm13
+	pxor xmm13, xmm13
 	movq xmm13, r12
 	packusdw xmm13, xmm13
 	packusdw xmm13, xmm13				;xmm13 <- |x0|x0|x0|x0|
 
-	;pxor xmm14, xmm14
+	pxor xmm14, xmm14
 	movq xmm14, r13
 	packusdw xmm14, xmm14
 	packusdw xmm14, xmm14				;xmm13 <- |y0|y0|y0|y0|
@@ -121,7 +122,6 @@ ondas_asm:
 			movdqu xmm3, xmm5					;calculamos x al cubo
 			mulps xmm3, xmm5
 			mulps xmm3, xmm5
-			mulps xmm3, xmm5
 
 			movq xmm2, r15
 			packusdw xmm2, xmm2
@@ -132,7 +132,6 @@ ondas_asm:
 			subps xmm1, xmm3					;x - x^3 / 6
 
 			movdqu xmm3, xmm5					;calculamos x a la quinta
-			mulps xmm3, xmm5
 			mulps xmm3, xmm5
 			mulps xmm3, xmm5
 			mulps xmm3, xmm5
@@ -153,7 +152,6 @@ ondas_asm:
 			mulps xmm3, xmm5
 			mulps xmm3, xmm5
 			mulps xmm3, xmm5
-			mulps xmm3, xmm5
 
 			movq xmm2, rbx
 			packusdw xmm2, xmm2
@@ -165,24 +163,19 @@ ondas_asm:
 
 			mulps xmm4, xmm1					;XMM4 <- PROFUNDIDAD
 
-			mov rax, 64
-			movq xmm2, rax
-			packusdw xmm2, xmm2
-			packusdw xmm2, xmm2
-			cvtdq2ps xmm2, xmm2
 
-			mulps xmm4, xmm2					;XMM4 <- PROFUNDIDAD * 64
+			mulps xmm4, xmm8					;XMM4 <- PROFUNDIDAD * 64
 
 	;agrego profundidad
 	movdqu xmm0, [rdi]
 
-	cvttps2dq xmm4, xmm4
+	cvtps2dq xmm4, xmm4
 	packusdw xmm4, xmm4
 	packuswb xmm4, xmm4
 	pshufb   xmm4, [maskShuf]
 	pslld xmm4, 8
 	psrld xmm4, 8
-	paddusb xmm0, xmm4
+	paddsb xmm0, xmm4
 
 	movdqu [rsi], xmm0
 
