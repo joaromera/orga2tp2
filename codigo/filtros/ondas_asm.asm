@@ -91,11 +91,7 @@ ondas_asm:
 		subps xmm3, xmm9					;(dx*dx+dy*dy)^(1/2) - RADIO
 		divps xmm3, xmm8					;R <- ((dx*dx+dy*dy)^(1/2) - RADIO)/WAVELENGTH	
 
-<<<<<<< HEAD
 		cvttps2dq xmm5, xmm3					;trunco
-=======
-		cvttps2dq xmm5, xmm3				;trunco
->>>>>>> 29b9114b84f4ef666ee1e4fee999c0da95099c8c
 		cvtdq2ps xmm5, xmm5
 		movdqu xmm4, xmm3
 		subps xmm4, xmm5					;K  <- r - floor(r)								
