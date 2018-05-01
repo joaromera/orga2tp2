@@ -66,7 +66,6 @@ ondas_asm:
 	xor r10, r10						
 	xor r11, r11
 
-
 	.cicloext:
 	xor r11, r11
 	cmp r10, rcx						;verificar si es ultima fila de la imagen
@@ -77,11 +76,11 @@ ondas_asm:
 	je .proxfila
 
 		;CALCULO DE PROFUNDIDAD
-		movdqu xmm3, xmm11					;x - x0
-		psubd xmm3, xmm13
+		movdqu xmm3, xmm11					
+		psubd xmm3, xmm13					;x - x0
 
-		movdqu xmm4, xmm12					;y - y0
-		psubd xmm4, xmm14						
+		movdqu xmm4, xmm12					
+		psubd xmm4, xmm14					;y - y0	
 
 		pmulld xmm3, xmm3					;dx*dx
 		pmulld xmm4, xmm4					;dy*dy
@@ -92,7 +91,7 @@ ondas_asm:
 		subps xmm3, xmm9					;(dx*dx+dy*dy)^(1/2) - RADIO
 		divps xmm3, xmm8					;R <- ((dx*dx+dy*dy)^(1/2) - RADIO)/WAVELENGTH	
 
-		cvtps2dq xmm5, xmm3					;trunco
+		cvttps2dq xmm5, xmm3				;trunco
 		cvtdq2ps xmm5, xmm5
 		movdqu xmm4, xmm3
 		subps xmm4, xmm5					;K  <- r - floor(r)								
@@ -122,7 +121,7 @@ ondas_asm:
 			movdqu xmm3, xmm5					;calculamos x al cubo
 			mulps xmm3, xmm5
 			mulps xmm3, xmm5
-			;mulps xmm3, xmm5
+			mulps xmm3, xmm5
 
 			movq xmm2, r15
 			packssdw xmm2, xmm2
@@ -137,7 +136,7 @@ ondas_asm:
 			mulps xmm3, xmm5
 			mulps xmm3, xmm5
 			mulps xmm3, xmm5
-			;mulps xmm3, xmm5
+			mulps xmm3, xmm5
 
 			movq xmm2, r14
 			packssdw xmm2, xmm2
@@ -154,7 +153,7 @@ ondas_asm:
 			mulps xmm3, xmm5
 			mulps xmm3, xmm5
 			mulps xmm3, xmm5
-			;mulps xmm3, xmm5
+			mulps xmm3, xmm5
 
 			movq xmm2, rbx
 			packssdw xmm2, xmm2
@@ -177,7 +176,7 @@ ondas_asm:
 	;agrego profundidad
 	movdqu xmm0, [rdi]
 
-	cvtps2dq xmm4, xmm4
+	cvttps2dq xmm4, xmm4
 	packusdw xmm4, xmm4
 	packuswb xmm4, xmm4
 	pshufb   xmm4, [maskShuf]
