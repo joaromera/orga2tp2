@@ -92,7 +92,7 @@ ondas_asm:
 		subps xmm3, xmm9					;(dx*dx+dy*dy)^(1/2) - RADIO
 		divps xmm3, xmm8					;R <- ((dx*dx+dy*dy)^(1/2) - RADIO)/WAVELENGTH	
 
-		cvtps2dq xmm5, xmm3					;trunco
+		cvttps2dq xmm5, xmm3					;trunco
 		cvtdq2ps xmm5, xmm5
 		movdqu xmm4, xmm3
 		subps xmm4, xmm5					;K  <- r - floor(r)								
@@ -125,8 +125,8 @@ ondas_asm:
 			;mulps xmm3, xmm5
 
 			movq xmm2, r15
-			packssdw xmm2, xmm2
-			packssdw xmm2, xmm2
+			packusdw xmm2, xmm2
+			packusdw xmm2, xmm2
 			cvtdq2ps xmm2, xmm2
 
 			divps xmm3, xmm2
@@ -140,8 +140,8 @@ ondas_asm:
 			;mulps xmm3, xmm5
 
 			movq xmm2, r14
-			packssdw xmm2, xmm2
-			packssdw xmm2, xmm2
+			packusdw xmm2, xmm2
+			packusdw xmm2, xmm2
 			cvtdq2ps xmm2, xmm2
 
 			divps xmm3, xmm2
@@ -157,8 +157,8 @@ ondas_asm:
 			;mulps xmm3, xmm5
 
 			movq xmm2, rbx
-			packssdw xmm2, xmm2
-			packssdw xmm2, xmm2
+			packusdw xmm2, xmm2
+			packusdw xmm2, xmm2
 			cvtdq2ps xmm2, xmm2
 
 			divps xmm3, xmm2
@@ -168,8 +168,8 @@ ondas_asm:
 
 			mov rax, 64
 			movq xmm2, rax
-			packssdw xmm2, xmm2
-			packssdw xmm2, xmm2
+			packusdw xmm2, xmm2
+			packusdw xmm2, xmm2
 			cvtdq2ps xmm2, xmm2
 
 			mulps xmm4, xmm2					;XMM4 <- PROFUNDIDAD * 64
@@ -183,7 +183,7 @@ ondas_asm:
 	pshufb   xmm4, [maskShuf]
 	pslld xmm4, 8
 	psrld xmm4, 8
-	paddusb  xmm0, xmm4
+	paddusb xmm0, xmm4
 
 	movdqu [rsi], xmm0
 
