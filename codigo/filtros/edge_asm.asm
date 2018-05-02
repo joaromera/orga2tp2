@@ -1,8 +1,8 @@
 ; Parámetros:
 ; 	rdi = src
 ; 	rsi = dst
-; 	rdx = rax = width
-; 	rcx = rbx = height
+; 	rdx = width
+; 	rcx = height
 ; 	r8 = src_row_size
 ; 	r9 = dst_row_size
 
@@ -15,16 +15,13 @@ edge_asm:									;NOTAR QUE LOS PIXELES MIDEN 1 BYTE
 	push rbp
 	mov rbp, rsp
 
-	mov rax, rdx
-	shr rax, 4
-	mov rbx, rcx
-
+	shr rdx, 4								;voy a procesar de a 16 pixeles/bytes
 	xor r10, r10							;r10 y r11 son contadores para iterar		
 	xor r11, r11
 
 	;COPIO PRIMER FILA SIN MODIFICAR
 	.primerFila:	
-		cmp r11, rax						;verificar si es la ultima columna de la fila
+		cmp r11, rdx						;verificar si es la ultima columna de la fila
 		je .edge
 		movdqu xmm0, [rdi]
 		movdqu [rsi], xmm0
@@ -35,11 +32,12 @@ edge_asm:									;NOTAR QUE LOS PIXELES MIDEN 1 BYTE
 
 	.edge:
 	inc r10
-	dec rbx									;la ultima fila no se procesa
+	dec rcx									;la ultima fila no se procesa
+	shl rdx, 4								;voy a procesar de a un pixel/byte
 	dec rdx									;el ultimo pixel se copia sin procesar
 	
 	.cicloExt:
-		cmp r10, rbx						;verificar si es ultima fila de la imagen
+		cmp r10, rcx						;verificar si es ultima fila de la imagen
 		je .fin
 		xor r11, r11						;copio primer byte sin modificar
 		xor rax, rax
@@ -72,10 +70,10 @@ edge_asm:									;NOTAR QUE LOS PIXELES MIDEN 1 BYTE
 	.fin:
 		;COPIO ULTIMA FILA SIN MODIFICAR
 		xor r11, r11
-		mov rax, rdx
-		shr rax, 4
+		inc rdx
+		shr rdx, 4							;proceso de a 16 pixeles/bytes
 		.ultimaFila:	
-			cmp r11, rax						
+			cmp r11, rdx						
 			je .return
 			movdqu xmm0, [rdi]
 			movdqu [rsi], xmm0
