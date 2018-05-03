@@ -12,7 +12,7 @@
 extern blit_c
 section .data
     align 16
-	maskMagenta: db 255,0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 0
+	maskMagenta: db 255	 ,0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255
 	maskCero: db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 
 DEFAULT REL
 section .text
@@ -86,9 +86,9 @@ blit_asm:
 		je .proxfila
 		movdqu xmm0, [rdi]
 		movdqu xmm14, [r15]
-		pcmpeqb xmm15, xmm14   ; filtro los valores color magenta
+		pcmpeqd xmm15, xmm14   ; filtro los valores color magenta
 		movdqu xmm12, xmm15	   ; paso la mascara a xmm12
-		pcmpeqb xmm15, xmm13   ; filtro los valores que no son magenta
+		pcmpeqd xmm15, xmm13   ; filtro los valores que no son magenta
 		pand xmm12, xmm0       ; Me quedo con los velores de xmm0 que tengo que poner en la imagen
 		pand xmm15, xmm14      ; Me quedo con los valores de blit que tengo que poner en la imagen
 		por xmm15, xmm12 	   ; Junto los dos valores en xmm15

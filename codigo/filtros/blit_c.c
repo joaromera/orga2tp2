@@ -17,7 +17,7 @@ void blit_c (unsigned char *src, unsigned char *dst, int w, int h, int src_row_s
     for(int i = 0; i < bh; i++){
         for(int j = 0; j < bw * 4; j += 4){
             if (!(blit_matrix[i][j] == 255 && blit_matrix[i][j + 1] == 0  && blit_matrix[i][j + 2] == 255)) {
-                dst_matrix[h - bh + i][(w - bw) * 4 + j] = blit_matrix[i][j];
+                dst_matrix[h - bh + i][(w - bw) * 4 + j] =     blit_matrix[i][j];
                 dst_matrix[h - bh + i][(w - bw) * 4 + j + 1] = blit_matrix[i][j + 1];
                 dst_matrix[h - bh + i][(w - bw) * 4 + j + 2] = blit_matrix[i][j + 2];
                 dst_matrix[h - bh + i][(w - bw) * 4 + j + 3] = blit_matrix[i][j + 3];

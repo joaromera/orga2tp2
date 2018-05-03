@@ -169,13 +169,22 @@ ondas_asm:
 	;agrego profundidad
 	movdqu xmm0, [rdi]
 
-	cvtps2dq xmm4, xmm4
+	;cvtps2dq xmm4, xmm4
+	movdqu xmm1, xmm4
+	psrldq    xmm1, 8
+	cvtps2pd xmm1, xmm1
+	cvtps2pd xmm4, xmm4
+
+	cvtpd2dq xmm1, xmm1
+	cvtpd2dq xmm4, xmm4
+	pslldq   xmm1, 8
+	paddd    xmm4, xmm1
 	packusdw xmm4, xmm4
 	packuswb xmm4, xmm4
 	pshufb   xmm4, [maskShuf]
 	pslld xmm4, 8
 	psrld xmm4, 8
-	paddsb xmm0, xmm4
+	paddusb xmm0, xmm4
 
 	movdqu [rsi], xmm0
 
