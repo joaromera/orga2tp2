@@ -19,16 +19,15 @@ section .data
 	mask3: times 4 dd 0
 	radio: times 4 dd 35.0
 	wavelenght: times 4 dd 64.0
-	pi: times 4 dd 3.14159
+	pi: times 4 dd 3.1415
 	todosdos: times 4 dd 2.0
 	trainwidth: times 4 dd 3.4
+	mask255: times 16 db 255
 
 
 section .text
 
 ondas_asm:
-	;; TODO: Implementar
-
 	push rbp
 	mov rbp, rsp						;alineada
 	push rbx
@@ -43,7 +42,6 @@ ondas_asm:
 	mov rbx, 5040
 	shr rdx, 2
 
-	movdqu xmm15, [trainwidth]
 	movdqu xmm6, [pi]
 	movdqu xmm7, [todosdos]
 	movdqu xmm8, [wavelenght]
@@ -51,6 +49,7 @@ ondas_asm:
 	movdqu xmm10, [mask1]				;xmm10 <- |1|1|1|1| para incrementar los indices empaquetados
 	movdqu xmm11, [mask2]				;xmm11 <- |0|1|2|3| primeros indices para columnas
 	movdqu xmm12, [mask3]				;xmm12 <- |0|0|0|0| indices para filas
+	movdqu xmm15, [trainwidth]
 	mov r12, [rbp + 16]					;x0
 	mov r13, [rbp + 24]					;y0
 
@@ -73,7 +72,7 @@ ondas_asm:
 	je .fin
 
 	.cicloint:
-	cmp r11, rdx						;verificar si es la ultima columna de la fila
+	cmp r11, rdx						;verificar si es el ultimo pixel de la fila
 	je .proxfila
 
 		;CALCULO DE PROFUNDIDAD
@@ -92,26 +91,31 @@ ondas_asm:
 		subps xmm3, xmm9					;(dx*dx+dy*dy)^(1/2) - RADIO
 		divps xmm3, xmm8					;R <- ((dx*dx+dy*dy)^(1/2) - RADIO)/WAVELENGTH	
 
-		cvttps2dq xmm5, xmm3					;trunco
-		cvtdq2ps xmm5, xmm5
+		movdqu xmm7, xmm3
 		movdqu xmm4, xmm3
-		subps xmm4, xmm5					;K  <- r - floor(r)								
+		roundps xmm3, xmm3, 0001b			;trunco
+		subps xmm4, xmm3					;K  <- r - floor(r)								
 
 											;xmm3 <- R
 											;xmm4 <- K
 		
 		movdqu xmm5, xmm4
-		mulps xmm5, xmm7
+		paddd xmm10, xmm10
+		cvtdq2ps xmm10, xmm10
+		mulps xmm5, xmm10
+		divps xmm10, xmm10
+		cvtps2dq xmm10, xmm10
 		mulps xmm5, xmm6 
 		subps xmm5, xmm6					;xmm5 <- T = k*2*PI-PI
 
+		movdqu xmm3, xmm7
 		divps xmm3, xmm15					;r/traindiwth
-		mulps xmm3, xmm3					;r/trainwidth * r/trainwidth
+		mulps xmm3, xmm3					;(r/trainwidth) * (r/trainwidth)
 		cvtdq2ps xmm10, xmm10
 		addps xmm3, xmm10					;1 + (r/trainwidth * r/trainwidth)
 		movdqu xmm4, xmm10					;xmm4 <- |1|1|1|1|
-		cvtps2dq xmm10, xmm10
 		divps xmm4, xmm3					;a = 1 / 1 + (r/trainwidth * r/trainwidth)
+		cvtps2dq xmm10, xmm10
 
 											;xmm5 <- t
 											;xmm4 <- a
@@ -124,8 +128,8 @@ ondas_asm:
 			mulps xmm3, xmm5
 
 			movq xmm2, r15
-			packusdw xmm2, xmm2
-			packusdw xmm2, xmm2
+			packssdw xmm2, xmm2
+			packssdw xmm2, xmm2
 			cvtdq2ps xmm2, xmm2
 
 			divps xmm3, xmm2
@@ -138,8 +142,8 @@ ondas_asm:
 			mulps xmm3, xmm5
 
 			movq xmm2, r14
-			packusdw xmm2, xmm2
-			packusdw xmm2, xmm2
+			packssdw xmm2, xmm2
+			packssdw xmm2, xmm2
 			cvtdq2ps xmm2, xmm2
 
 			divps xmm3, xmm2
@@ -154,28 +158,32 @@ ondas_asm:
 			mulps xmm3, xmm5
 
 			movq xmm2, rbx
-			packusdw xmm2, xmm2
-			packusdw xmm2, xmm2
+			packssdw xmm2, xmm2
+			packssdw xmm2, xmm2
 			cvtdq2ps xmm2, xmm2
 
 			divps xmm3, xmm2
 			subps xmm1, xmm3					;x - x^3 / 6 + x^5 / 120 - x^7 / 5040
 
 			mulps xmm4, xmm1					;XMM4 <- PROFUNDIDAD
-
-
 			mulps xmm4, xmm8					;XMM4 <- PROFUNDIDAD * 64
 
 	;agrego profundidad
-	movdqu xmm0, [rdi]
-
 	cvtps2dq xmm4, xmm4
-	packusdw xmm4, xmm4
-	packuswb xmm4, xmm4
+	packssdw xmm4, xmm4
+	packsswb xmm4, xmm4
 	pshufb   xmm4, [maskShuf]
 	pslld xmm4, 8
 	psrld xmm4, 8
+
+	movdqu xmm0, [rdi]
 	paddsb xmm0, xmm4
+
+	; pxor xmm4, xmm4
+	; pxor xmm2, xmm2
+	; movdqu xmm4, xmm0
+	; pcmpgtb xmm4, xmm2
+	; pand xmm0, xmm4
 
 	movdqu [rsi], xmm0
 
