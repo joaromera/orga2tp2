@@ -169,26 +169,42 @@ ondas_asm:
 			mulps xmm4, xmm8					;XMM4 <- PROFUNDIDAD * 64
 
 	;agrego profundidad
-	movdqu xmm0, [rdi]
+	cvtps2dq xmm4, xmm4
 
-	;cvtps2dq xmm4, xmm4
-	movdqu xmm1, xmm4
-	psrldq    xmm1, 8
-	cvtps2pd xmm1, xmm1
-	cvtps2pd xmm4, xmm4
+	movdqu xmm7, xmm4
+	pshufd xmm4, xmm4, 11111111b				;me quedo con el primero
 
-	cvtpd2dq xmm1, xmm1
-	cvtpd2dq xmm4, xmm4
-	pslldq   xmm1, 8
-	paddd    xmm4, xmm1
-	packusdw xmm4, xmm4
-	packuswb xmm4, xmm4
-	pshufb   xmm4, [maskShuf]
-	pslld xmm4, 8
-	psrld xmm4, 8
-	paddusb xmm0, xmm4
+	pxor xmm3, xmm3
 
-	movdqu [rsi], xmm0
+	movdqu xmm1, [rdi]							;levanto imagen
+	movdqu xmm0, xmm1
+	punpckhbw xmm1, xmm3						;desempaqueto imagen
+	movdqu xmm2, xmm1
+	punpckhwd xmm1, xmm3
+	punpcklwd xmm2, xmm3
+	paddd xmm1, xmm4
+	movdqu xmm4, xmm7
+	pshufd xmm4, xmm4, 10101010b
+	paddd xmm2, xmm4
+	packssdw xmm2,xmm1
+	movdqu xmm5, xmm2
+	
+	movdqu xmm1, xmm0
+	punpcklbw xmm1, xmm3
+	movdqu xmm2, xmm1
+	punpckhwd xmm1, xmm3
+	punpcklwd xmm2, xmm3
+	movdqu xmm4, xmm7
+	pshufd xmm4, xmm4, 01010101b
+	paddd xmm1, xmm4
+	movdqu xmm4, xmm7
+	pshufd xmm4, xmm4, 00000000b
+	paddd xmm2, xmm4
+	packssdw xmm2,xmm1
+	packuswb xmm2,xmm5
+	
+	movdqu [rsi], xmm2
+
 
 	add rsi, 16
 	add rdi, 16
