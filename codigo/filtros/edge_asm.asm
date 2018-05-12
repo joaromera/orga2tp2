@@ -182,3 +182,4 @@ edge_asm:									;NOTAR QUE LOS PIXELES MIDEN 1 BYTE
 	.fin:
 	pop rbp
 	ret
+	
