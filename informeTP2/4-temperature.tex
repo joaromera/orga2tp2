@@ -1,62 +1,71 @@
 \subsection{Temperature}
 
-\begin{codesnippet}
-\begin{verbatim}
-bool between(unsigned int val, unsigned int a, unsigned int b)
-{
-	return a <= val && val <= b;
-}
+    El filtro temperatura toma una imagen fuente y genera un
+    efecto que simula un mapa de calor. El filtro toma
+    los tres componentes del cada pixel, los suma y divide por 3, y califica a eso
+    como la temperatura $t$.
 
+    \begin{center}
+    $\mathsf{t}_{(i,j)} = \lfloor(\mathsf{src}.r_{(i,j)} + \mathsf{src}.g_{(i,j)} + \mathsf{src}.b_{(i,j)}) / 3\rfloor$
+	\end{center}
+    
+    En función de la temperatura, se determina el color en la imagen destino. 
+    Para evitar diferencias con los resultados la cátedra, la 
+    temperatura debe truncarse y guardarse en una variable de tipo entero.
 
-void temperature_c    (
-	unsigned char *src,
-	unsigned char *dst,
-	int width,
-	int height,
-	int src_row_size,
-	int dst_row_size)
-{
-    unsigned char (*src_matrix)[src_row_size] = (unsigned char (*)[src_row_size]) src;
-    unsigned char (*dst_matrix)[dst_row_size] = (unsigned char (*)[dst_row_size]) dst;
+    \begin{center}
+	\begin{displaymath}
+	\mathsf{dst}_{(i,j)}<r,g,b> = \left\{
+	\begin{array}{l l}
+				<0,0, 128 + t \cdot 4> & \text{si }t < 32\\
+				<0, (t - 32) \cdot 4, 255> & \text{si }32 \le t < 96\\
+				<(t-96) \cdot 4, 255, 255 - (t-96) \cdot 4> & \text{si }96 \le t < 160\\
+				<255, 255 - (t - 160) \cdot 4, 0> & \text{si }160 \le t < 224\\
+				<255 - (t - 224) \cdot 4, 0 , 0> & \text{si no} \\
+	\end{array}
+	\right.
+	\end{displaymath}
+	\end{center}
+	
+	El pseudocódigo q resuelve el filtro es el siguiente:
+	
+\begin{algorithm}[H]
+  \begin{algorithmic}[1]
+		\FORALL{y:=0 \TO  Height($I_{src}$)}
 
-    for (int i_d = 0, i_s = 0; i_d < height; i_d++, i_s++) {
-        for (int j_d = 0, j_s = 0; j_d < width; j_d++, j_s++) {
-            bgra_t *p_d = (bgra_t*)&dst_matrix[i_d][j_d*4];
-            bgra_t *p_s = (bgra_t*)&src_matrix[i_s][j_s*4];
-            *p_d = *p_s;
-        }
-    }
+			\FORALL{x:=0 \TO  Width($I_{src}$)}
+			  
+				\STATE $ pixel \gets I_{src}(x,y)$
+				
+				\STATE $Nat $ $ t \gets \lfloor(\frac{Red(pixel)+Green(pixel)+Blue(pixel)}{3}\rfloor$
+				
+				\IF{$t < 32$}
+					
+					\STATE $I_{dst}(x,y) \gets DevolverPixel(0,0,128+t \cdot 4)$
+				
+				\ELSIF{$ 32 \leq t < 96$}
+					
+					\STATE $I_{dst}(x,y) \gets DevolverPixel(0,(t-32) \cdot 4,255)$
 
-    for(int i = 0; i < height; i++){
-        for(int j = 0; j < width * 4; j += 4){
-            unsigned char temperature = (unsigned char)((src_matrix[i][j] + src_matrix[i][j + 1] + src_matrix[i][j + 2]) / 3);
-            if(temperature < 32){
-                dst_matrix[i][j]     = 0;
-                dst_matrix[i][j + 1] = 0;
-                dst_matrix[i][j + 2] = (unsigned char )(128 + temperature * 4);
-            }
-            else if(between(temperature,32,95)){
-                dst_matrix[i][j] 	 = 0;
-                dst_matrix[i][j + 1] = (unsigned char)((temperature - 32) * 4);
-                dst_matrix[i][j + 2] = 255;
-            }
-            else if(between(temperature,96,159)){
-                dst_matrix[i][j] 	 = (unsigned char)((temperature - 96) * 4);
-                dst_matrix[i][j + 1] = 255;
-                dst_matrix[i][j + 2] = (unsigned char)(255 - (temperature - 96) * 4);
-            }
-            else if(between(temperature,160, 223)){
-                dst_matrix[i][j] 	 = 255;
-                dst_matrix[i][j + 1] = (unsigned char)(255 - (temperature - 160) * 4);
-                dst_matrix[i][j + 2] = 0;
-            }
-            else{
-                dst_matrix[i][j] 	 = (unsigned char)(255 - (temperature - 224) * 4);
-                dst_matrix[i][j + 1] = 0;
-                dst_matrix[i][j + 2] = 0;
-            }
-        }
-    }
-}
-\end{verbatim}
-\end{codesnippet}
+				\ELSIF{$ 96 \leq t < 160$}
+				
+					\STATE $I_{dst}(x,y) \gets DevolverPixel((t-96) \cdot 4,255, 255-(t-96) \cdot 4)$
+
+				\ELSIF{$ 160 \leq t < 224$}
+				
+					\STATE $I_{dst}(x,y) \gets DevolverPixel(255, 255-(t-160) \cdot 4, 0)$
+
+				\ELSE
+				
+					\STATE $I_{dst}(x,y) \gets DevolverPixel(255-(t-224) \cdot 4, 0, 0)$
+
+				\ENDIF
+			
+			\ENDFOR
+
+		 \ENDFOR
+
+  \end{algorithmic}
+  \caption{$temperature (I_{src}, I_{dst})$}
+  \label{alg:temperature}
+\end{algorithm}	
