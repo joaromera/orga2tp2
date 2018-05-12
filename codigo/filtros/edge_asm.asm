@@ -45,6 +45,7 @@ edge_asm:									;NOTAR QUE LOS PIXELES MIDEN 1 BYTE
 		je .proximaFila
 
 		dec rdx
+
 		cmp r11, rdx
 		je .ultimoPixel
 		inc rdx
@@ -89,13 +90,13 @@ edge_asm:									;NOTAR QUE LOS PIXELES MIDEN 1 BYTE
 		psrlw xmm2, 1				;divido por 2 a xmm2 y xmm1
 		psrlw xmm1, 1
 
-		pshuflw xmm0, xmm0, 11010000b
+		pshuflw xmm0, xmm0, 10010000b
 		pshufhw xmm0, xmm0, 11100101b
 
-		pshuflw xmm1, xmm1, 11010000b
+		pshuflw xmm1, xmm1, 10010000b
 		pshufhw xmm1, xmm1, 11100101b
 
-		pshuflw xmm2, xmm2, 11010000b
+		pshuflw xmm2, xmm2, 10010000b
 		pshufhw xmm2, xmm2, 11100101b
 
 		psrlq xmm0, 16
@@ -104,7 +105,7 @@ edge_asm:									;NOTAR QUE LOS PIXELES MIDEN 1 BYTE
 
 		psllq xmm0, 16
 		psllq xmm1, 16
-		psrlq xmm2, 16
+		psllq xmm2, 16
 
 		pmullw xmm2, xmm14			;multiplico xmm2 por los valores de la matriz
 		pmullw xmm1, xmm14			;hago lo mismo para xmm1
@@ -127,7 +128,7 @@ edge_asm:									;NOTAR QUE LOS PIXELES MIDEN 1 BYTE
 		movd eax, xmm0
 		mov [rsi], al
 
-		pslldq xmm0, 8
+		psrldq xmm0, 8
 
 		movd eax, xmm0
 		inc rsi
