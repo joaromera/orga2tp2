@@ -1,0 +1,71 @@
+\subsection{Temperature}
+
+    El filtro temperatura toma una imagen fuente y genera un
+    efecto que simula un mapa de calor. El filtro toma
+    los tres componentes del cada pixel, los suma y divide por 3, y califica a eso
+    como la temperatura $t$.
+
+    \begin{center}
+    $\mathsf{t}_{(i,j)} = \lfloor(\mathsf{src}.r_{(i,j)} + \mathsf{src}.g_{(i,j)} + \mathsf{src}.b_{(i,j)}) / 3\rfloor$
+	\end{center}
+    
+    En función de la temperatura, se determina el color en la imagen destino. 
+    Para evitar diferencias con los resultados la cátedra, la 
+    temperatura debe truncarse y guardarse en una variable de tipo entero.
+
+    \begin{center}
+	\begin{displaymath}
+	\mathsf{dst}_{(i,j)}<r,g,b> = \left\{
+	\begin{array}{l l}
+				<0,0, 128 + t \cdot 4> & \text{si }t < 32\\
+				<0, (t - 32) \cdot 4, 255> & \text{si }32 \le t < 96\\
+				<(t-96) \cdot 4, 255, 255 - (t-96) \cdot 4> & \text{si }96 \le t < 160\\
+				<255, 255 - (t - 160) \cdot 4, 0> & \text{si }160 \le t < 224\\
+				<255 - (t - 224) \cdot 4, 0 , 0> & \text{si no} \\
+	\end{array}
+	\right.
+	\end{displaymath}
+	\end{center}
+	
+	El pseudocódigo q resuelve el filtro es el siguiente:
+	
+\begin{algorithm}[H]
+  \begin{algorithmic}[1]
+		\FORALL{y:=0 \TO  Height($I_{src}$)}
+
+			\FORALL{x:=0 \TO  Width($I_{src}$)}
+			  
+				\STATE $ pixel \gets I_{src}(x,y)$
+				
+				\STATE $Nat $ $ t \gets \lfloor(\frac{Red(pixel)+Green(pixel)+Blue(pixel)}{3}\rfloor$
+				
+				\IF{$t < 32$}
+					
+					\STATE $I_{dst}(x,y) \gets DevolverPixel(0,0,128+t \cdot 4)$
+				
+				\ELSIF{$ 32 \leq t < 96$}
+					
+					\STATE $I_{dst}(x,y) \gets DevolverPixel(0,(t-32) \cdot 4,255)$
+
+				\ELSIF{$ 96 \leq t < 160$}
+				
+					\STATE $I_{dst}(x,y) \gets DevolverPixel((t-96) \cdot 4,255, 255-(t-96) \cdot 4)$
+
+				\ELSIF{$ 160 \leq t < 224$}
+				
+					\STATE $I_{dst}(x,y) \gets DevolverPixel(255, 255-(t-160) \cdot 4, 0)$
+
+				\ELSE
+				
+					\STATE $I_{dst}(x,y) \gets DevolverPixel(255-(t-224) \cdot 4, 0, 0)$
+
+				\ENDIF
+			
+			\ENDFOR
+
+		 \ENDFOR
+
+  \end{algorithmic}
+  \caption{$temperature (I_{src}, I_{dst})$}
+  \label{alg:temperature}
+\end{algorithm}	
