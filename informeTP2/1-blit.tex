@@ -1,33 +1,75 @@
 \subsection{Blit}
 
-\begin{codesnippet}
-\begin{verbatim}
+Esta operaci\'on recibe m\'as par\'ametros que las dem\'as; adem\'as de tener las im\'agenes fuente y destino (de tama\~no w x h), 
+se recibe una imagen adicional \textbf{blit} tambi\'en con su respectivo tama\~no (bw x bh), que se utilizar\'a a modo de m\'ascara.
+Se cumple que $bw \leq w \wedge bh \leq h$.\\
 
-void blit_c (unsigned char *src, unsigned char *dst, int w, int h, int src_row_size, int dst_row_size, unsigned char *blit, int bw, int bh, int b_row_size) {
+La aplicaci\'on de este filtro consiste en generar una nueva imagen combinando la original con el \textbf{blit}.
+Un color de la imagen \textbf{blit} es considerado como transparente,
+para que en la combinaci\'on algunos pixeles del \textbf{blit} queden por encima de la imagen original y otros no se vean.
 
-    unsigned char (*src_matrix)[src_row_size] = (unsigned char (*)[src_row_size]) src;
-    unsigned char (*dst_matrix)[dst_row_size] = (unsigned char (*)[dst_row_size]) dst;
-    unsigned char (*blit_matrix)[b_row_size]  = (unsigned char (*)[b_row_size])  blit;
+Para este trabajo pr\'actico, la imagen \textbf{blit} ser\'a una imagen de Per\'on.
+Decimos que una im\'agen ha sido ``Peronizada'' cuando en su extremo superior derecho podemos ver a Per\'on agitando su brazo.
+% La aplicaci\'on de este filtro consiste en generar una nueva imagen combinando la original con la de Per\'on (blit) para as\'i 
+% obtener una versi\'on ``Peronizada'' de la im\'agen fuente.
 
-    for(int i = 0; i < h; i++){
-        for(int j = 0; j < w * 4; j += 4){
-            dst_matrix[i][j]     = src_matrix[i][j];
-            dst_matrix[i][j + 1] = src_matrix[i][j + 1];
-            dst_matrix[i][j + 2] = src_matrix[i][j + 2];
-            dst_matrix[i][j + 3] = src_matrix[i][j + 3];
-        }
-    }
+\vskip 8pt
+Para cada p\'ixel $p$ en la imagen de Per\'on (blit):\\
+$dst(p) = \begin{cases}
+    src(p) & \mathrm{si \;} blit(p) \mathrm{\; es \; de \; color \; magenta, \; es \; decir \; sus \; colores \; son \;} (255, 0, 255)\\
+    blit(p) & \mathrm{si \; no}
+\end{cases}$ \\
 
-    for(int i = 0; i < bh; i++){
-        for(int j = 0; j < bw * 4; j += 4){
-            if (!(blit_matrix[i][j] == 255 && blit_matrix[i][j + 1] == 0  && blit_matrix[i][j + 2] == 255)) {
-                dst_matrix[h - bh + i][(w - bw) * 4 + j] =     blit_matrix[i][j];
-                dst_matrix[h - bh + i][(w - bw) * 4 + j + 1] = blit_matrix[i][j + 1];
-                dst_matrix[h - bh + i][(w - bw) * 4 + j + 2] = blit_matrix[i][j + 2];
-                dst_matrix[h - bh + i][(w - bw) * 4 + j + 3] = blit_matrix[i][j + 3];
-            }
-        }
-    }
-}
-\end{verbatim}
-\end{codesnippet}
+Es decir que si el p\'ixel en la imagen de Per\'on es magenta, entonces el nuevo p\'ixel tendr\'a los colores del p\'ixel correspondiente 
+en la imagen original; y si no los colores del p\'ixel en la imagen de Per\'on. \\
+
+Las columnas y filas que no se puedan procesar de esta manera, es decir, 
+las primeras $h - bh$ filas; y de las filas restantes, las primeras $w - bw$ columnas; 
+quedar\'an igual que como estaban originalmente. \\
+
+
+
+\begin{algorithm}[H]
+  \begin{algorithmic}[1]
+		\FORALL{y:=0 \TO  Height($I_{src}$)}
+		
+			\FORALL{x:=0 \TO  Width($I_{src}$)}
+			  
+			  \STATE $pixel \gets I_{src}(x,y)$
+			  
+			  \STATE $I_{dst}(x,y) \gets pixel$
+			  
+			\ENDFOR
+
+		 \ENDFOR
+		 
+		\STATE $Nat$ $ bh \gets $ Height($I_{src}$) $-$ Height($I_{blit}$)
+			  
+		\STATE $Nat$ $ bw \gets $ Width($I_{src}$) $-$ Width($I_{blit}$)
+
+		 \FORALL{y:=0 \TO  Height($I_{blit}$)}
+
+			\FORALL{x:=0 \TO  Width($I_{blit}$)}
+			  
+			  \STATE $pixel \gets I_{blit}(x,y)$
+			  
+			  \STATE $Nat$ $ r \gets Red(pixel) $
+			  
+			  \STATE $Nat$ $g \gets Green(pixel)$
+			  
+			  \STATE $Nat$ $ b \gets Blue(pixel)$
+
+
+			  \IF{$\neg ( r = 255$ \AND $g = 0$ \AND $b=255)$}
+				\STATE $I_{dst}(x+bw,y+bh) = I_{blit}(x+bw,y+bh)$ 
+			  \ENDIF
+			  
+			\ENDFOR
+
+		 \ENDFOR
+
+
+  \end{algorithmic}
+  \caption{$blit (I_{src}, I_{dst}, I_{blit})$}
+  \label{alg:blit}
+\end{algorithm}
