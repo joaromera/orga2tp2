@@ -1,6 +1,39 @@
 \subsection{Monocromatizar}
 
 
+\begin{algorithm}[H]
+  \begin{algorithmic}[1]
+		\FORALL{y:=0 \TO  Height($I_{src}$)}
+		 %\FOR x:=0 \TO  Width($I_{src}$)\STEP 1 \DO
+			\FORALL{x:=0 \TO  Width($I_{src}$)}
+			  
+			  \STATE $pixel \gets I_{src}(x,y)$
+			  
+			  \STATE $Nat$ $ r \gets Red(pixel) $
+			  
+			  \STATE $Nat$ $g \gets Green(pixel)$
+			  
+			  \STATE $Nat$ $ b \gets Blue(pixel)$
+			  
+			  \STATE $Nat$ $max \gets Maximo(r, Maximo(g, b))$
+			  
+			  \STATE $pixel \gets DevolverPixel(r,g,b)$
+			
+			  \STATE $I_{dst}(x,y) \gets pixel$
+			  
+			\ENDFOR
+
+		 \ENDFOR
+
+  \end{algorithmic}
+  \caption{$monocromatizar (I_{src}, I_{dst})$}
+  \label{alg:ondas}
+\end{algorithm}
+
+
+
+
+
 
 \begin{codesnippet}
 \begin{verbatim}
