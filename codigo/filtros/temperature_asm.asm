@@ -6,7 +6,6 @@ section .data
     div3: times 4 dd 3
     mask128: times 16 db 128
     mask1: db 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3
-    maskreverse: db 2, 1, 0, 3, 6, 5, 4, 7, 10, 9, 8, 11, 14, 13, 12, 15
     mask32: times 4 dd 32
     mask96: times 4 dd 96
     mask160: times 4 dd 160
@@ -255,8 +254,6 @@ temperature_asm:
         por xmm12, xmm15
         por xmm12, xmm9        ; Las temperaturas de cada pixel estan en xmm12
 
-        movdqu xmm7, [maskreverse]
-        pshufb xmm12, xmm7
 
         movdqu [rsi], xmm12
         
