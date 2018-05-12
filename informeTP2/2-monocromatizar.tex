@@ -1,5 +1,13 @@
 \subsection{Monocromatizar}
 
+%En nuestro este caso se implementar ́a la funcion de conversion a escala de grises de la siguiente manera:
+En este caso se implementará la conversión a escala de grises. Esto es tomando el maximo entre la componente R, G, B y des esa manera asignarselo a cada componente de pixel.
+
+\begin{center}
+  $I_{out}(p) = max(R, G, B)$
+\end{center}
+
+Para mas detalle brindamos el pseudocódigo aqui. 
 
 \begin{algorithm}[H]
   \begin{algorithmic}[1]
@@ -29,37 +37,3 @@
   \caption{$monocromatizar (I_{src}, I_{dst})$}
   \label{alg:ondas}
 \end{algorithm}
-
-
-
-
-
-
-\begin{codesnippet}
-\begin{verbatim}
-
-#define max(a, b) ((a)>(b))?(a):(b)
-
-void monocromatizar_inf_c (
-	unsigned char *src, 
-	unsigned char *dst, 
-	int width, 
-	int height, 
-	int src_row_size, 
-	int dst_row_size
-) {
-    unsigned char (*src_matrix)[src_row_size] = (unsigned char (*)[src_row_size]) src;
-    unsigned char (*dst_matrix)[dst_row_size] = (unsigned char (*)[dst_row_size]) dst;
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width * 4; j+=4) {
-            int grey = max(src_matrix[i][j], max(src_matrix[i][j+1], src_matrix[i][j+2]));
-            dst_matrix[i][j] = grey;
-            dst_matrix[i][j+1] = grey;
-            dst_matrix[i][j+2] = grey;
-            dst_matrix[i][j+3] = src_matrix[i][j+3];
-        }
-    }
-}
-
-\end{verbatim}
-\end{codesnippet}
