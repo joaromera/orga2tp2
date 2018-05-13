@@ -67,6 +67,8 @@ void ondas_c (
 			float rojo = profundidad(i, j / 4, y0, x0) * 64 + src_matrix[i][j + 2];
 			rojo = saturar(rojo);
 			dst_matrix[i][j + 2] = (unsigned char) rojo;
+
+			dst_matrix[i][j + 3] = 255;
 		}
 	}
 }
