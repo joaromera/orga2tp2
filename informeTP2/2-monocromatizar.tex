@@ -35,5 +35,130 @@ Para mas detalle brindamos el pseudocódigo aqui.
 
   \end{algorithmic}
   \caption{$monocromatizar (I_{src}, I_{dst})$}
-  \label{alg:ondas}
+  \label{alg:monocromatizar}
 \end{algorithm}
+
+
+\subsubsection*{Monocromatizar ASM}
+
+En este filtro procesaremos de a 4 píxeles en cada iteración. %usando las instrucción \textbf{SSE} de la arquitectura. 
+Y por cada iteración se realizaran se realizaran los calculos de los del los máximos de cada píxel.
+
+\begin{itemize}
+
+	\item En los registro \textbf{xmm0,xnm4, xmm5} tenemos la copia de los cuatro pixeles q levantamos de memoria.
+			Y en \textbf{xnm1, xmm2, xmm3} las mascaras q utilizamos para los Shuffles que utilizaremos para permutar las componente.
+
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 a & b & g & r & a & b & g & r & a & b & g & r & a & b & g & r \\ \hline
+
+		   \end{tabular}
+		   \\ \textbf{xmm0, xmm4, xmm5}
+		\end{center}
+		 
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 15 & 13 & 13 & 13 & 11 & 9 & 9 & 9 & 7 & 5 & 5 & 5 & 3 & 1 & 1 & 1 \\ \hline
+		   \end{tabular}
+		   \\  \textbf{Mascara en xmm1 (mask1)}
+		\end{center}
+
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 15 & 14 & 14 & 14 & 11 & 10 & 10 & 10 & 7 & 6 & 6 & 6 & 3 & 2 & 2 & 2 \\ \hline
+		   \end{tabular}
+		   \\ \textbf{Mascara en xmm2 (mask2)}
+		\end{center}
+
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 15 & 12 & 12 & 12 & 11 & 8 & 8 & 8 & 7 & 4 & 4 & 4 & 3 & 0 & 0 & 0 \\ \hline
+		   \end{tabular}
+		   \\ \textbf{Mascara en xmm3(mask3)}
+		\end{center}
+
+	\item Realizamos el \textbf{shuffle xmm4, xmm1}q nos coloca componente \textbf{g} en las posiciones que podemos observar en el registro xmm4. Y luego calculamos el máximo con la instrucci'on \textbf{pmaxub}. 
+
+
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 a & g & g & g & a & g & g & g & a & g & g & g & a & g & g & g \\ \hline
+		   \end{tabular}
+		   \\ \textbf{xmm4 $\gets$ pshufb xmm4, xmm1}
+		\end{center}
+
+
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 a & . & . & max(g,r) & a & . & . & max(g,r) & a & . & . & max(g,r) & a & . & . & max(g,r)  \\ \hline
+		   \end{tabular}
+		   \\ \textbf{xmm4 $ \gets $ pmaxub xmm4, xmm0}
+		\end{center}
+
+	\item Realizamos el mismo procedimiento en este paso. Y nos quedaría el valor del Máximo(ver imagen). 
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 a & b & b & b & a & b & b & b & a & b & b & b & a & b & b & b \\ \hline
+		   \end{tabular}
+		   \\ \textbf{xmm5 $\gets$ pshufb xmm5, xmm2}
+		\end{center}
+
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 a & . & . & max(g,r,b) & a & . & . & max(g,r,b) & a & . & . & max(g,r,b) & a & . & . & max(g,r,b)  \\ \hline
+		   \end{tabular}
+		   \\ \textbf{xmm4 $\gets$ pmaxub xmm4, xmm5}
+		\end{center}
+
+
+	\item Sólo resta copiar los máximos. Para esto utilizaremos el Shuffle junto con las mascara contenida en xmm3.
+
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 a & max & max & max & a & max & max & max & a & max & max & max & a & max & max & max  \\ \hline
+		   \end{tabular}
+		   \\ \textbf{xmm5 $\gets$ pshufb xmm4, xmm3}
+		\end{center}
+
+\end{itemize}
+
+Por ultimo resta copiar esto a memoria. 
+Como dato abajo brindamos el código ASM.
+
+\begin{codesnippet}
+\begin{verbatim}
+section .data
+	mask1: db 1, 1, 1, 3, 5, 5, 5, 7, 9, 9, 9, 11, 13, 13, 13, 15
+	mask2: db 2, 2, 2, 3, 6, 6, 6, 7, 10, 10, 10, 11, 14, 14, 14, 15
+	mask3: db 0, 0, 0, 3, 4, 4, 4, 7, 8, 8, 8, 11, 12, 12, 12, 15
+
+section .text
+
+monocromatizar_inf_asm:
+.........
+		movdqu xmm0, [rdi]; xmm0=|a b g r|a b g r|a b g r|a b g r|
+		movdqu xmm4, xmm0; xmm4= xmm0
+		movdqu xmm5, xmm0; xmm5= xmm0
+
+		pshufb xmm4, xmm1; xmm4=|a g g g|a g g g|a g g g|a g g g|
+		pmaxub xmm4, xmm0; xmm4=|a . . max(g,r)|a . . max(g,r)|a . . max(g,r)|a . . max(g,r)|;primer maximo
+ 
+		pshufb xmm5, xmm2; xmm5=|a b b b|a b b b|a b b b|a b b b|			
+		pmaxub xmm4, xmm5; xmm4=|a . . max(g,r,b)|a . . max(g,r,b)|a . . max(g,r,b)|;maximo de maximos
+						 ; xmm4=|a . . max|a . . max|a . . max|a . . max|	
+		pshufb xmm4, xmm3; xmm4=|a max max max|a max max max|a max max max|a max max max|
+
+		movdqu [rsi], xmm4; [rsi]= xmm4
+......
+\end{verbatim}
+\end{codesnippet}
