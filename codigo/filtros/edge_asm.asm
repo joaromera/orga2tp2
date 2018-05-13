@@ -47,7 +47,7 @@ edge_asm:									;NOTAR QUE LOS PIXELES MIDEN 1 BYTE
 		dec rdx
 
 		cmp r11, rdx
-		je .ultimoPixel
+		jge .ultimoPixel
 		inc rdx
 
 		mov eax, [rdi]

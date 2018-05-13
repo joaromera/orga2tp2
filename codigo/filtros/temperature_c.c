@@ -32,30 +32,31 @@ void temperature_c    (
         for(int j = 0; j < width * 4; j += 4){
             unsigned char temperature = (unsigned char)((src_matrix[i][j] + src_matrix[i][j + 1] + src_matrix[i][j + 2]) / 3);
             if(temperature < 32){
-                dst_matrix[i][j]     = 0;
+                dst_matrix[i][j]     = (unsigned char )(128 + temperature * 4);
                 dst_matrix[i][j + 1] = 0;
-                dst_matrix[i][j + 2] = (unsigned char )(128 + temperature * 4);
+                dst_matrix[i][j + 2] = 0;
             }
             else if(between(temperature,32,95)){
-                dst_matrix[i][j] 	 = 0;
+                dst_matrix[i][j] 	 = 255;
                 dst_matrix[i][j + 1] = (unsigned char)((temperature - 32) * 4);
-                dst_matrix[i][j + 2] = 255;
+                dst_matrix[i][j + 2] = 0;
             }
             else if(between(temperature,96,159)){
-                dst_matrix[i][j] 	 = (unsigned char)((temperature - 96) * 4);
+                dst_matrix[i][j] 	 = (unsigned char)(255 - (temperature - 96) * 4);
                 dst_matrix[i][j + 1] = 255;
-                dst_matrix[i][j + 2] = (unsigned char)(255 - (temperature - 96) * 4);
+                dst_matrix[i][j + 2] = (unsigned char)((temperature - 96) * 4);
             }
             else if(between(temperature,160, 223)){
-                dst_matrix[i][j] 	 = 255;
+                dst_matrix[i][j] 	 = 0;
                 dst_matrix[i][j + 1] = (unsigned char)(255 - (temperature - 160) * 4);
-                dst_matrix[i][j + 2] = 0;
+                dst_matrix[i][j + 2] = 255;
             }
             else{
-                dst_matrix[i][j] 	 = (unsigned char)(255 - (temperature - 224) * 4);
+                dst_matrix[i][j] 	 = 0;
                 dst_matrix[i][j + 1] = 0;
-                dst_matrix[i][j + 2] = 0;
+                dst_matrix[i][j + 2] = (unsigned char)(255 - (temperature - 224) * 4);
             }
         }
     }
 }
+

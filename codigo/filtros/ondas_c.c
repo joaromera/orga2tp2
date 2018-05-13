@@ -56,15 +56,15 @@ void ondas_c (
 
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width * 4; j += 4) {
-			float azul = profundidad(i, j / 4, x0, y0) * 64 + src_matrix[i][j];
+			float azul = profundidad(i, j / 4, y0, x0) * 64 + src_matrix[i][j];
 			azul = saturar(azul);
 			dst_matrix[i][j] = azul;
 
-			float verde = profundidad(i, j / 4, x0, y0) * 64 + src_matrix[i][j + 1];
+			float verde = profundidad(i, j / 4, y0, x0) * 64 + src_matrix[i][j + 1];
 			verde = saturar(verde);
 			dst_matrix[i][j + 1] = (unsigned char) verde;
 
-			float rojo = profundidad(i, j / 4, x0, y0) * 64 + src_matrix[i][j + 2];
+			float rojo = profundidad(i, j / 4, y0, x0) * 64 + src_matrix[i][j + 2];
 			rojo = saturar(rojo);
 			dst_matrix[i][j + 2] = (unsigned char) rojo;
 		}

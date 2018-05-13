@@ -31,12 +31,14 @@ ondas_asm:
 	push rbp
 	mov rbp, rsp						;alineada
 	push rbx
+	push r9
 	push r12
 	push r13
 	push r14
 	push r15							;desalineada
 	sub rsp, 8
 
+	mov r9b, 255
 	mov r15, 6
 	mov r14, 120
 	mov rbx, 5040
@@ -202,6 +204,11 @@ ondas_asm:
 	paddd xmm2, xmm4
 	packssdw xmm2,xmm1
 	packuswb xmm2,xmm5
+
+	pinsrb xmm2, r9b, 15
+    pinsrb xmm2, r9b, 11
+    pinsrb xmm2, r9b, 7
+    pinsrb xmm2, r9b, 3
 	
 	movdqu [rsi], xmm2
 
@@ -227,6 +234,7 @@ ondas_asm:
 		pop r14
 		pop r13
 		pop r12
+		pop r9
 		pop rbx
 		pop rbp
 		ret

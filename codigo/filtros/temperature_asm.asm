@@ -5,7 +5,8 @@ section .data
     div3: times 4 dd 3
     mask128: times 16 db 128
     mask1: db 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3
-    mask32: times 4 dd 32
+
+    mask32: times 4 dd 32       
     mask96: times 4 dd 96
     mask160: times 4 dd 160
     mask224: times 4 dd 224
@@ -52,7 +53,6 @@ temperature_asm:
     cvtdq2ps xmm8, xmm8
     
     .ciclo:
-    
 
         cmp rcx, 0
         je .fin
@@ -69,6 +69,10 @@ temperature_asm:
         punpcklbw xmm2, xmm7    ; xmm2 = |    p2    |    p1    |
         punpckhbw xmm1, xmm7    ; xmm1 = |    p4    |    p3    |
 
+        psllq xmm1, 16          ; Shifteo a izquierda para olvidarme del alfa
+        psllq xmm2, 16
+        psrlq xmm1, 16
+        psrlq xmm2, 16
 
         phaddw xmm2, xmm2       ; xmm2 = Suma horizontal de a word
         phaddw xmm1, xmm1       ; xmm1 = Suma horizontal de a word
@@ -100,14 +104,12 @@ temperature_asm:
         pshufb xmm1, xmm10
 
         ; <t, t, t, t>          t < 32   <0, 0, 0, 4t + 128>
-
         movdqu xmm4, xmm1                               ;<a, r, g, b>
         paddb  xmm4, xmm1   ; <2t, 2t, 2t, 2t>
         paddb  xmm4, xmm1   ; <3t, 3t, 3t, 3t>
         paddb  xmm4, xmm1   ; <4t, 4t, 4t, 4t>
         paddb  xmm4, xmm11  ; <4t + 128, b, b, b>
-        pslld  xmm4, 24      ; <0, 0, 0, x>
-        psrld  xmm4, 8
+        psrld  xmm4, 24      ; <0, 0, 0, x>
 
         
 
@@ -118,13 +120,15 @@ temperature_asm:
         paddb xmm5, xmm1
         psubb xmm5, xmm11
 
-        pslld xmm5, 24
-        psrld xmm5, 16
 
-        pinsrb xmm5, r9b, 14
-        pinsrb xmm5, r9b, 10                 ; < a, r , g, b>
-        pinsrb xmm5, r9b, 6
-        pinsrb xmm5, r9b, 2                     ;<b, b, (t - 32) * 4, 255>
+        pinsrb xmm5, r9b, 12
+        pinsrb xmm5, r9b, 8                 ; < a, r , g, b>
+        pinsrb xmm5, r9b, 4
+        pinsrb xmm5, r9b, 0                     ;<b, b, (t - 32) * 4, 255>
+
+        pslld xmm5, 16                          ;<(t - 32) * 4 , 255, 0, 0>
+        psrld xmm5, 16                          ;<0, 0, x, 255>
+
 
 
         movdqu xmm3, xmm7   ;<0, 0, 0, 0>       96 <= t < 160
@@ -137,11 +141,11 @@ temperature_asm:
 
 
         pslld  xmm2, 24     ;<0, 0, 0, (t - 96) * 4> 
-        psrld  xmm2, 24      ;<0, (t - 96) * 4, 0, 0>
-        pinsrb xmm3, r9b, 14
-        pinsrb xmm3, r9b, 10                 ;<r, g, b, a>
-        pinsrb xmm3, r9b, 6
-        pinsrb xmm3, r9b, 2 ;<0,0,0,255>
+        psrld  xmm2, 8      ;<0, (t - 96) * 4, 0, 0>
+        pinsrb xmm3, r9b, 12
+        pinsrb xmm3, r9b, 8                 ;<r, g, b, a>
+        pinsrb xmm3, r9b, 4
+        pinsrb xmm3, r9b, 0 ;<0,0,0,255>
         psubb  xmm3, xmm1
         psubb  xmm3, xmm1
         psubb  xmm3, xmm1
@@ -149,9 +153,8 @@ temperature_asm:
         paddb  xmm3, xmm11
 
 
-        pslld  xmm3, 8
-        psrld  xmm3, 24      ;<255 + (96 - t) * 4, 0, 0, 0>
-        pslld  xmm3, 16      ;<0, 0, 0, 255 + (96 - t) * 4>
+        pslld  xmm3, 24      ;<255 + (96 - t) * 4, 0, 0, 0>
+        psrld  xmm3, 24      ;<0, 0, 0, 255 + (96 - t) * 4>
 
         pinsrb xmm3, r9b, 13
         pinsrb xmm3, r9b, 9
@@ -163,7 +166,7 @@ temperature_asm:
 
 
 
-                ;160 <= t < 224  <0, 255, 255 + 640 - 4t, 0>
+        ;160 <= t < 224  <0, 255, 255 + 640 - 4t, 0>
         movdqu xmm6, xmm7   ;<0, 0, 0, 0>
         pinsrb xmm6, r9b, 13
         pinsrb xmm6, r9b, 9
@@ -174,25 +177,23 @@ temperature_asm:
         psubb xmm6, xmm1        ;<a, r, g, b>
         psubb xmm6, xmm1    ;<b, b, 255 - 4t, b>
         paddb xmm6, xmm11
-
                                 
 
         psrld xmm6, 8      ; <0, b, b, 255 - (t - 160) * 4>
         pslld xmm6, 24      ;<255 - (t - 160) * 4, 0, 0, 0>
         psrld xmm6, 16      ; <0, 0, 255 - (t - 160) * 4, 0>
 
-        pinsrb xmm6, r9b, 12
-        pinsrb xmm6, r9b, 8
-        pinsrb xmm6, r9b, 4
-        pinsrb xmm6, r9b, 0 ;<0, 255, 255 + 640 - 4t, 0>
-
+        pinsrb xmm6, r9b, 14
+        pinsrb xmm6, r9b, 10
+        pinsrb xmm6, r9b, 6
+        pinsrb xmm6, r9b, 2 ;<0, 255, 255 + 640 - 4t, 0>
 
 
         movdqu xmm7, xmm7   ;<0, 0, 0, 0>                           224 <= t    <0,255 - 4t + 640, 0, 0>
-        pinsrb xmm7, r9b, 12
-        pinsrb xmm7, r9b, 8
-        pinsrb xmm7, r9b, 4
-        pinsrb xmm7, r9b, 0 ;<0, 255, 0, 0>
+        pinsrb xmm7, r9b, 14
+        pinsrb xmm7, r9b, 10
+        pinsrb xmm7, r9b, 6
+        pinsrb xmm7, r9b, 2 ;<0, 255, 0, 0>
         psubb xmm7, xmm1 
         psubb xmm7, xmm1
         psubb xmm7, xmm1
@@ -200,8 +201,9 @@ temperature_asm:
         paddb xmm7, xmm11
 
 
-        pslld xmm7, 24
-        psrld xmm7, 24
+        pslld xmm7, 8      ;<255 - (t - 224) * 4, b, b, 0>
+        psrld xmm7, 24     ;<0, 0, 0, 255 - (t - 224) * 4>
+        pslld xmm7, 16     ;<0, 255 - (t - 224) * 4, 0, 0>
 
         psrld xmm1,  24
 
@@ -230,6 +232,15 @@ temperature_asm:
         por xmm12, xmm14
         por xmm12, xmm15
         por xmm12, xmm9        ; Las temperaturas de cada pixel estan en xmm12
+
+        pslld xmm0, 24
+        psrld xmm0, 24
+
+        pinsrb xmm12, r9b, 3
+        pinsrb xmm12, r9b, 7
+        pinsrb xmm12, r9b, 11
+        pinsrb xmm12, r9b, 15
+
 
         movdqu [rsi], xmm12
         
