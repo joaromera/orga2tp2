@@ -1,34 +1,34 @@
 \subsection{Edge}
 
-Puede definirse como un borde a los p\'ixeles donde la intensidad de la imagen cambia de forma abrupta. 
-Si se considera una funci\'on de intensidad de la imagen, entonces lo que se busca son saltos en dicha funci\'on.
-La idea b\'asica detr\'as de cualquier detector de bordes es el c\'alculo de un operador local de derivaci\'on. \\
+% Puede definirse como un borde a los p\'ixeles donde la intensidad de la imagen cambia de forma abrupta. 
+% Si se considera una funci\'on de intensidad de la imagen, entonces lo que se busca son saltos en dicha funci\'on.
+% La idea b\'asica detr\'as de cualquier detector de bordes es el c\'alculo de un operador local de derivaci\'on. \\
  
 
-Vamos a usar en este caso el operador de Laplace, cuya matriz es
+% Vamos a usar en este caso el operador de Laplace, cuya matriz es
 
-$$ M = \left(
-\begin{matrix}
-    0.5 & 1 & 0.5 \\
-    1 & -6 & 1 \\
-    0.5 & 1 & 0.5
-\end{matrix}
-\right)$$
+% $$ M = \left(
+% \begin{matrix}
+%     0.5 & 1 & 0.5 \\
+%     1 & -6 & 1 \\
+%     0.5 & 1 & 0.5
+% \end{matrix}
+% \right)$$
 
 
-Para obtener los bordes, se posiciona el centro de la matr\'iz de 
-Laplace en cada posici\'on $(x, y)$ y se realiza la siguiente operaci\'on
+% Para obtener los bordes, se posiciona el centro de la matr\'iz de 
+% Laplace en cada posici\'on $(x, y)$ y se realiza la siguiente operaci\'on
 
-$$dst(x, y) = \sum_{k = 0}^2 \sum_{l = 0}^2 src(x + k - 1, y + l - 1) * M(k, l)$$
+% $$dst(x, y) = \sum_{k = 0}^2 \sum_{l = 0}^2 src(x + k - 1, y + l - 1) * M(k, l)$$
 
-Es decir $dst(x, y) = $
-\begin{center}
-    $\begin{matrix}
-        src(x - 1, y - 1) * M_{00} & + & src(x - 1, y) * M_{01} & + & src(x - 1, y + 1) * M_{02} & +\\
-        src(x, y - 1) * M_{10} & + & src(x, y1) * M_{11} & + & src(x, y + 1) * M_{12} & +\\ 
-        src(x + 1, y - 1) * M_{20} & + & src(x + 1, y) * M_{21} & + & src(x + 1, y + 1) * M_{22} &
-    \end{matrix}$
-\end{center}
+% Es decir $dst(x, y) = $
+% \begin{center}
+%     $\begin{matrix}
+%         src(x - 1, y - 1) * M_{00} & + & src(x - 1, y) * M_{01} & + & src(x - 1, y + 1) * M_{02} & +\\
+%         src(x, y - 1) * M_{10} & + & src(x, y1) * M_{11} & + & src(x, y + 1) * M_{12} & +\\ 
+%         src(x + 1, y - 1) * M_{20} & + & src(x + 1, y) * M_{21} & + & src(x + 1, y + 1) * M_{22} &
+%     \end{matrix}$
+% \end{center}
 
 Este filtro opera sobre imágenes en escala de grises (1 componente de color por píxel).
 En los bordes que no se pueden procesar según la fórmula anterior (por estar a los costados de la

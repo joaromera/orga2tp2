@@ -1,42 +1,42 @@
 \subsection{Monocromatizar}
 
-%En nuestro este caso se implementar ́a la funcion de conversion a escala de grises de la siguiente manera:
-En este caso se implementará la conversión a escala de grises. Esto es tomando el maximo entre la componente R, G, B y des esa manera asignarselo a cada componente de pixel.
+% %En nuestro este caso se implementar ́a la funcion de conversion a escala de grises de la siguiente manera:
+% En este caso se implementará la conversión a escala de grises. Esto es tomando el maximo entre la componente R, G, B y des esa manera asignarselo a cada componente de pixel.
 
-\begin{center}
-  $I_{out}(p) = max(R, G, B)$
-\end{center}
+% \begin{center}
+%   $I_{out}(p) = max(R, G, B)$
+% \end{center}
 
-Para mas detalle brindamos el pseudocódigo aqui. 
+% Para mas detalle brindamos el pseudocódigo aqui. 
 
-\begin{algorithm}[H]
-  \begin{algorithmic}[1]
-		\FORALL{y:=0 \TO  Height($I_{src}$)}
-		 %\FOR x:=0 \TO  Width($I_{src}$)\STEP 1 \DO
-			\FORALL{x:=0 \TO  Width($I_{src}$)}
+% \begin{algorithm}[H]
+%   \begin{algorithmic}[1]
+% 		\FORALL{y:=0 \TO  Height($I_{src}$)}
+% 		 %\FOR x:=0 \TO  Width($I_{src}$)\STEP 1 \DO
+% 			\FORALL{x:=0 \TO  Width($I_{src}$)}
 			  
-			  \STATE $pixel \gets I_{src}(x,y)$
+% 			  \STATE $pixel \gets I_{src}(x,y)$
 			  
-			  \STATE $Nat$ $ r \gets Red(pixel) $
+% 			  \STATE $Nat$ $ r \gets Red(pixel) $
 			  
-			  \STATE $Nat$ $g \gets Green(pixel)$
+% 			  \STATE $Nat$ $g \gets Green(pixel)$
 			  
-			  \STATE $Nat$ $ b \gets Blue(pixel)$
+% 			  \STATE $Nat$ $ b \gets Blue(pixel)$
 			  
-			  \STATE $Nat$ $max \gets Maximo(r, Maximo(g, b))$
+% 			  \STATE $Nat$ $max \gets Maximo(r, Maximo(g, b))$
 			  
-			  \STATE $pixel \gets DevolverPixel(r,g,b)$
+% 			  \STATE $pixel \gets DevolverPixel(r,g,b)$
 			
-			  \STATE $I_{dst}(x,y) \gets pixel$
+% 			  \STATE $I_{dst}(x,y) \gets pixel$
 			  
-			\ENDFOR
+% 			\ENDFOR
 
-		 \ENDFOR
+% 		 \ENDFOR
 
-  \end{algorithmic}
-  \caption{$monocromatizar (I_{src}, I_{dst})$}
-  \label{alg:monocromatizar}
-\end{algorithm}
+%   \end{algorithmic}
+%   \caption{$monocromatizar (I_{src}, I_{dst})$}
+%   \label{alg:monocromatizar}
+% \end{algorithm}
 
 
 \subsubsection*{Monocromatizar ASM}

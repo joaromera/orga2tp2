@@ -109,9 +109,9 @@
 
 \thispagestyle{empty}
 \vfill
-\begin{abstract}
-En el presente trabajo se describe la problemática de ...
-\end{abstract}
+%\begin{abstract}
+%En el presente trabajo se describe la problemática de ...
+%\end{abstract}
 
 \thispagestyle{empty}
 \vspace{3cm}
@@ -137,11 +137,8 @@ En el presente trabajo se describe la problemática de ...
 
 %\input{ObjetivosGenerales}
 \section{Objetivos Generales}
-En este tp utilizaremos la tecnica de el procesamiento de la mayor cantidad de datos posible. Esta tecnica de basa en el modelos de ejecución SIMD(Single instruction Multiple Data).
-\subsection{SIMD(Single instruction Multiple Data)}
-	Se trata de un modelo de ejecución capaz de computar una sola operación sobre un conjunto de múltiples datos. \newline
-	Es muy util para procesar audio, video o imágenes, donde aplican algoritmos repetitivos sobre ese mismo conjunto de datos, 
-	por ejemplo: fitros, compresores. 
+En el presente trabajo práctico exploramos los modelos de ejecución SIMD (Single instruction Multiple Data). Se trata de un modelo de ejecución capaz de computar una sola operación sobre un conjunto de múltiples datos. \newline
+Es muy util para procesar audio, video o imágenes, donde aplican algoritmos repetitivos sobre ese mismo conjunto de datos, por ejemplo: fitros, compresores. 
 	
 
 
@@ -149,7 +146,7 @@ En este tp utilizaremos la tecnica de el procesamiento de la mayor cantidad de d
 \section{Introduccion}
 
 
-Se lleva a cabo la implementación de los siguientes 5 filtros:
+Se llevó a cabo la implementación de los siguientes 5 filtros para imágenes:
 
 \begin{center}
  \begin{tabular}{cccc}
@@ -171,8 +168,8 @@ Se lleva a cabo la implementación de los siguientes 5 filtros:
 \section{Filtros}
 \input{1-blit}
 \input{2-monocromatizar}
-\input{3-ondas}
-\input{4-temperature}
+%\input{3-ondas}
+%\input{4-temperature}
 \input{5-edge}
 
 
@@ -213,8 +210,8 @@ ciclos cambiará dependiendo del estado del procesador.
 
 \textbf{Solucion 2):} La solución que planteamos para esto fue, ejecutar sólamente el algoritmo. Con esto queremos decir que la ejecución estara en el nivel más alto de privilegio de ejecución. Esto lo hacemos metiendonos en el sistema operativo (en este caso ubuntu 14.04), tocando el monitor de sistema para darle privilegio a la ejecución. Tambien evitamos interumpir la maquina de forma mecanica(osea humana).  
 
-\section{experimentación}
-\input{experimentacion}
+%\section{experimentación}
+%\input{experimentacion}
 
 
 %\section{Contexto}

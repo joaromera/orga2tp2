@@ -1,0 +1,9 @@
+\select@language {spanish}
+\contentsline {section}{\numberline {1}Objetivos Generales}{3}
+\contentsline {section}{\numberline {2}Introduccion}{3}
+\contentsline {section}{\numberline {3}Filtros}{4}
+\contentsline {subsection}{\numberline {3.1}Blit}{4}
+\contentsline {subsection}{\numberline {3.2}Monocromatizar}{5}
+\contentsline {subsection}{\numberline {3.3}Edge}{6}
+\contentsline {section}{\numberline {4}Mediciones y rendimiento}{7}
+\contentsline {section}{\numberline {5}Conclusiones y trabajo futuro}{8}

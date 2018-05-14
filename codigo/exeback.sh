@@ -6,8 +6,8 @@ do
         for j in {1..100};
         do
             #echo $i
-            build/tp2 -i c -o postfiltro -t 100 ondas $i
-            cat Output.txt >> resultados.csv
+            build/tp2 -i c -o postfiltro -t 100 edge $i
+            cat Output.txt >> resultadosEDGE.csv
         done
     fi
 done
