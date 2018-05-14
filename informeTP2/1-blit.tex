@@ -73,3 +73,130 @@ quedar\'an igual que como estaban originalmente. \\
   \caption{$blit (I_{src}, I_{dst}, I_{blit})$}
   \label{alg:blit}
 \end{algorithm}
+
+\subsubsection*{Blit ASM}
+
+
+En este Filtro Blit procesamos de a 4 pixeles, Tenemos dos ciclos en assembler, uno que recorre las columnas de la imagen y otra q recorre las fila.
+Cuando itera la fila es en ese momento q toman los 4 pixeles de $I_{src}$ y lo copiamos en $I_{}$.
+Hay caso especial cuando nos encontramos en la fila "Height($I_{src}$) $-$ Height($I_{blit}$)" y columna "Width($I_{src}$) $-$ Width($I_{blit}$)", es en ese caso que tenemos o no aplicar el blit segun la formula explicada arriba.
+Abajo detallaremos esa parte importante del código ASSEMBLER q desarrolla el blit con un ejemplo.	
+
+\begin{itemize}
+
+	\item En los registro \textbf{xmm0,xnm14} tenemos la copia de los cuatro píxeles q levantamos de memoria, uno es $I_{src}$ y el otro $I_{blit}$ respectivamente.
+			Y en \textbf{xnm2, xmm15} las mascaras q utilizamos para la comparación y operaciones lógicas.
+
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 a & b & g & r & a & b & g & r & a & b & g & r & a & b & g & r \\ \hline
+		   \end{tabular}
+		   \\ \textbf{xmm0 $\gets$ $I_{src}$ }
+		\end{center}
+
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 A & B & G & R & A & B & G & R & A & B & G & R & A & B & G & R \\ \hline
+		   \end{tabular}
+		   \\ \textbf{xmm14 $\gets$ $I_{blit}$ }
+		\end{center}
+		
+		 
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 255 & 255 & 0 & 255 & 255 & 255 & 0 & 255 & 255 & 255 & 0 & 255 & 255 & 255 & 0 & 255 \\ \hline
+		   \end{tabular}
+		   \\  \textbf{Mascara Magenta xmm15 (maskMagenta)}
+		\end{center}
+
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 00h & 00h & 00h & 00h & 00h & 00h & 00h & 00h & 00h & 00h & 00h & 00h & 00h & 00h & 00h & 00h \\ \hline
+		   \end{tabular}
+		   \\ \textbf{Mascara en xmm2 (maskCeros)}
+		\end{center}
+		
+	\item Mascara para filtrar píxeles valor magenta. A suponemos que hay dos píxeles color magenta en $I_{blit}$ a modo de ejemplo en los píxeles 1 y 3(siguiendo el order de pixel_15,...,pixel_0). A esta mascara la guardamos en xmm12 y xmm15.
+	
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 0xFF & 0xFF & 0xFF & 0xFF & 0x00 & 0x00 & 0x00 & 0x00 & 0xFF & 0xFF & 0xFF & 0xFF & 0x00 & 0x00 & 0x00 & 0x00 \\ \hline
+		   \end{tabular}
+		   \\ \textbf{xmm12,xmm15 $\gets$ pcmpeqd xmm15, xmm14}
+		\end{center}
+
+	\item Mascara para filtrar píxeles que No son magenta.
+
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 0x00 & 0x00 & 0x00 & 0x00 & 0xFF & 0xFF & 0xFF & 0xFF & 0x00 & 0x00 & 0x00 & 0x00 & 0xFF & 0xFF & 0xFF & 0xFF \\ \hline
+		   \end{tabular}
+		   \\ \textbf{xmm15 $\gets$ pcmpeqd xmm15, xmm13}
+		\end{center}
+
+	\item  Me quedo con los valores de $I_{src}$ que tengo q poner en la imagen $I_{dst}$.
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 A & B & G & R & 0x00 & 0x00 & 0x00 & 0x00 & A & B & G & R & 0x00 & 0x00 & 0x00 & 0x00 \\ \hline
+		   \end{tabular}
+		   \\ \textbf{xmm12 $\gets$ pand xmm12, xmm0}
+		\end{center}		
+
+	\item Me quedo con los vamlores de $I_{blit}$ que tengo q poner en la imagen $I_{dst}$.
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 0x00 & 0x00 & 0x00 & 0x00 & a & b & g & r & 0x00 & 0x00 & 0x00 & 0x00 & a & b & g & r \\ \hline
+		   \end{tabular}
+		   \\ \textbf{xmm15 $\gets$ pand xmm15, xmm14}
+		\end{center}		
+	
+	\item Junto todos los valores en xmm15.
+		\begin{center}
+		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
+			 \hline
+			 A & B & G & R & a & b & g & r & A & B & G & R & a & b & g & r \\ \hline
+		   \end{tabular}
+		   \\ \textbf{xmm15 $\gets$ por xmm15, xmm12}
+		\end{center}		
+	\item Por ultimo resta guardar estos 4 pixeles(xmm15) en $I_{dst}$.
+
+\end{itemize}
+
+Para mas detalles dejamos el es-tracto de ASM.
+
+\begin{codesnippet}
+\begin{verbatim}
+	maskMagenta: db 255	 ,0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255
+	maskCero: db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 
+
+section .text
+
+blit_asm:
+		...
+		movdqu xmm0, [rdi]; xmm0=|A B G R|A B G R|A B G R|A B G R|; img	
+		movdqu xmm14, [r15]; xmm14=|a b g r|a b g r|a b g r|a b g r|; blit
+							   ; filtro los valores color magenta
+		pcmpeqd xmm15, xmm14   ; xmm15=|FF FF FF FF|00 00 00 00|FF FF FF FF|00 00 00 00| 
+		movdqu xmm12, xmm15	   ; xmm12= xmm15 paso la mascara a xmm12 
+							   ;filtro los valores que no son magenta
+		pcmpeqd xmm15, xmm13   ; xmm15=|00 00 00 00|FF FF FF FF|00 00 00 00|FF FF FF FF|
+							   ;Me quedo con los velores de xmm0 que tengo que poner en la imagen
+		pand xmm12, xmm0       ; xmm2=|A B G R|00 00 00 00|A B G R|00 00 00 00|
+							   ;Me quedo con los valores de blit que tengo que poner en la imagen
+		pand xmm15, xmm14      ; xmm15=|00 00 00 00|a b g r|00 00 00 00|a b g r|
+							   ; Junto los dos valores en xmm15
+		por xmm15, xmm12 	   ;xmm15=|A B G R|a b g r|A B G R|a b g r|
+		movdqu [rsi], xmm15	   ; Copio todo a dst
+		movdqu xmm15, [maskMagenta]
+		movdqu xmm13, [maskCero]
+		.....
+\end{verbatim}
+\end{codesnippet}
