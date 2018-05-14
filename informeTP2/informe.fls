@@ -116,7 +116,6 @@ OUTPUT informe.pdf
 INPUT ./imagenes/logodc.jpg
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchb7t.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchb7t.tfm
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchb7t.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchr7t.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
@@ -139,8 +138,6 @@ INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchr7t.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/vf/bitstrea/charter/bchb7t.vf
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchb8r.tfm
 INPUT /usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/vf/bitstrea/charter/bchb7t.vf
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchb8r.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/vf/bitstrea/charter/bchr7t.vf
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchr8r.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/vf/bitstrea/charter/bchr7t.vf
@@ -158,6 +155,7 @@ INPUT /usr/local/texlive/2017/texmf-dist/fonts/vf/bitstrea/charter/bchb7t.vf
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchb8r.tfm
 INPUT 0-introduccion.tex
 INPUT 0-introduccion.tex
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchb7t.tfm
 INPUT imagenes/island.png
 INPUT ./imagenes/island.png
 INPUT ./imagenes/island.png
@@ -177,6 +175,8 @@ INPUT imagenes/island-edge.png
 INPUT ./imagenes/island-edge.png
 INPUT ./imagenes/island-edge.png
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchr7t.tfm
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/vf/bitstrea/charter/bchb7t.vf
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchb8r.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/vf/bitstrea/charter/bchr7t.vf
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchr8r.tfm
 INPUT 1-blit.tex

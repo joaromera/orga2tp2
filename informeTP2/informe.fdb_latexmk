@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1526267217 "/Users/joajoa/Dropbox/ORGA/TP2/informeTP2/informe.tex" "informe.pdf" "informe" 1526267219
-  "/Users/joajoa/Dropbox/ORGA/TP2/informeTP2/informe.tex" 1526267217 3648 0638162c0a371b418eab839f64924337 ""
+["pdflatex"] 1526267369 "/Users/joajoa/Dropbox/ORGA/TP2/informeTP2/informe.tex" "informe.pdf" "informe" 1526267370
+  "/Users/joajoa/Dropbox/ORGA/TP2/informeTP2/informe.tex" 1526267369 3614 99f968e5f202fe89146b9d5ff7d71ec0 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/base/8r.enc" 1480098666 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchb7t.tfm" 1480098691 2732 006d846b4d54f9b40899c7c3eecd771a ""
@@ -116,9 +116,9 @@
   "imagenes/island.png" 1526073085 570938 cb51e74493c759dbfdc8a6cce39e4742 ""
   "imagenes/logodc.jpg" 1526073085 128041 19e4b2b1b4914681ffe3d5d821eeea3c ""
   "imagenes/logouba.jpg" 1526073085 229119 10f3a63be47e1e95e44f30008ec3af50 ""
-  "informe.aux" 1526267219 1570 878ec91f9312ce0f17aa23db5587602e ""
-  "informe.tex" 1526267217 3648 0638162c0a371b418eab839f64924337 ""
-  "informe.toc" 1526267219 707 b594ee6d167b0de8a43d2f0cf69a7219 ""
+  "informe.aux" 1526267370 1570 878ec91f9312ce0f17aa23db5587602e ""
+  "informe.tex" 1526267369 3614 99f968e5f202fe89146b9d5ff7d71ec0 ""
+  "informe.toc" 1526267370 707 b594ee6d167b0de8a43d2f0cf69a7219 ""
   (generated)
   "informe.pdf"
   "informe.toc"
