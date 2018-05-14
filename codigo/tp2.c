@@ -76,8 +76,8 @@ filtro_t* detectar_filtro(configuracion_t *config)
 	return NULL; // avoid C warning
 }
 
-
-void imprimir_tiempos_ejecucion(unsigned long long int start, unsigned long long int end, int cant_iteraciones) {
+void imprimir_tiempos_ejecucion(unsigned long long int start, unsigned long long int end, int cant_iteraciones,
+								configuracion_t config) {
 	unsigned long long int cant_ciclos = end-start;
 
 	printf("Tiempo de ejecución:\n");
@@ -86,6 +86,16 @@ void imprimir_tiempos_ejecucion(unsigned long long int start, unsigned long long
 	printf("  # iteraciones                     : %d\n", cant_iteraciones);
 	printf("  # de ciclos insumidos totales     : %llu\n", cant_ciclos);
 	printf("  # de ciclos insumidos por llamada : %.3f\n", (float)cant_ciclos/(float)cant_iteraciones);
+
+	FILE *fp;
+	fp = fopen("Output.txt", "w");// "w" means that we are going to write on this file
+	fprintf(fp, "%s;%s;%d;%d;%llu;%.3f;%d;\n", config.nombre_filtro,
+									config.archivo_entrada,
+									config.bits_dst,
+									cant_iteraciones,
+									cant_ciclos,
+									(float)cant_ciclos/(float)cant_iteraciones,
+									config.tipo_filtro);
 }
 
 void correr_filtro_imagen(configuracion_t *config, aplicador_fn_t aplicador)
@@ -102,8 +112,5 @@ void correr_filtro_imagen(configuracion_t *config, aplicador_fn_t aplicador)
 
 	imagenes_guardar(config);
 	imagenes_liberar(config);
-	imprimir_tiempos_ejecucion(start, end, config->cant_iteraciones);
+	imprimir_tiempos_ejecucion(start, end, config->cant_iteraciones, *config);
 }
-
-
-
