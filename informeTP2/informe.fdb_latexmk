@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1526267369 "/Users/joajoa/Dropbox/ORGA/TP2/informeTP2/informe.tex" "informe.pdf" "informe" 1526267370
-  "/Users/joajoa/Dropbox/ORGA/TP2/informeTP2/informe.tex" 1526267369 3614 99f968e5f202fe89146b9d5ff7d71ec0 ""
+["pdflatex"] 1526270955 "/Users/joajoa/Dropbox/ORGA/TP2/informeTP2/informe.tex" "informe.pdf" "informe" 1526270957
+  "/Users/joajoa/Dropbox/ORGA/TP2/informeTP2/informe.tex" 1526267478 3650 7fdd2afe157d099e586029e7942e8353 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/base/8r.enc" 1480098666 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchb7t.tfm" 1480098691 2732 006d846b4d54f9b40899c7c3eecd771a ""
@@ -99,7 +99,7 @@
   "/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1495593472 2350277 a699055bee05bf8a40b0504752487295 ""
   "/usr/local/texlive/2017/texmf-var/web2c/pdftex/pdflatex.fmt" 1511271896 4129593 8e777b263b24735fb9daed4aa0f4aca0 ""
   "/usr/local/texlive/2017/texmf.cnf" 1495593465 577 2b71d4d888f9e5560b2e99985915a9fa ""
-  "0-introduccion.tex" 1526267029 1935 2c362f2eac14ea18c93f59f77f07c732 ""
+  "0-introduccion.tex" 1526270953 3155 9d68734d3d1d1f1cf31486ac8401a45b ""
   "1-blit.tex" 1526265248 8270 36b94e4693df1076bcc4d452d87b349c ""
   "2-monocromatizar.tex" 1526265271 5728 55e3fd61fa906ae3aae68d156d2ec5bc ""
   "3-ondas.tex" 1526156404 1871 e46e4269205efc23fa68bf226275b302 ""
@@ -116,11 +116,13 @@
   "imagenes/island.png" 1526073085 570938 cb51e74493c759dbfdc8a6cce39e4742 ""
   "imagenes/logodc.jpg" 1526073085 128041 19e4b2b1b4914681ffe3d5d821eeea3c ""
   "imagenes/logouba.jpg" 1526073085 229119 10f3a63be47e1e95e44f30008ec3af50 ""
-  "informe.aux" 1526267370 1570 878ec91f9312ce0f17aa23db5587602e ""
-  "informe.tex" 1526267369 3614 99f968e5f202fe89146b9d5ff7d71ec0 ""
-  "informe.toc" 1526267370 707 b594ee6d167b0de8a43d2f0cf69a7219 ""
+  "imagenes/registrossimd.png" 1526269244 38686 aac2de45f33b7b20a68894fc44711066 ""
+  "imagenes/sisdsimd.png" 1526269254 82959 825a9008a7b37401496720c6bc8cacd9 ""
+  "informe.aux" 1526270957 1577 63456932f716aa23a0ba8a8672f012e9 ""
+  "informe.tex" 1526267478 3650 7fdd2afe157d099e586029e7942e8353 ""
+  "informe.toc" 1526270957 710 8106cf33066df1d97c74b1e48e223d23 ""
   (generated)
   "informe.pdf"
-  "informe.toc"
   "informe.log"
+  "informe.toc"
   "informe.aux"

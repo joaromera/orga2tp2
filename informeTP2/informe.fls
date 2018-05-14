@@ -155,6 +155,12 @@ INPUT /usr/local/texlive/2017/texmf-dist/fonts/vf/bitstrea/charter/bchb7t.vf
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchb8r.tfm
 INPUT 0-introduccion.tex
 INPUT 0-introduccion.tex
+INPUT imagenes/sisdsimd.png
+INPUT ./imagenes/sisdsimd.png
+INPUT ./imagenes/sisdsimd.png
+INPUT imagenes/registrossimd.png
+INPUT ./imagenes/registrossimd.png
+INPUT ./imagenes/registrossimd.png
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchb7t.tfm
 INPUT imagenes/island.png
 INPUT ./imagenes/island.png
@@ -191,6 +197,8 @@ INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchr7t.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbx7.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbx5.tfm
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/vf/bitstrea/charter/bchr7t.vf
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchr8r.tfm
 INPUT 4-temperature.tex
 INPUT 4-temperature.tex
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmss8.tfm
@@ -198,8 +206,6 @@ INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmss8.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchr7t.tfm
 INPUT 5-edge.tex
 INPUT 5-edge.tex
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/vf/bitstrea/charter/bchr7t.vf
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/bitstrea/charter/bchr8r.tfm
 INPUT 6-mediciones.tex
 INPUT 6-mediciones.tex
 INPUT 7-conclusiones.tex

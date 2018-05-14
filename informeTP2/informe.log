@@ -1,10 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.11.21)  14 MAY 2018 00:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.11.21)  14 MAY 2018 01:09
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
-**/Users/joajoa/Dropbox/ORGA/TP2/informeTP2/informe.tex
-(/Users/joajoa/Dropbox/ORGA/TP2/informeTP2/informe.tex
+**informe.tex
+(./informe.tex
 LaTeX2e <2017-04-15>
 Babel <3.10> and hyphenation patterns for 84 language(s) loaded.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/base/article.cls
@@ -689,55 +688,72 @@ LaTeX Info: Redefining \% on input line 1.
 \openout4 = `informe.toc'.
 
  [2]
-(./0-introduccion.tex <imagenes/island.png, id=15, 690.58pt x 369.38pt>
-File: imagenes/island.png Graphic file (type png)
+(./0-introduccion.tex <imagenes/sisdsimd.png, id=15, 748.7975pt x 439.6425pt>
+File: imagenes/sisdsimd.png Graphic file (type png)
 
-<use imagenes/island.png>
-Package pdftex.def Info: imagenes/island.png used on input line 10.
+<use imagenes/sisdsimd.png>
+Package pdftex.def Info: imagenes/sisdsimd.png used on input line 6.
+(pdftex.def)             Requested size: 204.85844pt x 120.27481pt.
+
+<imagenes/registrossimd.png, id=17, 598.235pt x 395.4775pt>
+File: imagenes/registrossimd.png Graphic file (type png)
+
+<use imagenes/registrossimd.png>
+Package pdftex.def Info: imagenes/registrossimd.png used on input line 7.
+(pdftex.def)             Requested size: 204.85844pt x 135.42609pt.
+
+<imagenes/island.png, id=18, 690.58pt x 369.38pt>
+File: imagenes/island.png Graphic file (type png)
+ <use imagenes/island.png>
+Package pdftex.def Info: imagenes/island.png used on input line 16.
 (pdftex.def)             Requested size: 91.04742pt x 48.69743pt.
 
-<imagenes/island-blit.png, id=17, 690.58pt x 369.38pt>
+<imagenes/island-blit.png, id=19, 690.58pt x 369.38pt>
 File: imagenes/island-blit.png Graphic file (type png)
 
 <use imagenes/island-blit.png>
-Package pdftex.def Info: imagenes/island-blit.png used on input line 11.
+Package pdftex.def Info: imagenes/island-blit.png used on input line 17.
 (pdftex.def)             Requested size: 91.04742pt x 48.69743pt.
 
-<imagenes/island-monocromatizar.png, id=18, 690.58pt x 369.38pt>
+<imagenes/island-monocromatizar.png, id=20, 690.58pt x 369.38pt>
 File: imagenes/island-monocromatizar.png Graphic file (type png)
 
 <use imagenes/island-monocromatizar.png>
 Package pdftex.def Info: imagenes/island-monocromatizar.png used on input line 
-12.
+18.
 (pdftex.def)             Requested size: 91.04742pt x 48.69743pt.
 
-<imagenes/island-ondas.png, id=19, 690.58pt x 369.38pt>
+<imagenes/island-ondas.png, id=21, 690.58pt x 369.38pt>
 File: imagenes/island-ondas.png Graphic file (type png)
 
 <use imagenes/island-ondas.png>
-Package pdftex.def Info: imagenes/island-ondas.png used on input line 15.
+Package pdftex.def Info: imagenes/island-ondas.png used on input line 21.
 (pdftex.def)             Requested size: 91.04742pt x 48.69743pt.
 
-<imagenes/island-temperature.png, id=20, 690.58pt x 369.38pt>
+<imagenes/island-temperature.png, id=22, 690.58pt x 369.38pt>
 File: imagenes/island-temperature.png Graphic file (type png)
 
 <use imagenes/island-temperature.png>
-Package pdftex.def Info: imagenes/island-temperature.png used on input line 16.
+Package pdftex.def Info: imagenes/island-temperature.png used on input line 22.
 
 (pdftex.def)             Requested size: 91.04742pt x 48.69743pt.
 
-<imagenes/island-edge.png, id=21, 690.58pt x 369.38pt>
+<imagenes/island-edge.png, id=23, 690.58pt x 369.38pt>
 File: imagenes/island-edge.png Graphic file (type png)
 
 <use imagenes/island-edge.png>
-Package pdftex.def Info: imagenes/island-edge.png used on input line 17.
+Package pdftex.def Info: imagenes/island-edge.png used on input line 23.
 (pdftex.def)             Requested size: 91.04742pt x 48.69743pt.
 )
 LaTeX Info: Redefining \. on input line 98.
 LaTeX Info: Redefining \% on input line 98.
- [3 <./imagenes/island.png> <./imagenes/island-blit.png> <./imagenes/island-mon
-ocromatizar.png> <./imagenes/island-ondas.png> <./imagenes/island-temperature.p
-ng> <./imagenes/island-edge.png>] (./1-blit.tex
+ [3 <./imagenes/sisdsimd.png> <./imagenes/registrossimd.png> <./imagenes/island
+.png> <./imagenes/island-blit.png> <./imagenes/island-monocromatizar.png> <./im
+agenes/island-ondas.png> <./imagenes/island-temperature.png> <./imagenes/island
+-edge.png>]
+LaTeX Info: Redefining \. on input line 98.
+LaTeX Info: Redefining \% on input line 98.
+ [4] (./1-blit.tex
 Overfull \hbox (35.91586pt too wide) in paragraph at lines 116--120
  [] 
  []
@@ -759,10 +775,10 @@ Overfull \hbox (6.0pt too wide) in paragraph at lines 202--202
 
 LaTeX Info: Redefining \. on input line 202.
 LaTeX Info: Redefining \% on input line 202.
-[4]) (./2-monocromatizar.tex
+[5])
 LaTeX Info: Redefining \. on input line 102.
 LaTeX Info: Redefining \% on input line 102.
- [5]
+ [6] (./2-monocromatizar.tex
 Overfull \hbox (10.39572pt too wide) in paragraph at lines 126--130
  [] 
  []
@@ -778,16 +794,21 @@ Overfull \hbox (6.0pt too wide) in paragraph at lines 164--164
  [][][][][][] 
  []
 
-) (./3-ondas.tex
-LaTeX Info: Redefining \. on input line 48.
-LaTeX Info: Redefining \% on input line 48.
- [6]) (./4-temperature.tex) (./5-edge.tex
-LaTeX Info: Redefining \. on input line 1.
-LaTeX Info: Redefining \% on input line 1.
- [7])
+LaTeX Info: Redefining \. on input line 164.
+LaTeX Info: Redefining \% on input line 164.
+[7])
+LaTeX Info: Redefining \. on input line 104.
+LaTeX Info: Redefining \% on input line 104.
+ [8] (./3-ondas.tex)
 LaTeX Info: Redefining \. on input line 106.
 LaTeX Info: Redefining \% on input line 106.
- [8]
+ [9] (./4-temperature.tex)
+LaTeX Info: Redefining \. on input line 108.
+LaTeX Info: Redefining \% on input line 108.
+ [10] (./5-edge.tex)
+LaTeX Info: Redefining \. on input line 110.
+LaTeX Info: Redefining \% on input line 110.
+ [11]
 (./6-mediciones.tex
 Underfull \hbox (badness 10000) in paragraph at lines 3--5
 
@@ -804,12 +825,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 34--35
  []
 
 )
-LaTeX Info: Redefining \. on input line 108.
-LaTeX Info: Redefining \% on input line 108.
- [9] (./7-conclusiones.tex)
-LaTeX Info: Redefining \. on input line 111.
-LaTeX Info: Redefining \% on input line 111.
- [10] (./informe.aux
+LaTeX Info: Redefining \. on input line 112.
+LaTeX Info: Redefining \% on input line 112.
+ [12] (./7-conclusiones.tex)
+LaTeX Info: Redefining \. on input line 115.
+LaTeX Info: Redefining \% on input line 115.
+ [13] (./informe.aux
 LaTeX Info: Redefining \. on input line 7.
 LaTeX Info: Redefining \% on input line 7.
 )
@@ -818,13 +839,13 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 4627 strings out of 492995
- 59753 string characters out of 6132703
- 147850 words of memory out of 5000000
- 8025 multiletter control sequences out of 15000+600000
+ 4636 strings out of 492995
+ 59884 string characters out of 6132703
+ 147852 words of memory out of 5000000
+ 8033 multiletter control sequences out of 15000+600000
  27217 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,13n,43p,693b,603s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 39i,12n,43p,1013b,603s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2017/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texl
 ive/2017/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive
@@ -842,10 +863,10 @@ onts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2017/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2017/texmf-dist/font
 s/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2017/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on informe.pdf (10 pages, 3196640 bytes).
+Output written on informe.pdf (13 pages, 3289706 bytes).
 PDF statistics:
- 112 PDF objects out of 1000 (max. 8388607)
- 74 compressed objects within 1 object stream
+ 126 PDF objects out of 1000 (max. 8388607)
+ 81 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 
