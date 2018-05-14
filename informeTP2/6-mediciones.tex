@@ -1,0 +1,36 @@
+\section{Mediciones y rendimiento}
+
+La forma de medir el rendimiento de nuestras implementaciones se realizará por medio de la toma de tiempos de ejecución del algoritmo (sea este el codigo version asembler o el codigo C). Como los tiempos de ejecución son muy pequeños, se utilizará uno de los contadores de performance que posee el procesador.
+La instrucción de assembler rdtsc permite obtener el valor del Time Stamp Counter (TSC) del procesador. Este registro se incrementa en uno con cada ciclo del procesador. Obteniendo la diferencia entre los contadores antes y después de la llamada a la función, podemos obtener la cantidad de ciclos de esa ejecución. Esta cantidad de ciclos no es siempre igual entre invocaciones de la función, ya que este registro es global del procesador y se ve afectado por una serie de factores. \newline
+
+Existen principalmente dos problemáticas a solucionar:
+1). La ejecución puede ser interrumpida por el scheduler para realizar un cambio de contexto,
+esto implicará contar muchos más ciclos (outliers) que si nuestra función se ejecutara sin
+interrupciones.
+
+2). Los procesadores modernos varían su frecuencia de reloj, por lo que la forma de medir
+ciclos cambiará dependiendo del estado del procesador.
+\newline
+
+\textbf{solucion 1):} Para evitar el problema de los ciclos outliers lo que hicimos fue,
+
+\begin{itemize}
+	\item[Paso 1:] En nuestro caso hicimos 100 veces la medición de tiempo de nuestro algoritmo y guardarlo en un contenedor(podría ser un arreglo,lista, conjunto, diccionario,.., etc).
+	\item[Paso 2:] Sacar la media, tambien conocido como promedio, ejemplito:
+		\begin{center} $ Prom =\frac{x_1+x_2+...+x_{100}}{100}$ \end{center}
+		Donde $x_i$ es la medición de tiempo de la medición número $i$, con $1 \leq i \leq 100$ 
+	\item[Paso 3:] Calculamos la varianza: 			
+				\begin{center}
+					$Varianza = \sigma^2 = \frac{(x_1 - Prom)+ (x_2 - prom)+ ...+ (x_{100} - prom)}{100} $
+				\end{center}
+	\item[Paso 4:] Calculamos el desvio estandar,  $\sigma = \sqrt{Varianza}$
+	\item[Paso 5:] Utilizando el desvio estandar y el promedio, puedo ver que medición es "buena"  \\ y cual no. Más formalmente una medicion es "buena" si cumple: 
+					\begin{center}
+					$Prom - \sigma \leq x_i \leq Prom + \sigma $. %%\newline
+					\end{center}
+	 Luego sumando las todas las mediciones  "buenas" \\ y dividiendalas por la cantidad de mediciones buenas, obtengo el "promedio bueno". Con esto amortiguaria la cantidad de outliers de mis mediciones. 			
+\end{itemize}
+
+\textbf{Observar:} Todo lo anterior sirve también para mas de 100 mediciones. \newline
+
+\textbf{Solucion 2):} La solución que planteamos para esto fue, ejecutar sólamente el algoritmo. Con esto queremos decir que la ejecución estara en el nivel más alto de privilegio de ejecución. Esto lo hacemos metiendonos en el sistema operativo (en este caso ubuntu 14.04), tocando el monitor de sistema para darle privilegio a la ejecución. Tambien evitamos interumpir la maquina de forma mecanica(osea humana).  

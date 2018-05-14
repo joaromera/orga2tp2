@@ -1,9 +1,12 @@
 \select@language {spanish}
-\contentsline {section}{\numberline {1}Objetivos Generales}{3}
-\contentsline {section}{\numberline {2}Introduccion}{3}
-\contentsline {section}{\numberline {3}Filtros}{4}
-\contentsline {subsection}{\numberline {3.1}Blit}{4}
-\contentsline {subsection}{\numberline {3.2}Monocromatizar}{5}
-\contentsline {subsection}{\numberline {3.3}Edge}{6}
-\contentsline {section}{\numberline {4}Mediciones y rendimiento}{7}
-\contentsline {section}{\numberline {5}Conclusiones y trabajo futuro}{8}
+\contentsline {section}{\numberline {1}Introducci\IeC {\'o}n}{3}
+\contentsline {subsection}{\numberline {1.1}Objetivos Generales}{3}
+\contentsline {subsection}{\numberline {1.2}Metodolog\IeC {\'\i }a}{3}
+\contentsline {section}{\numberline {2}Filtros}{4}
+\contentsline {subsection}{\numberline {2.1}Blit}{4}
+\contentsline {subsection}{\numberline {2.2}Monocromatizar}{5}
+\contentsline {subsection}{\numberline {2.3}Ondas}{6}
+\contentsline {subsection}{\numberline {2.4}Temperature}{7}
+\contentsline {subsection}{\numberline {2.5}Edge}{8}
+\contentsline {section}{\numberline {3}Mediciones y rendimiento}{9}
+\contentsline {section}{\numberline {4}Conclusiones y trabajo futuro}{10}
