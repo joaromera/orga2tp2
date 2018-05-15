@@ -4,9 +4,12 @@
 \contentsline {subsection}{\numberline {1.2}Metodolog\IeC {\'\i }a}{3}
 \contentsline {section}{\numberline {2}Filtros}{5}
 \contentsline {subsection}{\numberline {2.1}Blit}{5}
-\contentsline {subsection}{\numberline {2.2}Monocromatizar}{7}
-\contentsline {subsection}{\numberline {2.3}Ondas}{9}
-\contentsline {subsection}{\numberline {2.4}Temperature}{10}
-\contentsline {subsection}{\numberline {2.5}Edge}{11}
-\contentsline {section}{\numberline {3}Mediciones y rendimiento}{12}
-\contentsline {section}{\numberline {4}Conclusiones y trabajo futuro}{13}
+\contentsline {subsubsection}{\numberline {2.1.1}Descripci\IeC {\'o}n}{5}
+\contentsline {subsubsection}{\numberline {2.1.2}Implementaci\IeC {\'o}n C}{5}
+\contentsline {subsubsection}{\numberline {2.1.3}Implementaci\IeC {\'o}n ASM}{6}
+\contentsline {subsection}{\numberline {2.2}Monocromatizar}{8}
+\contentsline {subsection}{\numberline {2.3}Ondas}{10}
+\contentsline {subsection}{\numberline {2.4}Temperature}{11}
+\contentsline {subsection}{\numberline {2.5}Edge}{12}
+\contentsline {section}{\numberline {3}Mediciones y rendimiento}{13}
+\contentsline {section}{\numberline {4}Conclusiones y trabajo futuro}{14}

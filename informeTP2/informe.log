@@ -1,9 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.11.21)  14 MAY 2018 01:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.11.21)  15 MAY 2018 01:25
 entering extended mode
  restricted \write18 enabled.
+ file:line:error style messages enabled.
  %&-line parsing enabled.
-**informe.tex
-(./informe.tex
+**/Users/joajoa/Dropbox/ORGA/TP2/informeTP2/informe.tex
+(/Users/joajoa/Dropbox/ORGA/TP2/informeTP2/informe.tex
 LaTeX2e <2017-04-15>
 Babel <3.10> and hyphenation patterns for 84 language(s) loaded.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/base/article.cls
@@ -509,6 +510,14 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
+(/usr/local/texlive/2017/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen115
+\WF@size=\dimen116
+\c@WF@wrappedlines=\count108
+\WF@box=\box30
+\WF@everypar=\toks33
+Package: wrapfig 2003/01/31  v 3.6
+)
 (/usr/local/texlive/2017/texmf-dist/tex/latex/underscore/underscore.sty
 Package: underscore 2006/09/13
 LaTeX Info: Redefining \_ on input line 42.
@@ -517,10 +526,59 @@ LaTeX Info: Redefining \_ on input line 42.
 Package: caratula 2005/08/09 v0.3 Para componer caratulas de TPs del DC
 
 Cargando package 'caratula' v0.3 (2005/08/09)
-\intlist=\toks33
+\intlist=\toks34
 ) (/usr/local/texlive/2017/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip11
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+(/usr/local/texlive/2017/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2017/04/11 v1.8q multicolumn formatting (FMi)
+\c@tracingmulticols=\count109
+\mult@box=\box31
+\multicol@leftmargin=\dimen117
+\c@unbalance=\count110
+\c@collectmore=\count111
+\doublecol@number=\count112
+\multicoltolerance=\count113
+\multicolpretolerance=\count114
+\full@width=\dimen118
+\page@free=\dimen119
+\premulticols=\dimen120
+\postmulticols=\dimen121
+\multicolsep=\skip55
+\multicolbaselineskip=\skip56
+\partial@page=\box32
+\last@line=\box33
+\maxbalancingoverflow=\dimen122
+\mult@rightbox=\box34
+\mult@grightbox=\box35
+\mult@gfirstbox=\box36
+\mult@firstbox=\box37
+\@tempa=\box38
+\@tempa=\box39
+\@tempa=\box40
+\@tempa=\box41
+\@tempa=\box42
+\@tempa=\box43
+\@tempa=\box44
+\@tempa=\box45
+\@tempa=\box46
+\@tempa=\box47
+\@tempa=\box48
+\@tempa=\box49
+\@tempa=\box50
+\@tempa=\box51
+\@tempa=\box52
+\@tempa=\box53
+\@tempa=\box54
+\c@columnbadness=\count115
+\c@finalcolumnbadness=\count116
+\last@try=\dimen123
+\multicolovershoot=\dimen124
+\multicolundershoot=\dimen125
+\mult@nat@firstbox=\box55
+\colbreak@box=\box56
+\mc@col@check@num=\count117
 )
 (/usr/local/texlive/2017/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
@@ -534,26 +592,26 @@ Package color Info: Driver file: pdftex.def on input line 147.
 Package: fancybox 2010/05/15 1.4
 
 Style option: `fancybox' v1.4 <2010/05/15> (tvz)
-\@fancybox=\box30
-\shadowsize=\dimen115
-\@Sbox=\box31
-\do@VerbBox=\toks34
-\the@fancyput=\toks35
-\this@fancyput=\toks36
-\EndVerbatimTokens=\toks37
+\@fancybox=\box57
+\shadowsize=\dimen126
+\@Sbox=\box58
+\do@VerbBox=\toks35
+\the@fancyput=\toks36
+\this@fancyput=\toks37
+\EndVerbatimTokens=\toks38
 \Verbatim@Outfile=\write3
 \Verbatim@Infile=\read1
 ) (/usr/local/texlive/2017/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2016/09/06 3.8 Extensive control of page headers and footers
-\fancy@headwidth=\skip55
-\f@ncyO@elh=\skip56
-\f@ncyO@erh=\skip57
-\f@ncyO@olh=\skip58
-\f@ncyO@orh=\skip59
-\f@ncyO@elf=\skip60
-\f@ncyO@erf=\skip61
-\f@ncyO@olf=\skip62
-\f@ncyO@orf=\skip63
+\fancy@headwidth=\skip57
+\f@ncyO@elh=\skip58
+\f@ncyO@erh=\skip59
+\f@ncyO@olh=\skip60
+\f@ncyO@orh=\skip61
+\f@ncyO@elf=\skip62
+\f@ncyO@erf=\skip63
+\f@ncyO@olf=\skip64
+\f@ncyO@orf=\skip65
 )
 (./informe.aux
 LaTeX Info: Redefining \. on input line 7.
@@ -561,37 +619,37 @@ LaTeX Info: Redefining \% on input line 7.
 )
 \openout1 = `informe.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Try loading font information for OT1+bch on input line 75.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 77.
+LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 77.
+LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 77.
+LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 77.
+LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 77.
+LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 77.
+LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Try loading font information for OT1+bch on input line 77.
  (/usr/local/texlive/2017/texmf-dist/tex/latex/psnfss/ot1bch.fd
 File: ot1bch.fd 2004/10/18 font definitions for OT1/bch.
 )
-LaTeX Info: Redefining \. on input line 75.
-LaTeX Info: Redefining \% on input line 75.
+LaTeX Info: Redefining \. on input line 77.
+LaTeX Info: Redefining \% on input line 77.
 (/usr/local/texlive/2017/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count108
-\scratchdimen=\dimen116
-\scratchbox=\box32
-\nofMPsegments=\count109
-\nofMParguments=\count110
-\everyMPshowfont=\toks38
-\MPscratchCnt=\count111
-\MPscratchDim=\dimen117
-\MPnumerator=\count112
-\makeMPintoPDFobject=\count113
-\everyMPtoPDFconversion=\toks39
+\scratchcounter=\count118
+\scratchdimen=\dimen127
+\scratchbox=\box59
+\nofMPsegments=\count119
+\nofMParguments=\count120
+\everyMPshowfont=\toks39
+\MPscratchCnt=\count121
+\MPscratchDim=\dimen128
+\MPnumerator=\count122
+\makeMPintoPDFobject=\count123
+\everyMPtoPDFconversion=\toks40
 ) (/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -644,14 +702,14 @@ e
 <imagenes/logodc.jpg, id=1, 215.6055pt x 83.5923pt>
 File: imagenes/logodc.jpg Graphic file (type jpg)
  <use imagenes/logodc.jpg>
-Package pdftex.def Info: imagenes/logodc.jpg used on input line 85.
+Package pdftex.def Info: imagenes/logodc.jpg used on input line 87.
 (pdftex.def)             Requested size: 215.60497pt x 83.59207pt.
-LaTeX Font Info:    Try loading font information for U+msa on input line 85.
+LaTeX Font Info:    Try loading font information for U+msa on input line 87.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 85.
+LaTeX Font Info:    Try loading font information for U+msb on input line 87.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -660,20 +718,20 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: imagenes/logouba.jpg Graphic file (type jpg)
 
 <use imagenes/logouba.jpg>
-Package pdftex.def Info: imagenes/logouba.jpg used on input line 85.
+Package pdftex.def Info: imagenes/logouba.jpg used on input line 87.
 (pdftex.def)             Requested size: 225.48184pt x 231.74522pt.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/b/n' undefined
-(Font)              using `OT1/cmss/m/n' instead on input line 85.
+(Font)              using `OT1/cmss/m/n' instead on input line 87.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 85--85
+Underfull \hbox (badness 10000) in paragraph at lines 87--87
 
  []
 
 
-Overfull \hbox (22.76358pt too wide) in paragraph at lines 85--85
+Overfull \hbox (22.76358pt too wide) in paragraph at lines 87--87
 [][][] 
  []
 
@@ -745,40 +803,58 @@ File: imagenes/island-edge.png Graphic file (type png)
 Package pdftex.def Info: imagenes/island-edge.png used on input line 23.
 (pdftex.def)             Requested size: 91.04742pt x 48.69743pt.
 )
-LaTeX Info: Redefining \. on input line 98.
-LaTeX Info: Redefining \% on input line 98.
+LaTeX Info: Redefining \. on input line 100.
+LaTeX Info: Redefining \% on input line 100.
  [3 <./imagenes/sisdsimd.png> <./imagenes/registrossimd.png> <./imagenes/island
 .png> <./imagenes/island-blit.png> <./imagenes/island-monocromatizar.png> <./im
 agenes/island-ondas.png> <./imagenes/island-temperature.png> <./imagenes/island
 -edge.png>]
-LaTeX Info: Redefining \. on input line 98.
-LaTeX Info: Redefining \% on input line 98.
+LaTeX Info: Redefining \. on input line 100.
+LaTeX Info: Redefining \% on input line 100.
  [4] (./1-blit.tex
-Overfull \hbox (35.91586pt too wide) in paragraph at lines 116--120
+Underfull \hbox (badness 10000) in paragraph at lines 14--15
+
+ []
+
+<imagenes/lenaBLIT.jpg, id=33, 256.96pt x 256.96pt>
+File: imagenes/lenaBLIT.jpg Graphic file (type jpg)
+
+<use imagenes/lenaBLIT.jpg>
+Package pdftex.def Info: imagenes/lenaBLIT.jpg used on input line 17.
+(pdftex.def)             Requested size: 136.5746pt x 136.57631pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--26
+
+ []
+
+LaTeX Info: Redefining \. on input line 71.
+LaTeX Info: Redefining \% on input line 71.
+[5 <./imagenes/lenaBLIT.jpg>]
+Overfull \hbox (35.91586pt too wide) in paragraph at lines 103--107
  [] 
  []
 
 
-Overfull \hbox (112.07578pt too wide) in paragraph at lines 126--130
+Overfull \hbox (112.07578pt too wide) in paragraph at lines 113--117
  [] 
  []
 
 
-Overfull \hbox (112.07578pt too wide) in paragraph at lines 136--140
+Overfull \hbox (112.07578pt too wide) in paragraph at lines 123--127
  [] 
  []
 
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 202--202
+Overfull \hbox (6.0pt too wide) in paragraph at lines 189--189
  [][][][][][] 
  []
 
-LaTeX Info: Redefining \. on input line 202.
-LaTeX Info: Redefining \% on input line 202.
-[5])
-LaTeX Info: Redefining \. on input line 102.
-LaTeX Info: Redefining \% on input line 102.
- [6] (./2-monocromatizar.tex
+LaTeX Info: Redefining \. on input line 189.
+LaTeX Info: Redefining \% on input line 189.
+[6])
+LaTeX Info: Redefining \. on input line 104.
+LaTeX Info: Redefining \% on input line 104.
+ [7] (./2-monocromatizar.tex
 Overfull \hbox (10.39572pt too wide) in paragraph at lines 126--130
  [] 
  []
@@ -796,20 +872,20 @@ Overfull \hbox (6.0pt too wide) in paragraph at lines 164--164
 
 LaTeX Info: Redefining \. on input line 164.
 LaTeX Info: Redefining \% on input line 164.
-[7])
-LaTeX Info: Redefining \. on input line 104.
-LaTeX Info: Redefining \% on input line 104.
- [8] (./3-ondas.tex)
+[8])
 LaTeX Info: Redefining \. on input line 106.
 LaTeX Info: Redefining \% on input line 106.
- [9] (./4-temperature.tex)
+ [9] (./3-ondas.tex)
 LaTeX Info: Redefining \. on input line 108.
 LaTeX Info: Redefining \% on input line 108.
- [10] (./5-edge.tex)
+ [10] (./4-temperature.tex)
 LaTeX Info: Redefining \. on input line 110.
 LaTeX Info: Redefining \% on input line 110.
- [11]
-(./6-mediciones.tex
+ [11] (./5-edge.tex)
+LaTeX Info: Redefining \. on input line 112.
+LaTeX Info: Redefining \% on input line 112.
+
+[12] (./6-mediciones.tex
 Underfull \hbox (badness 10000) in paragraph at lines 3--5
 
  []
@@ -825,12 +901,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 34--35
  []
 
 )
-LaTeX Info: Redefining \. on input line 112.
-LaTeX Info: Redefining \% on input line 112.
- [12] (./7-conclusiones.tex)
-LaTeX Info: Redefining \. on input line 115.
-LaTeX Info: Redefining \% on input line 115.
- [13] (./informe.aux
+LaTeX Info: Redefining \. on input line 114.
+LaTeX Info: Redefining \% on input line 114.
+ [13] (./7-conclusiones.tex)
+LaTeX Info: Redefining \. on input line 117.
+LaTeX Info: Redefining \% on input line 117.
+ [14] (./informe.aux
 LaTeX Info: Redefining \. on input line 7.
 LaTeX Info: Redefining \% on input line 7.
 )
@@ -839,13 +915,13 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 4636 strings out of 492995
- 59884 string characters out of 6132703
- 147852 words of memory out of 5000000
- 8033 multiletter control sequences out of 15000+600000
+ 4820 strings out of 492995
+ 62701 string characters out of 6132703
+ 153747 words of memory out of 5000000
+ 8207 multiletter control sequences out of 15000+600000
  27217 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,12n,43p,1013b,603s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 39i,12n,43p,1055b,603s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2017/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texl
 ive/2017/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive
@@ -863,10 +939,10 @@ onts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2017/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2017/texmf-dist/font
 s/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2017/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on informe.pdf (13 pages, 3289706 bytes).
+Output written on informe.pdf (14 pages, 3409205 bytes).
 PDF statistics:
- 126 PDF objects out of 1000 (max. 8388607)
- 81 compressed objects within 1 object stream
+ 130 PDF objects out of 1000 (max. 8388607)
+ 83 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 51 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 56 words of extra memory for PDF output out of 10000 (max. 10000000)
 

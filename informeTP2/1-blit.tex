@@ -1,24 +1,30 @@
 \subsection{Blit}
 
-% Esta operaci\'on recibe m\'as par\'ametros que las dem\'as; adem\'as de tener las im\'agenes fuente y destino (de tama\~no w x h), 
-% se recibe una imagen adicional \textbf{blit} tambi\'en con su respectivo tama\~no (bw x bh), que se utilizar\'a a modo de m\'ascara.
-% Se cumple que $bw \leq w \wedge bh \leq h$.\\
+\subsubsection{Descripción}
 
-% La aplicaci\'on de este filtro consiste en generar una nueva imagen combinando la original con el \textbf{blit}.
-% Un color de la imagen \textbf{blit} es considerado como transparente,
-% para que en la combinaci\'on algunos pixeles del \textbf{blit} queden por encima de la imagen original y otros no se vean.
+Esta operación recibe dos imagenes -original y blit- y genera una nueva combinando ambas. La combinación se realiza considerando un determinado color del blit como transparente para que en el resultado final algunos pixeles del blit queden por encima de la imagen original. En el lugar de aquellos que no son interpretados como transparentes quedan los pixeles del original. La imagen obtenida es una superposición de ambas, teniendo transparencias en el blit siempre que el color del pixel sea igual a (255,0,255).
 
-% Para este trabajo pr\'actico, la imagen \textbf{blit} ser\'a una imagen de Per\'on.
-% Decimos que una im\'agen ha sido ``Peronizada'' cuando en su extremo superior derecho podemos ver a Per\'on agitando su brazo.
-% % La aplicaci\'on de este filtro consiste en generar una nueva imagen combinando la original con la de Per\'on (blit) para as\'i 
-% % obtener una versi\'on ``Peronizada'' de la im\'agen fuente.
+% \begin{center}
+% 	\begin{tabular}{cccc}
+% 	  \includegraphics[width=0.2\textwidth]{imagenes/lenaBLIT.jpg} \\
+% 	\end{tabular}
+%    \end{center}
 
-% \vskip 8pt
-% Para cada p\'ixel $p$ en la imagen de Per\'on (blit):\\
-% $dst(p) = \begin{cases}
-%     src(p) & \mathrm{si \;} blit(p) \mathrm{\; es \; de \; color \; magenta, \; es \; decir \; sus \; colores \; son \;} (255, 0, 255)\\
-%     blit(p) & \mathrm{si \; no}
-% \end{cases}$ \\
+\begin{multicols}{2}
+A pedido de la cátedra la imagen \textbf{blit} ser\'a una foto de Per\'on. La misma será ubicada en la esquina superior derecha de la imagen, además la imagen original deberá tener un tamaño mayor a 89 píxeles de ancho por 128 de alto para poder ubicar el blit. Como resultado tendremos una imagen \textit{Peronizada} cuando se aplique la siguiente función para cada p\'ixel $p$ en la imagen de Per\'on (blit):\\
+\begin{center}
+	\begin{tabular}{cccc}
+	  \includegraphics[width=0.3\textwidth]{imagenes/lenaBLIT.jpg} \\
+	\end{tabular}
+   \end{center}
+\end{multicols}
+
+$dst(p) = \begin{cases}
+    src(p) & \mathrm{si \;} blit(p) \mathrm{\; es \; de \; color \; magenta, \; es \; decir \; sus \; colores \; son \;} (255, 0, 255)\\
+    blit(p) & \mathrm{si \; no}
+\end{cases}$ \\
+
+\subsubsection{Implementación C}
 
 % Es decir que si el p\'ixel en la imagen de Per\'on es magenta, entonces el nuevo p\'ixel tendr\'a los colores del p\'ixel correspondiente 
 % en la imagen original; y si no los colores del p\'ixel en la imagen de Per\'on. \\
@@ -27,55 +33,36 @@
 % las primeras $h - bh$ filas; y de las filas restantes, las primeras $w - bw$ columnas; 
 % quedar\'an igual que como estaban originalmente. \\
 
+Nuestra implementación en C consiste en dos etapas: primero copiamos los píxeles la imagen original en la imagen destino, luego copiamos los píxeles del blit siempre que los mismos no tengan el color (255,0,255). Como Perón debe estar arriba a la derecha de la imagen final, restamos el tamaño de su imagen al de la original en las dimensiones correspondientes. A continuación el pseudocódigo describe el algoritmo:
+
+\begin{algorithm}[H]
+  \begin{algorithmic}[1]
+		\FORALL{y:=0 \TO  Height($I_{src}$)}		
+			\FORALL{x:=0 \TO  Width($I_{src}$)}
+			  \STATE $pixel \gets I_{src}(x,y)$ 
+			  \STATE $I_{dst}(x,y) \gets pixel$
+			\ENDFOR
+		\ENDFOR
+		\STATE $Int$ $ bh \gets $ Height($I_{src}$) $-$ Height($I_{blit}$)
+		\STATE $Int$ $ bw \gets $ Width($I_{src}$) $-$ Width($I_{blit}$)
+		 \FORALL{y:=0 \TO  Height($I_{blit}$)}
+			\FORALL{x:=0 \TO  Width($I_{blit}$)}
+			  	\STATE $pixel \gets I_{blit}(x,y)$
+				\STATE $Int$ $ r \gets Red(pixel) $
+			  	\STATE $Int$ $g \gets Green(pixel)$
+			  	\STATE $Int$ $ b \gets Blue(pixel)$
+				\IF{$\neg ( r = 255$ \AND $g = 0$ \AND $b=255)$}
+					\STATE $I_{dst}(x+bw,y+bh) = I_{blit}(x+bw,y+bh)$ 
+				\ENDIF
+			\ENDFOR
+		 \ENDFOR
+  \end{algorithmic}
+  \caption{$blit (I_{src}, I_{dst}, I_{blit})$}
+  \label{alg:blit}
+\end{algorithm}
 
 
-% \begin{algorithm}[H]
-%   \begin{algorithmic}[1]
-% 		\FORALL{y:=0 \TO  Height($I_{src}$)}
-		
-% 			\FORALL{x:=0 \TO  Width($I_{src}$)}
-			  
-% 			  \STATE $pixel \gets I_{src}(x,y)$
-			  
-% 			  \STATE $I_{dst}(x,y) \gets pixel$
-			  
-% 			\ENDFOR
-
-% 		 \ENDFOR
-		 
-% 		\STATE $Nat$ $ bh \gets $ Height($I_{src}$) $-$ Height($I_{blit}$)
-			  
-% 		\STATE $Nat$ $ bw \gets $ Width($I_{src}$) $-$ Width($I_{blit}$)
-
-% 		 \FORALL{y:=0 \TO  Height($I_{blit}$)}
-
-% 			\FORALL{x:=0 \TO  Width($I_{blit}$)}
-			  
-% 			  \STATE $pixel \gets I_{blit}(x,y)$
-			  
-% 			  \STATE $Nat$ $ r \gets Red(pixel) $
-			  
-% 			  \STATE $Nat$ $g \gets Green(pixel)$
-			  
-% 			  \STATE $Nat$ $ b \gets Blue(pixel)$
-
-
-% 			  \IF{$\neg ( r = 255$ \AND $g = 0$ \AND $b=255)$}
-% 				\STATE $I_{dst}(x+bw,y+bh) = I_{blit}(x+bw,y+bh)$ 
-% 			  \ENDIF
-			  
-% 			\ENDFOR
-
-% 		 \ENDFOR
-
-
-%   \end{algorithmic}
-%   \caption{$blit (I_{src}, I_{dst}, I_{blit})$}
-%   \label{alg:blit}
-% \end{algorithm}
-
-\subsubsection*{Blit ASM}
-
+\subsubsection{Implementación ASM}
 
 En este Filtro Blit procesamos de a 4 pixeles, Tenemos dos ciclos en assembler, uno que recorre las columnas de la imagen y otra q recorre las fila.
 Cuando itera la fila es en ese momento q toman los 4 pixeles de $I_{src}$ y lo copiamos en $I_{}$.
@@ -170,7 +157,7 @@ Abajo detallaremos esa parte importante del código ASSEMBLER q desarrolla el bl
 
 \end{itemize}
 
-Para mas detalles dejamos el es-tracto de ASM.
+Para mas detalles dejamos un extracto del código ASM:
 
 \begin{codesnippet}
 \begin{verbatim}

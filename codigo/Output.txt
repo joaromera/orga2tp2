@@ -1,1 +1,0 @@
-ondas;tests/img_generadas/lena.1024x1024.bmp;32;100;56670266473;566702656.000;0;
