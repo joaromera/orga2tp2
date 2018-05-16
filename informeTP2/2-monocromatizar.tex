@@ -1,53 +1,51 @@
 \subsection{Monocromatizar}
 
-%En nuestro este caso se implementar ́a la funcion de conversion a escala de grises de la siguiente manera:
-En este caso se implementará la conversión a escala de grises. Esto es tomando el maximo entre la componente R, G, B y des esa manera asignarselo a cada componente de pixel.
+\subsubsection{Descripción}
+
+\begin{wrapfigure}{r}{0.3\textwidth}
+	\centering
+	\includegraphics[width=0.3\textwidth]{imagenes/lenaMONO.jpg}
+\end{wrapfigure}
+
+El objetivo de este filtro es convertir una imagen color a una escala de grises. A diferencia de otros filtros, los pixeles de la imagen de salida estarán compuestos por un solo byte, que representará la intensidad de la luz. El criterio para obtener este valor es tomar el máximo entre los componentes R, G, B originales de cada pixel y aplicarlo al correspondiente en la imagen destino. Para esto aplicamos, a todos los pixeles de la imagen original, la siguiente función:
 
 \begin{center}
-  $I_{out}(p) = max(R, G, B)$
+	$I_{out}(p) = max(R, G, B)$
 \end{center}
 
-Para mas detalle brindamos el pseudocódigo aqui. 
+\hfill
+
+\subsubsection{Implementación C}
+
+A continuación el pseudocódigo de la implementación en C:
 
 \begin{algorithm}[H]
   \begin{algorithmic}[1]
 		\FORALL{y:=0 \TO  Height($I_{src}$)}
 		 %\FOR x:=0 \TO  Width($I_{src}$)\STEP 1 \DO
 			\FORALL{x:=0 \TO  Width($I_{src}$)}
-			  
 			  \STATE $pixel \gets I_{src}(x,y)$
-			  
-			  \STATE $Nat$ $ r \gets Red(pixel) $
-			  
-			  \STATE $Nat$ $g \gets Green(pixel)$
-			  
-			  \STATE $Nat$ $ b \gets Blue(pixel)$
-			  
-			  \STATE $Nat$ $max \gets Maximo(r, Maximo(g, b))$
-			  
+			  \STATE $Int$ $ r \gets Red(pixel) $
+			  \STATE $Int$ $g \gets Green(pixel)$
+			  \STATE $Int$ $ b \gets Blue(pixel)$
+			  \STATE $Int$ $max \gets max(r, max(g, b))$
 			  \STATE $pixel \gets DevolverPixel(r,g,b)$
-			
 			  \STATE $I_{dst}(x,y) \gets pixel$
-			  
 			\ENDFOR
-
 		 \ENDFOR
-
   \end{algorithmic}
   \caption{$monocromatizar (I_{src}, I_{dst})$}
   \label{alg:monocromatizar}
 \end{algorithm}
 
+\subsubsection{Implementación ASM}
 
-\subsubsection*{Monocromatizar ASM}
-
-En este filtro procesaremos de a 4 píxeles en cada iteración. %usando las instrucción \textbf{SSE} de la arquitectura. 
-Y por cada iteración se realizaran se realizaran los calculos de los del los máximos de cada píxel.
+En este filtro procesamos de a 4 píxeles en cada iteración usando las instrucciones \textbf{SSE} de la arquitectura. Por cada iteración se realizaron los calculos del máximo de cada píxel y este se guardó en la imagen de salida.
 
 \begin{itemize}
 
-	\item En los registro \textbf{xmm0,xnm4, xmm5} tenemos la copia de los cuatro pixeles q levantamos de memoria.
-			Y en \textbf{xnm1, xmm2, xmm3} las mascaras q utilizamos para los Shuffles que utilizaremos para permutar las componente.
+	\item En los registro \textbf{xmm0,xnm4, xmm5} tenemos la copia de los cuatro pixeles que levantamos de memoria.
+			Y en \textbf{xnm1, xmm2, xmm3} las máscaras q utilizamos para los shuffles que utilizaremos para permutar los componentes.
 
 		\begin{center}
 		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
@@ -82,8 +80,7 @@ Y por cada iteración se realizaran se realizaran los calculos de los del los m�
 		   \\ \textbf{Mascara en xmm3(mask3)}
 		\end{center}
 
-	\item Realizamos el \textbf{shuffle xmm4, xmm1}q nos coloca componente \textbf{g} en las posiciones que podemos observar en el registro xmm4. Y luego calculamos el máximo con la instrucci'on \textbf{pmaxub}. 
-
+	\item Realizamos el \textbf{shuffle xmm4, xmm1} que nos coloca el componente \textbf{g} en las posiciones que podemos observar en el registro xmm4. Y luego calculamos el máximo con la instrucción \textbf{pmaxub}. 
 
 		\begin{center}
 		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
@@ -102,7 +99,7 @@ Y por cada iteración se realizaran se realizaran los calculos de los del los m�
 		   \\ \textbf{xmm4 $ \gets $ pmaxub xmm4, xmm0}
 		\end{center}
 
-	\item Realizamos el mismo procedimiento en este paso. Y nos quedaría el valor del Máximo(ver imagen). 
+	\item Realizamos el mismo procedimiento en este paso. Luego nos quedaría el valor del Máximo (ver imagen). 
 		\begin{center}
 		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
 			 \hline
@@ -120,7 +117,7 @@ Y por cada iteración se realizaran se realizaran los calculos de los del los m�
 		\end{center}
 
 
-	\item Sólo resta copiar los máximos. Para esto utilizaremos el Shuffle junto con las mascara contenida en xmm3.
+	\item Solo resta copiar los máximos. Para esto utilizaremos el Shuffle junto con la máscara contenida en xmm3.
 
 		\begin{center}
 		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
@@ -132,8 +129,7 @@ Y por cada iteración se realizaran se realizaran los calculos de los del los m�
 
 \end{itemize}
 
-Por ultimo resta copiar esto a memoria. 
-Como dato abajo brindamos el código ASM.
+Por último resta copiar esto a memoria, brindamos el código ASM de este paso.
 
 \begin{codesnippet}
 \begin{verbatim}

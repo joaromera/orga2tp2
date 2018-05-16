@@ -1,0 +1,1 @@
+edge;./data/imagenes_a_testear/lena.512x512.bmp;8;1;32473560;32473560.000;0;

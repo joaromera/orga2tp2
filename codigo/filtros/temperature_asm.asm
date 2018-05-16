@@ -240,7 +240,6 @@ temperature_asm:
 
 
         movdqu [rsi], xmm12
-        
 
         add rsi, 16
 		add rdi, 16
