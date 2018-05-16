@@ -8,7 +8,6 @@
 ;   rbp + 16 = x0
 ; 	rbp + 24 = y0
 
-extern ondas_c
 
 global ondas_asm
 
@@ -36,7 +35,6 @@ ondas_asm:
 	push r13
 	push r14
 	push r15							;desalineada
-	sub rsp, 8
 
 	mov r9b, 255
 	mov r15, 6
@@ -205,10 +203,10 @@ ondas_asm:
 	packssdw xmm2,xmm1
 	packuswb xmm2,xmm5
 
-	pinsrb xmm2, r9b, 15
-    pinsrb xmm2, r9b, 11
-    pinsrb xmm2, r9b, 7
-    pinsrb xmm2, r9b, 3
+	psrld xmm0, 24
+	pslld xmm0, 24
+	
+	por xmm2, xmm0
 	
 	movdqu [rsi], xmm2
 
@@ -229,7 +227,6 @@ ondas_asm:
 		jmp .cicloext
 	
 	.fin:
-		add rsp, 8
 		pop r15
 		pop r14
 		pop r13

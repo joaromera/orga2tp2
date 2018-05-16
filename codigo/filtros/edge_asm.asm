@@ -16,11 +16,17 @@ global edge_asm
 edge_asm:									;NOTAR QUE LOS PIXELES MIDEN 1 BYTE
 	push rbp
 	mov rbp, rsp
-
+	push r8
+	push r9
+	push r10
+	push r11
+	push r12
+	push r13
+	push r14
 	movdqu xmm14, [maskAltaBaja]
 	movdqu xmm15, [maskMedio]
 	mov r13, rdx
-	shr r13, 4								;voy a procesar de a 16 pixeles/bytes
+	shr r13, 2								;voy a procesar de a 16 pixeles/bytes
 	xor r10, r10							;r10 y r11 son contadores para iterar		
 	xor r11, r11
 	mov r9, rdx
@@ -34,9 +40,12 @@ edge_asm:									;NOTAR QUE LOS PIXELES MIDEN 1 BYTE
 		cmp r14, r13						;verificar si es la ultima columna de la fila
 		je .edge
 		movdqu xmm0, [rdi]
-		movdqu [rsi], xmm0
-		add rsi, 16
-		add rdi, 16
+		pslldq xmm0, 12
+		psrldq xmm0, 12
+		movd r8d, xmm0
+		mov [rsi], r8d
+		add rsi, 4
+		add rdi, 4
 		inc r14
 		jmp .primerFila
 
@@ -173,13 +182,24 @@ edge_asm:									;NOTAR QUE LOS PIXELES MIDEN 1 BYTE
 			cmp r11, r13						;verificar si es la ultima columna de la fila
 			je .fin
 			movdqu xmm0, [rdi]
-			movdqu [rsi], xmm0
-			add rsi, 16
-			add rdi, 16
+			pslldq xmm0, 12
+			psrldq xmm0, 12
+			movd r8d, xmm0
+
+			mov [rsi], r8d 
+			add rsi, 4
+			add rdi, 4
 			inc r11
 			jmp .ultimaFila
 
 	.fin:
+	pop r14
+	pop r13
+	pop r12
+	pop r11
+	pop r10
+	pop r9
+	pop r8
 	pop rbp
 	ret
 	
