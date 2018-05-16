@@ -233,7 +233,6 @@ temperature_asm:
         por xmm12, xmm15
         por xmm12, xmm9        ; Las temperaturas de cada pixel estan en xmm12
 
-<<<<<<< HEAD
         pslld xmm0, 24
         psrld xmm0, 24
 
@@ -242,15 +241,7 @@ temperature_asm:
         pinsrb xmm12, r9b, 11
         pinsrb xmm12, r9b, 15
 
-
-=======
-<<<<<<< HEAD
-
-=======
->>>>>>> 3ca906f13ed147dd2c0f87d75e59271680c83b83
->>>>>>> fefae1dc08e5510cd911a2bbe6735c3489167fc2
         movdqu [rsi], xmm12
-        
 
         add rsi, 16
 		add rdi, 16
