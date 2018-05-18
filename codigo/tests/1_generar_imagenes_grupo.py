@@ -8,7 +8,7 @@ import sys
 # pocas imagenes base.
 
 
-IMAGENES=["random.bmp"]
+IMAGENES=["lena.bmp"]
 
 assure_dirs()
 
