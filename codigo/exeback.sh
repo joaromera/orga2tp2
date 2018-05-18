@@ -7,8 +7,8 @@ do
         #for j in {1..100};
         #do
             #echo $i
-            build/tp2 -i asm -o postfiltro -t 100 monocromatizar_inf $i
-            cat Output.txt >> asmresultadosMONOsisd.csv
+            build/tp2 -i c -o postfiltro -t 100 temperature $i
+            cat Output.txt >> O3resultadosRANDOM.csv
             rm Output.txt
         #done
     #fi
