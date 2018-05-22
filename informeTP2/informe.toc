@@ -17,8 +17,12 @@
 \contentsline {subsection}{\numberline {2.4}Temperature}{11}
 \contentsline {subsubsection}{\numberline {2.4.1}Implementaci\IeC {\'o}n C}{11}
 \contentsline {subsubsection}{\numberline {2.4.2}Implementaci\IeC {\'o}n ASM}{11}
-\contentsline {subsection}{\numberline {2.5}Edge}{12}
-\contentsline {subsubsection}{\numberline {2.5.1}Implementaci\IeC {\'o}n C}{12}
-\contentsline {subsubsection}{\numberline {2.5.2}Implementaci\IeC {\'o}n ASM}{12}
-\contentsline {section}{\numberline {3}Mediciones y rendimiento}{13}
-\contentsline {section}{\numberline {4}Conclusiones y trabajo futuro}{14}
+\contentsline {subsection}{\numberline {2.5}Edge}{15}
+\contentsline {subsubsection}{\numberline {2.5.1}Implementaci\IeC {\'o}n C}{15}
+\contentsline {subsubsection}{\numberline {2.5.2}Implementaci\IeC {\'o}n ASM}{15}
+\contentsline {section}{\numberline {3}Mediciones y Experimentos}{16}
+\contentsline {subsection}{\numberline {3.1}Performance}{16}
+\contentsline {subsection}{\numberline {3.2}SIMD vs. SISD}{18}
+\contentsline {subsection}{\numberline {3.3}Branch Prediction}{19}
+\contentsline {subsection}{\numberline {3.4}Loop Unrolling}{20}
+\contentsline {section}{\numberline {4}Conclusiones y trabajo futuro}{22}

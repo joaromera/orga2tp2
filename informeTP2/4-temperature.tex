@@ -65,18 +65,18 @@ En este tramo de código traigo los 4 pixeles de memoría. Desempaqueto de byte 
 
 \begin{codesnippet}
 \begin{verbatim}
-            movdqu xmm0, [rdi]      ; xmm0 = |a3 b3 g3 r3|a2 b2 g2 r2|a1 b1 g1 r1|a0 b0 g0 r0| Pixeles originales
-            movdqu xmm1, xmm0       ; xmm1= xmm0
-            movdqu xmm2, xmm0       ; xmm2= xmm0
+    movdqu xmm0, [rdi]      ; xmm0 = |a3 b3 g3 r3|a2 b2 g2 r2|a1 b1 g1 r1|a0 b0 g0 r0| Píxeles originales
+    movdqu xmm1, xmm0       ; xmm1= xmm0
+    movdqu xmm2, xmm0       ; xmm2= xmm0
 
-            pxor xmm7, xmm7         ; Masacara de ceros en xmm7 para desempaquetar de byte a word
-            punpcklbw xmm2, xmm7    ; xmm2 = |a1 b1 g1 r1|a0 b0 g0 r0| parte baja
-            punpckhbw xmm1, xmm7    ; xmm1 = |a3 b3 g3 r3|a2 b2 g2 r2| parte alta
-                                    ; Shifteo a izquierda para olvidarme del alfa
-            psllq xmm1, 16          ; xmm1=|b3 g3 r3 0|b2 g2 r2 0|
-            psllq xmm2, 16          ; xmm2=|b1 g1 r1 0|b0 g0 r0 0|
-            psrlq xmm1, 16          ; xmm1=|0 b3 g3 r3|0 b2 g2 r2|
-            psrlq xmm2, 16          ; xmm2=|0 b1 g1 r1|0 b0 g0 r0|
+    pxor xmm7, xmm7         ; Masacara de ceros en xmm7 para desempaquetar de byte a word
+    punpcklbw xmm2, xmm7    ; xmm2 = |a1 b1 g1 r1|a0 b0 g0 r0| parte baja
+    punpckhbw xmm1, xmm7    ; xmm1 = |a3 b3 g3 r3|a2 b2 g2 r2| parte alta
+                            ; Shifteo a izquierda para olvidarme del alfa
+    psllq xmm1, 16          ; xmm1=|b3 g3 r3 0|b2 g2 r2 0|
+    psllq xmm2, 16          ; xmm2=|b1 g1 r1 0|b0 g0 r0 0|
+    psrlq xmm1, 16          ; xmm1=|0 b3 g3 r3|0 b2 g2 r2|
+    psrlq xmm2, 16          ; xmm2=|0 b1 g1 r1|0 b0 g0 r0|
 \end{verbatim}
 \end{codesnippet}
 Para calcular las sumas de la 3 componentes \emph{b+g+r},Realizamos sumas horizontales con la intrucción \emph{phaddw} y colocamos las sumas en los registros xmm1 y xmm2.
@@ -84,7 +84,7 @@ Para calcular las sumas de la 3 componentes \emph{b+g+r},Realizamos sumas horizo
 \begin{verbatim}
                        ; Sumas horizontal
     phaddw xmm2, xmm2  ; xmm2=|0+b1 g1+r1 0+b0 g0+r0|0+b1 g1+r1 0+b0 g0+r0|
-    phaddw xmm1, xmm1       ; xmm1=|0+b3 g3+r3 0+b2 g2+r2| 0+b3 g3+r3 0+b2 g2+r2|
+    phaddw xmm1, xmm1  ; xmm1=|0+b3 g3+r3 0+b2 g2+r2| 0+b3 g3+r3 0+b2 g2+r2|
 
     phaddw xmm2, xmm2  ; xmm2 =|b1+g1+r1 b0+g0+r0 b1+g1+r1 b0+g0+r0|b1+g1+r1 b0+g0+r0 b1+g1+r1 b0+g0+r0|
     phaddw xmm1, xmm1  ; xmm1 =|b3+g3+r3 b2+g2+r2 b3+g3+r3 b2+g2+r2|b3+g3+r3 b2+g2+r2 b3+g3+r3 b2+g2+r2|
@@ -97,14 +97,14 @@ El objetivo de este paso es obtener \emph{xmm1=$|s3|s2|s1|s0|$}, donde \emph{s3,
 
 \begin{codesnippet}
 \begin{verbatim}
-                                  ;shuffle parte baja(bits 63 a 0) de los words , para reordenar las sumas s0,s1,s2ys3
+                                  ;shuffle parte baja (bits 63 a 0) de los words, para reordenar las sumas s0,s1,s2ys3
                                   ; imm8 = 1 1 0 0
     pshufhw xmm2, xmm2, 01010000b ; xmm2=|s1 s0 s1 s0|s1 s1 s0 s0| 
     pshufhw xmm1, xmm1, 01010000b ; xmm1=|s3 s2 s3 s2|s3 s3 s2 s2|
-                                    ;shuffle parte alta(bits 127 a 64) de los word
+                                  ;shuffle parte alta(bits 127 a 64) de los word
     pshuflw xmm2, xmm2, 01010000b ; xmm2=|s1 s1 s0 s0|s1 s1 s0 s0|
     pshuflw xmm1, xmm1, 01010000b ; xmm1=|s3 s3 s2 s2|s3 s3 s2 s2|
-                                         ; observar q las sumas s0,...,s1 miden words, shifteo a derecha c/paquete dobleWord 16 bits
+                                  ; observar q las sumas s0,...,s1 miden words, shifteo a derecha c/paquete dobleWord 16 bits
     psrld xmm2, 16;               ; xmm2=|0 s1|0 s0|0 s1|0 s0| 
     psrld xmm1, 16                ; xmm1=|0 s3|0 s2|0 s3|0 s2| 
 								  ; Que es lo mismo q decir
@@ -130,18 +130,18 @@ Despues desempaquetamos de dobleWord a Words(packusdw) y de word a byte(packuswb
 Como ultimo paso usamos shuffle(pshufb), para permutar los paquetes de bytes teniendo como mascara xmm10. 
 \begin{codesnippet}
 \begin{verbatim}
-            ; <t, t, t, t>          t < 32   <0, 0, 0, 4t + 128>
-                                    ; Divido todo por 3
-            divps xmm1, xmm8        ; xmm1 =|s3/3.0|s2/3.0|s1/3.0|s0/3.0| 
-                                    ; convierto de Float a dobleWord entero
-            cvtps2dq xmm1, xmm1     ; xmm1 =|t3|t2|t1|t0|
-                                    ; desempaqueto de dobleWord a Word sin signo y con saturacion
-            packusdw xmm1, xmm1     ; xmm1 =|t3|t2|t1|t0|t3|t2|t1|t0|
-                                    ; desempaqueto Word sin signo y  byte con saturacion
-            packuswb xmm1, xmm1     ; xmm1 =|t3|t2|t1|t0|t3|t2|t1|t0|t3|t2|t1|t0|t3|t2|t1|t0| 
-                                    ; xmm10=|3|3|3|3|2|2|2|2|1|1|1|1|0|0|0|0|
-            pshufb xmm1, xmm10      ; xmm1 = |t3t3|t3|t3|t2|t2|t2|t2|t1|t1|t1|t1|t0|t0|t0|t0|
-                                    ; xmm1 = |t3 t3 t3 t3|t2 t2 t2 t2|t1 t1 t1 t1|t0 t0 t0 t0|
+    ; <t, t, t, t>          t < 32   <0, 0, 0, 4t + 128>
+                            ; Divido todo por 3
+    divps xmm1, xmm8        ; xmm1 =|s3/3.0|s2/3.0|s1/3.0|s0/3.0| 
+                            ; convierto de Float a dobleWord entero
+    cvtps2dq xmm1, xmm1     ; xmm1 =|t3|t2|t1|t0|
+                            ; desempaqueto de dobleWord a Word sin signo y con saturacion
+    packusdw xmm1, xmm1     ; xmm1 =|t3|t2|t1|t0|t3|t2|t1|t0|
+                            ; desempaqueto Word sin signo y  byte con saturacion
+    packuswb xmm1, xmm1     ; xmm1 =|t3|t2|t1|t0|t3|t2|t1|t0|t3|t2|t1|t0|t3|t2|t1|t0| 
+                            ; xmm10=|3|3|3|3|2|2|2|2|1|1|1|1|0|0|0|0|
+    pshufb xmm1, xmm10      ; xmm1 = |t3t3|t3|t3|t2|t2|t2|t2|t1|t1|t1|t1|t0|t0|t0|t0|
+                            ; xmm1 = |t3 t3 t3 t3|t2 t2 t2 t2|t1 t1 t1 t1|t0 t0 t0 t0|
 
 \end{verbatim}
 \end{codesnippet}
@@ -176,12 +176,12 @@ En este caso debemos obtener \emph{xmm5=$|$0 0 4.(t3-32) 255$|$...$|$0 0 4.(t0-3
 La parte interezante es que usamos la instrucción \emph{pinserb}, que inserta el valor contenido en \emph{r9}.
 \begin{codesnippet}
 \begin{verbatim}				
-                                ;xmm11=|128|128|128|128|128|128|128|128|128|128|128|128|128|128|128|128|
-                                ;xmm4=|t3 t3 t3 t3|t2 t2 t2 t2|t1 t1 t1 t1|t0 t0 t0 t0|
-    psubb xmm5, xmm11    ;xmm5=|4.t3-128 4.t3-128 4.t3-128 4.t3-128|4.t2-128 4.t2-128 4.t2-128 4.t2-128
-                         ;     |4.t1-128 4.t1-128 4.t1-128 4.t1-128|4.t0-128 4.t0-128 4.t0-128 4.t0-128|
-                         ;xmm5=|4.(t3-32) 4.(t3-32) 4.(t3-32) 4.(t3-32)|....|4.t0-32 4.4.t0-32 4.4.t0-32 4.4.t0-32|                           
-                         ; r9b=255
+                        ;xmm11=|128|128|128|128|128|128|128|128|128|128|128|128|128|128|128|128|
+                        ;xmm4=|t3 t3 t3 t3|t2 t2 t2 t2|t1 t1 t1 t1|t0 t0 t0 t0|
+    psubb xmm5, xmm11   ;xmm5=|4.t3-128 4.t3-128 4.t3-128 4.t3-128|4.t2-128 4.t2-128 4.t2-128 4.t2-128
+                        ;     |4.t1-128 4.t1-128 4.t1-128 4.t1-128|4.t0-128 4.t0-128 4.t0-128 4.t0-128|
+                        ;xmm5=|4.(t3-32) 4.(t3-32) 4.(t3-32) 4.(t3-32)|....|4.t0-32 4.4.t0-32 4.4.t0-32 4.4.t0-32|                           
+                        ; r9b=255
     pinsrb xmm5, r9b, 12 ; xmm5=|4.(t3-32) 4.(t3-32) 4.(t3-32) 4.(t3-32)+255|...|4.t0-32 4.4.t0-32 4.4.t0-32 4.4.t0-32|
     pinsrb xmm5, r9b, 8  
     pinsrb xmm5, r9b, 4
@@ -201,7 +201,7 @@ Sólo debemos recordar q en xmm4,  xmm5, xmm6, xmm7 y xmm3 estan los casos T.
 \begin{verbatim}				
 
     psrld xmm1,  24    ; xmm1=|0 0 0 t3|0 0 0 0 t2|0 0 0 t1|0 0 0 t0|
-							; En este paso produsco todas las marcaras segun el valor de T
+							; En este paso produzco todas las máscaras segun el valor de T
     pcmpgtd xmm12, xmm1     ; [32 > t?...] Me quedo con t < 32
     pcmpgtd xmm13, xmm1     ; [96 > t?...] Me quedo con t < 96
     pxor    xmm13, xmm12    ; Me quedo con 32 <= t < 96
@@ -231,4 +231,4 @@ Sólo debemos recordar q en xmm4,  xmm5, xmm6, xmm7 y xmm3 estan los casos T.
 \end{verbatim}
 \end{codesnippet}
 
-Resta copía  los valores de los 4 píxeles de \emph{xmm12} a memoria. 
+Resta copiar los valores de los 4 píxeles de \emph{xmm12} a memoria.

@@ -30,4 +30,17 @@ La elaboración del trabajo se dividió en dos etapas. En primer lugar, se imple
 
 Una vez realizadas estas implementaciones, fueron sometidas a un proceso de comparación para extraer conclusiones acerca de su rendimiento. Con este fin, se experimentó con variaciones tanto en los datos de entrada como en detalles implementativos de los mismos algoritmos. De esta manera, se pudo recopilar datos sobre el comportamiento de cada implementación, y contrastar estos resultados con diversas hipótesis previamente elaboradas.
 
+Para las mediciones se corrieron los algoritmos en una computadora con las siguientes especificaciones:
+
+\begin{center}
+  \begin{tabular}{cccc}
+    \includegraphics[width=0.5\textwidth]{imagenes/hardware.png} &
+    \includegraphics[width=0.5\textwidth]{imagenes/memory.png} \\
+  \end{tabular}
+ \end{center}
+
+ Asimismo se utilizó la siguiente combinación de sistema operativo y compiladores: Ubuntu/Xenial64 16.04.4 LTS, GCC versión 5.4.0 y NASM versión 2.11.08. Para compilar el código C se usaron los flags \textit{-ggdb -Wall -Wno-unused-parameter -Wextra -std=c99 -pedantic -m64 -O3} y para ASM \textit{-felf64 -g -F dwarf} conforme a los archivos proporcionados por la cátedra de la materia.
+
+
 A continuación introducimos los filtros y sus respectivas implementaciones, luego describimos los tests realizados y los resultados obtenidos, y finalmente a partir de estos datos otorgamos algunas conclusiones sobre la experiencia realizada.
+
