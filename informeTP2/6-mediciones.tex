@@ -36,6 +36,7 @@ En la página siguiente están los gráficos correspondientes a los filtros y su
 	\end{tabular}
    \end{center}
 
+\newpage
 \subsection{SIMD vs. SISD}
 
 En la misma línea del experimento anterior quisimos evaluar las diferencias de tiempo entre el mismo algoritmo implementado en C, en ASM usando instrucciones SISD y en ASM con SIMD. La reescritura del código utilizando instrucciones SISD requirió 60 líneas de código, usando SIMD 30, y con C apenas 10; el tamaño de los archivos objeto pesó 2592B en SISD, 2608B en SIMD y 4280B en C.
@@ -49,9 +50,10 @@ En la misma línea del experimento anterior quisimos evaluar las diferencias de 
 
 Nuevamente pudimos apreciar como las instrucciones SIMD logran una superioridad en performance con respecto a la programación trabajando con datos secuencialmente. El mismo algoritmo implementado utilizando instrucciones SISD no logró imponerse sobre C para imagenes pequeñas -por debajo de los 256 píxeles por lado-, aunque sí lo logró para imagenes de mayor tamaño. En este caso el beneficio de trabajar en ASM puede verse opacado por la facilidad de la programación en C si no se utilizan las instrucciones SIMD. Sin embargo de mantenerse este crecimiento en la cantidad de llamadas para cada implementación, C sigue perdiendo cuando es más exigido.
 
+\newpage
 \subsection{Branch Prediction}
 
-Un predictor de saltos es un circuito digital que intenta adivinar por qué rama de una estructura condicional va a continuar la ejecución de un programa antes de que se lo sepa definitivamente. El objetivo del predictor de saltos es mejorar el flujo del pipeline. En el presente experimento nos propusimos intentar forzar al predictor de saltos a funcionar en escenarios donde pueda predecir fácilmente las instrucciones siguientes y es escenarios donde no lo pueda lograr. Para esto trabajamos con el filtro Temperature en C exclusivamente (compilando con O0 y O3) ya que dada la lógica del algoritmo este filtro es el mejor ejemplo para hacer estas pruebas. Recordemos la lógica condicional del filtro:
+Un predictor de saltos es un circuito digital que intenta adivinar por qué rama de una estructura condicional va a continuar la ejecución de un programa antes de que se lo sepa definitivamente. El objetivo del predictor de saltos es mejorar el flujo del pipeline. En el presente experimento nos propusimos intentar forzar al predictor de saltos a funcionar en escenarios donde pueda predecir fácilmente las instrucciones siguientes y es escenarios donde no lo pueda lograr. Para esto trabajamos con el filtro Temperature en C exclusivamente (compilando con O0 y O3) ya que dada la lógica del algoritmo este filtro es el mejor ejemplo para hacer estas pruebas, además los compiladores son los responsables de armar los loops de modo de usar las instrucciones en función del branch prediction. Recordemos la lógica condicional del filtro:
 \begin{center}
 	\begin{displaymath}
 	\mathsf{dst}_{(i,j)}<r,g,b> = \left\{
@@ -93,14 +95,35 @@ Las imagenes utilizadas:
 
 A partir de los resultados pudimos observar lo siguiente: el predictor de saltos pudo mejorar los tiempos de ejecución del programa en la imagen negra para todos los casos a partir de un tamaño de 312 píxeles por lado; no hubo diferencias sustanciales entre las imagenes blancas y las que incluyen el patrón, efectivamente las imagenes blancas demoraron unos ciclos más que las del patrón, posiblemente porque tiene que evaluar todas las condiciones antes de caer en el caso correcto, mientras que para el patrón algunos píxeles entran en las primeras ramas del condicional y no hace falta seguir evaluando; finalmente para el caso de la imagen con ruido los ciclos de llamada fueron mucho mayores que para el resto, incluso presentan una tasa crecimiento mayor, especialmente a partir de los 400 píxeles por lado.
 
+\newpage
 \subsection{Loop Unrolling}
+
+Luego de verificar el impacto del branch pedictor procedimos a evaluar el impacto del loop unrolling con el filtro Monocromatizar en su implementación de ASM. El loop unrolling es una técncia que consiste en transformar un loop para intentar optimizar la ejecución de un programa a expensas del tamaño de su archivo binario. La ventaja de deshacer el loop y hacer una instrucción detrás de la otra es que se eliminan los branches que componen cualquier loop y desaparecen estas penalizacioesn. Utilizamos la imagen de Lena con tamaño de 512x512 para estas pruebas. La macro utilizada corresponde al segmento de código en el que se levantan los píxeles de la imagen original, se calcula el máximo componente de cada uno y se escribe este valor los píxeles correspondientes de la imagen destino:
 
 \begin{center}
 
-	\includegraphics[width=0.9\textwidth]{imagenes/loopunrolling/size.png} \\
+	\includegraphics[width=0.45\textwidth]{imagenes/loopunrolling/macro.png}
+	\includegraphics[width=0.45\textwidth]{imagenes/loopunrolling/reps.png}
+
+\end{center}
+
+Para la ejecución fuimos aumentando la cantidad de repeticiones que se hacían de la macro a medida que lo compensabamos disminuyendo la cantidad de loops que la contenían, o sea, en un extremo una repetición de la macro era ejecutada en un loop 65536 veces y en el otro una macro repetida 65536 veces era ejecutada una única vez, por ende, sin loop.
+
+\begin{center}
+
+	\includegraphics[width=0.9\textwidth]{imagenes/loopunrolling/size.png}
+
+\end{center}
+
+Como era de esperar el tamaño del binario aumentó con cada repetición de la macro. Sin hacer loop unrolling, el binario de nuestro filtro original ocupó apróximadamente 2000B, luego para poder procesar una imagen del mismo tamaño se descompuso el loop en 65536 repeticiones de la macro, lo cual llego al binario a pesar varios megas.
+
+\begin{center}
+
 	\includegraphics[width=0.9\textwidth]{imagenes/loopunrolling/time.png}
 
 \end{center}
+
+La performance empeoró.
 
 % La forma de medir el rendimiento de nuestras implementaciones se realizará por medio de la toma de tiempos de ejecución del algoritmo (sea este el codigo version asembler o el codigo C). Como los tiempos de ejecución son muy pequeños, se utilizará uno de los contadores de performance que posee el procesador.
 % La instrucción de assembler rdtsc permite obtener el valor del Time Stamp Counter (TSC) del procesador. Este registro se incrementa en uno con cada ciclo del procesador. Obteniendo la diferencia entre los contadores antes y después de la llamada a la función, podemos obtener la cantidad de ciclos de esa ejecución. Esta cantidad de ciclos no es siempre igual entre invocaciones de la función, ya que este registro es global del procesador y se ve afectado por una serie de factores. \newline

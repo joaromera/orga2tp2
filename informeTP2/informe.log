@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.11.21)  22 MAY 2018 13:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.11.21)  22 MAY 2018 14:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1229,8 +1229,8 @@ n input line 35.
 LaTeX Info: Redefining \. on input line 37.
 LaTeX Info: Redefining \% on input line 37.
  [20 <./imagenes/testperformance/sizes.png>]
-LaTeX Info: Redefining \. on input line 42.
-LaTeX Info: Redefining \% on input line 42.
+LaTeX Info: Redefining \. on input line 39.
+LaTeX Info: Redefining \% on input line 39.
  [21 <./imagenes/testperformance/BLITperformance.png (PNG copy)> <./imagenes/te
 stperformance/BLITperformanceLOG.png (PNG copy)> <./imagenes/testperformance/ED
 GEperformanceLIN.png (PNG copy)> <./imagenes/testperformance/EDGEperformanceLOG
@@ -1244,7 +1244,7 @@ File: imagenes/simdsisd/SIMDvsSISDvsClin.png Graphic file (type png)
 
 <use imagenes/simdsisd/SIMDvsSISDvsClin.png>
 Package pdftex.def Info: imagenes/simdsisd/SIMDvsSISDvsClin.png used on input l
-ine 45.
+ine 46.
 (pdftex.def)             Requested size: 409.71689pt x 254.32018pt.
 
 <imagenes/simdsisd/SIMDvsSISDvsClog.png, id=121, 1558.82375pt x 967.615pt>
@@ -1252,23 +1252,23 @@ File: imagenes/simdsisd/SIMDvsSISDvsClog.png Graphic file (type png)
 
 <use imagenes/simdsisd/SIMDvsSISDvsClog.png>
 Package pdftex.def Info: imagenes/simdsisd/SIMDvsSISDvsClog.png used on input l
-ine 46.
+ine 47.
 (pdftex.def)             Requested size: 409.71689pt x 254.32018pt.
-LaTeX Info: Redefining \. on input line 55.
-LaTeX Info: Redefining \% on input line 55.
+LaTeX Info: Redefining \. on input line 53.
+LaTeX Info: Redefining \% on input line 53.
  [22 <./imagenes/simdsisd/SIMDvsSISDvsClin.png (PNG copy)> <./imagenes/simdsisd
 /SIMDvsSISDvsClog.png (PNG copy)>]
 <imagenes/antiTEMP.jpg, id=125, 513.92pt x 513.92pt>
 File: imagenes/antiTEMP.jpg Graphic file (type jpg)
 
 <use imagenes/antiTEMP.jpg>
-Package pdftex.def Info: imagenes/antiTEMP.jpg used on input line 82.
+Package pdftex.def Info: imagenes/antiTEMP.jpg used on input line 84.
 (pdftex.def)             Requested size: 204.85844pt x 204.85858pt.
  <imagenes/random.jpg, id=126, 513.92pt x 513.92pt>
 File: imagenes/random.jpg Graphic file (type jpg)
 
 <use imagenes/random.jpg>
-Package pdftex.def Info: imagenes/random.jpg used on input line 83.
+Package pdftex.def Info: imagenes/random.jpg used on input line 85.
 (pdftex.def)             Requested size: 204.85844pt x 204.85858pt.
 
 <imagenes/branchprediction/branchpredictionLIN.png, id=127, 1558.82375pt x 965.
@@ -1277,10 +1277,10 @@ File: imagenes/branchprediction/branchpredictionLIN.png Graphic file (type png)
 
  <use imagenes/branchprediction/branchpredictionLIN.png>
 Package pdftex.def Info: imagenes/branchprediction/branchpredictionLIN.png used
- on input line 89.
+ on input line 91.
 (pdftex.def)             Requested size: 409.71689pt x 253.79254pt.
-LaTeX Info: Redefining \. on input line 90.
-LaTeX Info: Redefining \% on input line 90.
+LaTeX Info: Redefining \. on input line 92.
+LaTeX Info: Redefining \% on input line 92.
  [23 <./imagenes/antiTEMP.jpg> <./imagenes/random.jpg>]
 <imagenes/branchprediction/branchpredictionLOG.png, id=131, 1558.82375pt x 965.
 6075pt>
@@ -1288,36 +1288,53 @@ File: imagenes/branchprediction/branchpredictionLOG.png Graphic file (type png)
 
  <use imagenes/branchprediction/branchpredictionLOG.png>
 Package pdftex.def Info: imagenes/branchprediction/branchpredictionLOG.png used
- on input line 90.
+ on input line 92.
 (pdftex.def)             Requested size: 409.71689pt x 253.79254pt.
+LaTeX Info: Redefining \. on input line 98.
+LaTeX Info: Redefining \% on input line 98.
+ [24 <./imagenes/branchprediction/branchpredictionLIN.png (PNG copy)> <./imagen
+es/branchprediction/branchpredictionLOG.png (PNG copy)>]
+<imagenes/loopunrolling/macro.png, id=135, 456.70625pt x 290.08376pt>
+File: imagenes/loopunrolling/macro.png Graphic file (type png)
 
-<imagenes/loopunrolling/size.png, id=132, 814.04124pt x 502.87875pt>
+<use imagenes/loopunrolling/macro.png>
+Package pdftex.def Info: imagenes/loopunrolling/macro.png used on input line 10
+5.
+(pdftex.def)             Requested size: 204.85844pt x 130.11597pt.
+
+<imagenes/loopunrolling/reps.png, id=136, 230.8625pt x 146.5475pt>
+File: imagenes/loopunrolling/reps.png Graphic file (type png)
+
+<use imagenes/loopunrolling/reps.png>
+Package pdftex.def Info: imagenes/loopunrolling/reps.png used on input line 106
+.
+(pdftex.def)             Requested size: 204.85844pt x 130.04pt.
+
+<imagenes/loopunrolling/size.png, id=137, 814.04124pt x 502.87875pt>
 File: imagenes/loopunrolling/size.png Graphic file (type png)
 
 <use imagenes/loopunrolling/size.png>
-Package pdftex.def Info: imagenes/loopunrolling/size.png used on input line 100
+Package pdftex.def Info: imagenes/loopunrolling/size.png used on input line 114
 .
 (pdftex.def)             Requested size: 409.71689pt x 253.10385pt.
-LaTeX Info: Redefining \. on input line 101.
-LaTeX Info: Redefining \% on input line 101.
- [24 <./imagenes/branchprediction/branchpredictionLIN.png (PNG copy)> <./imagen
-es/branchprediction/branchpredictionLOG.png (PNG copy)>]
-<imagenes/loopunrolling/time.png, id=136, 814.04124pt x 502.87875pt>
+
+<imagenes/loopunrolling/time.png, id=138, 814.04124pt x 502.87875pt>
 File: imagenes/loopunrolling/time.png Graphic file (type png)
 
 <use imagenes/loopunrolling/time.png>
-Package pdftex.def Info: imagenes/loopunrolling/time.png used on input line 101
+Package pdftex.def Info: imagenes/loopunrolling/time.png used on input line 122
 .
 (pdftex.def)             Requested size: 409.71689pt x 253.10385pt.
-)
+LaTeX Info: Redefining \. on input line 124.
+LaTeX Info: Redefining \% on input line 124.
+ [25 <./imagenes/loopunrolling/macro.png> <./imagenes/loopunrolling/reps.png> <
+./imagenes/loopunrolling/size.png (PNG copy)>])
 LaTeX Info: Redefining \. on input line 114.
 LaTeX Info: Redefining \% on input line 114.
- [25 <./imagenes/loopunrolling/size.png (PNG copy)> <./imagenes/loopunrolling/t
-ime.png (PNG copy)>]
-(./7-conclusiones.tex)
+ [26 <./imagenes/loopunrolling/time.png (PNG copy)>] (./7-conclusiones.tex)
 LaTeX Info: Redefining \. on input line 117.
 LaTeX Info: Redefining \% on input line 117.
- [26] (./informe.aux
+ [27] (./informe.aux
 LaTeX Info: Redefining \. on input line 7.
 LaTeX Info: Redefining \% on input line 7.
 )
@@ -1326,10 +1343,10 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 4943 strings out of 492995
- 67114 string characters out of 6132703
+ 4952 strings out of 492995
+ 67416 string characters out of 6132703
  154755 words of memory out of 5000000
- 8304 multiletter control sequences out of 15000+600000
+ 8312 multiletter control sequences out of 15000+600000
  27217 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  39i,13n,43p,1034b,599s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1350,10 +1367,10 @@ onts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2017/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2017/texmf-dist/font
 s/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2017/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on informe.pdf (26 pages, 6477127 bytes).
+Output written on informe.pdf (27 pages, 6543622 bytes).
 PDF statistics:
- 197 PDF objects out of 1000 (max. 8388607)
- 109 compressed objects within 2 object streams
+ 204 PDF objects out of 1000 (max. 8388607)
+ 111 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 181 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 191 words of extra memory for PDF output out of 10000 (max. 10000000)
 
