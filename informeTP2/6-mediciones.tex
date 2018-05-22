@@ -51,6 +51,32 @@ Nuevamente pudimos apreciar como las instrucciones SIMD logran una superioridad 
 
 \subsection{Branch Prediction}
 
+Un predictor de saltos es un circuito digital que intenta adivinar por qué rama de una estructura condicional va a continuar la ejecución de un programa antes de que se lo sepa definitivamente. El objetivo del predictor de saltos es mejorar el flujo del pipeline. En el presente experimento nos propusimos intentar forzar al predictor de saltos a funcionar en escenarios donde pueda predecir fácilmente las instrucciones siguientes y es escenarios donde no lo pueda lograr. Para esto trabajamos con el filtro Temperature en C exclusivamente (compilando con O0 y O3) ya que dada la lógica del algoritmo este filtro es el mejor ejemplo para hacer estas pruebas. Recordemos la lógica condicional del filtro:
+\begin{center}
+	\begin{displaymath}
+	\mathsf{dst}_{(i,j)}<r,g,b> = \left\{
+	\begin{array}{l l}
+				<0,0, 128 + t \cdot 4> & \text{si }t < 32\\
+				<0, (t - 32) \cdot 4, 255> & \text{si }32 \le t < 96\\
+				<(t-96) \cdot 4, 255, 255 - (t-96) \cdot 4> & \text{si }96 \le t < 160\\
+				<255, 255 - (t - 160) \cdot 4, 0> & \text{si }160 \le t < 224\\
+				<255 - (t - 224) \cdot 4, 0 , 0> & \text{si no} \\
+	\end{array}
+	\right.
+	\end{displaymath}
+	\end{center}
+
+Para caer en cada una de estas condiciones utilizamos varias imágenes, con tamaños de 16x16 píxeles a 1024x1024:
+
+\begin{itemize}
+	\item Una imagen complemente negra, (0,0,0) en todos sus píxeles.
+	\item Una imagen complemente blanca, (255,255,255) en todos sus píxeles.
+	\item Una imagen con un patrón donde un píxel entra a la primera rama del condicional, el segundo píxel a la segunda rama, el tercero a la tercera etc... (incluímos la imagen abajo a la izquierda)
+	\item Una imagen con ruido, donde todos los píxeles fueron generados al azar utilizando un filtro en GIMP. (Abajo a la derecha).
+\end{itemize}
+
+Las imagenes utilizadas:
+
 \begin{center}
 	\begin{tabular}{cccc}
 	  \includegraphics[width=0.45\textwidth]{imagenes/antiTEMP.jpg} &
@@ -60,10 +86,12 @@ Nuevamente pudimos apreciar como las instrucciones SIMD logran una superioridad 
 
 \begin{center}
 
-	\includegraphics[width=0.9\textwidth]{imagenes/simdsisd/SIMDvsSISDvsClin.png} \\
-	\includegraphics[width=0.9\textwidth]{imagenes/simdsisd/SIMDvsSISDvsClog.png}
+	\includegraphics[width=0.9\textwidth]{imagenes/branchprediction/branchpredictionLIN.png} \\
+	\includegraphics[width=0.9\textwidth]{imagenes/branchprediction/branchpredictionLOG.png}
 
 \end{center}
+
+A partir de los resultados pudimos observar lo siguiente: el predictor de saltos pudo mejorar los tiempos de ejecución del programa en la imagen negra para todos los casos a partir de un tamaño de 312 píxeles por lado; no hubo diferencias sustanciales entre las imagenes blancas y las que incluyen el patrón, efectivamente las imagenes blancas demoraron unos ciclos más que las del patrón, posiblemente porque tiene que evaluar todas las condiciones antes de caer en el caso correcto, mientras que para el patrón algunos píxeles entran en las primeras ramas del condicional y no hace falta seguir evaluando; finalmente para el caso de la imagen con ruido los ciclos de llamada fueron mucho mayores que para el resto, incluso presentan una tasa crecimiento mayor, especialmente a partir de los 400 píxeles por lado.
 
 \subsection{Loop Unrolling}
 

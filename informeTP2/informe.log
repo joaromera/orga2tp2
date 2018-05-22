@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.11.21)  22 MAY 2018 01:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.11.21)  22 MAY 2018 13:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -905,11 +905,87 @@ File: imagenes/lenaONDA.jpg Graphic file (type jpg)
 <use imagenes/lenaONDA.jpg>
 Package pdftex.def Info: imagenes/lenaONDA.jpg used on input line 7.
 (pdftex.def)             Requested size: 136.5746pt x 136.57239pt.
-)
+
+Overfull \hbox (12.52548pt too wide) in paragraph at lines 79--79
+[]                            \OT1/cmtt/m/n/9 ;Sacamos raiz cuadrada a cada paq
+uet dobleWord, o sea (dx^2+dy^2)^(1/2)[] 
+ []
+
+LaTeX Info: Redefining \. on input line 80.
+LaTeX Info: Redefining \% on input line 80.
+[10 <./imagenes/lenaONDA.jpg>]
+Overfull \hbox (6.0pt too wide) in paragraph at lines 80--80
+ [][][][][][] 
+ []
+
+
+Overfull \hbox (59.77493pt too wide) in paragraph at lines 142--142
+[]    \OT1/cmtt/m/n/9 subps xmm3, xmm9            ;xmm3=|dxy3-RADIO|dxy2-RADIO|
+dxy1-RADIO|dxy0-RADIO| donde dxy es la distancia[] 
+ []
+
+
+Overfull \hbox (3.07559pt too wide) in paragraph at lines 142--142
+[]                                \OT1/cmtt/m/n/9 ;El valor 0001b me permite ac
+tivar la opcion de TRUNCAR c/u Float[] 
+ []
+
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 143--143
+ [][][][][][] 
+ []
+
+LaTeX Info: Redefining \. on input line 143.
+LaTeX Info: Redefining \% on input line 143.
+[11]
+Overfull \hbox (21.97537pt too wide) in paragraph at lines 189--189
+[]    \OT1/cmtt/m/n/9 subps xmm1, xmm3        ;xmm1=|t3-(t3^3)/6+t3^5/120-t3^7/
+5040|...|t0-(t0^3)/6+t0^5/120-t0^7/5040|[] 
+ []
+
+
+Overfull \hbox (21.97537pt too wide) in paragraph at lines 189--189
+[]    \OT1/cmtt/m/n/9 subps xmm1, xmm3        ;xmm1=|t3-(t3^3)/6+t3^5/120-t3^7/
+5040|...|t0-(t0^3)/6+t0^5/120-t0^7/5040|[] 
+ []
+
+
+Overfull \hbox (50.32504pt too wide) in paragraph at lines 189--189
+[]    \OT1/cmtt/m/n/9 mulps xmm4, xmm1        ;xmm4=|A3*(t3-t3^3/6+t3^5/120-t3^
+7/5040)|...|A1*(t0-t0^3/6+t0^5/120-t0^7/5040(|[] 
+ []
+
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 190--190
+ [][][][][][] 
+ []
+
+LaTeX Info: Redefining \. on input line 190.
+LaTeX Info: Redefining \% on input line 190.
+[12]
+Overfull \hbox (69.22482pt too wide) in paragraph at lines 242--242
+[]    \OT1/cmtt/m/n/9 cvtps2dq xmm4, xmm4             ;xmm4=|prof3*64|prof2*64|
+prof1*64|prof0*64| conviertimos de float a Integer[] 
+ []
+
+
+Overfull \hbox (125.92416pt too wide) in paragraph at lines 242--242
+[]    \OT1/cmtt/m/n/9 paddd xmm2, xmm4                ;xmm2=|a0+prof0*64|b0+pro
+f0*64|g0+prof0*64|r0+prof0*64| shuffle posicion 0 de dobleWord[] 
+ []
+
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 243--243
+ [][][][][][] 
+ []
+
+LaTeX Info: Redefining \. on input line 243.
+LaTeX Info: Redefining \% on input line 243.
+[13])
 LaTeX Info: Redefining \. on input line 108.
 LaTeX Info: Redefining \% on input line 108.
- [10 <./imagenes/lenaONDA.jpg>]
-(./4-temperature.tex <imagenes/lenaTEMP.jpg, id=71, 256.96pt x 256.96pt>
+ [14] (./4-temperature.tex
+<imagenes/lenaTEMP.jpg, id=84, 256.96pt x 256.96pt>
 File: imagenes/lenaTEMP.jpg Graphic file (type jpg)
 
 <use imagenes/lenaTEMP.jpg>
@@ -933,7 +1009,7 @@ Overfull \hbox (6.0pt too wide) in paragraph at lines 81--81
 
 LaTeX Info: Redefining \. on input line 81.
 LaTeX Info: Redefining \% on input line 81.
-[11 <./imagenes/lenaTEMP.jpg>]
+[15 <./imagenes/lenaTEMP.jpg>]
 Overfull \hbox (36.1502pt too wide) in paragraph at lines 93--93
 []    \OT1/cmtt/m/n/9 phaddw xmm2, xmm2  ; xmm2 =|b1+g1+r1 b0+g0+r0 b1+g1+r1 b0
 +g0+r0|b1+g1+r1 b0+g0+r0 b1+g1+r1 b0+g0+r0|[] 
@@ -979,7 +1055,7 @@ Overfull \hbox (6.0pt too wide) in paragraph at lines 147--147
 
 LaTeX Info: Redefining \. on input line 147.
 LaTeX Info: Redefining \% on input line 147.
-[12]
+[16]
 Overfull \hbox (73.94977pt too wide) in paragraph at lines 170--170
 []    \OT1/cmtt/m/n/9 paddb  xmm4, xmm1   ; xmm4=|2.t3 2.t3 2.t3 2.t3|2.t2 2.t2
  2.t2 2.t2|2.t1 2.t1 2.t1 2.t1|2.t0 2.t0 2.t0 2.t0|[] 
@@ -1045,7 +1121,7 @@ Overfull \hbox (6.0pt too wide) in paragraph at lines 193--193
 
 LaTeX Info: Redefining \. on input line 232.
 LaTeX Info: Redefining \% on input line 232.
-[13]
+[17]
 Overfull \hbox (6.0pt too wide) in paragraph at lines 232--232
  [][][][][][] 
  []
@@ -1053,7 +1129,7 @@ Overfull \hbox (6.0pt too wide) in paragraph at lines 232--232
 )
 LaTeX Info: Redefining \. on input line 110.
 LaTeX Info: Redefining \% on input line 110.
- [14] (./5-edge.tex <imagenes/lenaEDGA.jpg, id=85, 256.96pt x 256.96pt>
+ [18] (./5-edge.tex <imagenes/lenaEDGA.jpg, id=97, 256.96pt x 256.96pt>
 File: imagenes/lenaEDGA.jpg Graphic file (type jpg)
 
 <use imagenes/lenaEDGA.jpg>
@@ -1062,8 +1138,8 @@ Package pdftex.def Info: imagenes/lenaEDGA.jpg used on input line 16.
 )
 LaTeX Info: Redefining \. on input line 112.
 LaTeX Info: Redefining \% on input line 112.
- [15 <./imagenes/lenaEDGA.jpg>] (./6-mediciones.tex <imagenes/testperformance/s
-izes.png, id=89, 406.51875pt x 401.5pt>
+ [19 <./imagenes/lenaEDGA.jpg>] (./6-mediciones.tex <imagenes/testperformance/s
+izes.png, id=102, 406.51875pt x 401.5pt>
 File: imagenes/testperformance/sizes.png Graphic file (type png)
 
 <use imagenes/testperformance/sizes.png>
@@ -1071,98 +1147,99 @@ Package pdftex.def Info: imagenes/testperformance/sizes.png used on input line
 15.
 (pdftex.def)             Requested size: 136.5746pt x 134.88469pt.
 
-<imagenes/testperformance/BLITperformance.png, id=90, 1568.86125pt x 969.6225pt
->
+<imagenes/testperformance/BLITperformance.png, id=103, 1568.86125pt x 969.6225p
+t>
 File: imagenes/testperformance/BLITperformance.png Graphic file (type png)
  <use imagenes/testperformance/BLITperformance.png>
 Package pdftex.def Info: imagenes/testperformance/BLITperformance.png used on i
 nput line 26.
 (pdftex.def)             Requested size: 204.85844pt x 126.60277pt.
 
-<imagenes/testperformance/BLITperformanceLOG.png, id=91, 1568.86125pt x 969.622
-5pt>
+<imagenes/testperformance/BLITperformanceLOG.png, id=104, 1568.86125pt x 969.62
+25pt>
 File: imagenes/testperformance/BLITperformanceLOG.png Graphic file (type png)
  <use imagenes/testperformance/BLITperformanceLOG.png>
 Package pdftex.def Info: imagenes/testperformance/BLITperformanceLOG.png used o
 n input line 27.
 (pdftex.def)             Requested size: 204.85844pt x 126.60277pt.
 
-<imagenes/testperformance/EDGEperformanceLIN.png, id=92, 1559.8275pt x 966.6112
-5pt>
+<imagenes/testperformance/EDGEperformanceLIN.png, id=105, 1559.8275pt x 966.611
+25pt>
 File: imagenes/testperformance/EDGEperformanceLIN.png Graphic file (type png)
  <use imagenes/testperformance/EDGEperformanceLIN.png>
 Package pdftex.def Info: imagenes/testperformance/EDGEperformanceLIN.png used o
 n input line 28.
 (pdftex.def)             Requested size: 204.85844pt x 126.94705pt.
 
-<imagenes/testperformance/EDGEperformanceLOG.png, id=93, 1559.8275pt x 966.6112
-5pt>
+<imagenes/testperformance/EDGEperformanceLOG.png, id=106, 1559.8275pt x 966.611
+25pt>
 File: imagenes/testperformance/EDGEperformanceLOG.png Graphic file (type png)
  <use imagenes/testperformance/EDGEperformanceLOG.png>
 Package pdftex.def Info: imagenes/testperformance/EDGEperformanceLOG.png used o
 n input line 29.
 (pdftex.def)             Requested size: 204.85844pt x 126.94705pt.
 
-<imagenes/testperformance/MONOperformanceLIN.png, id=94, 1559.8275pt x 968.6187
-4pt>
+<imagenes/testperformance/MONOperformanceLIN.png, id=107, 1559.8275pt x 968.618
+74pt>
 File: imagenes/testperformance/MONOperformanceLIN.png Graphic file (type png)
  <use imagenes/testperformance/MONOperformanceLIN.png>
 Package pdftex.def Info: imagenes/testperformance/MONOperformanceLIN.png used o
 n input line 30.
 (pdftex.def)             Requested size: 204.85844pt x 127.21071pt.
 
-<imagenes/testperformance/MONOperformanceLOG.png, id=95, 1559.8275pt x 968.6187
-4pt>
+<imagenes/testperformance/MONOperformanceLOG.png, id=108, 1559.8275pt x 968.618
+74pt>
 File: imagenes/testperformance/MONOperformanceLOG.png Graphic file (type png)
  <use imagenes/testperformance/MONOperformanceLOG.png>
 Package pdftex.def Info: imagenes/testperformance/MONOperformanceLOG.png used o
 n input line 31.
 (pdftex.def)             Requested size: 204.85844pt x 127.21071pt.
 
-<imagenes/testperformance/ONDASperformanceLIN.png, id=96, 1561.835pt x 967.615p
-t>
+<imagenes/testperformance/ONDASperformanceLIN.png, id=109, 1561.835pt x 967.615
+pt>
 File: imagenes/testperformance/ONDASperformanceLIN.png Graphic file (type png)
  <use imagenes/testperformance/ONDASperformanceLIN.png>
 Package pdftex.def Info: imagenes/testperformance/ONDASperformanceLIN.png used 
 on input line 32.
 (pdftex.def)             Requested size: 204.85844pt x 126.91647pt.
 
-<imagenes/testperformance/ONDASperformanceLOG.png, id=97, 1561.835pt x 967.615p
-t>
+<imagenes/testperformance/ONDASperformanceLOG.png, id=110, 1561.835pt x 967.615
+pt>
 File: imagenes/testperformance/ONDASperformanceLOG.png Graphic file (type png)
  <use imagenes/testperformance/ONDASperformanceLOG.png>
 Package pdftex.def Info: imagenes/testperformance/ONDASperformanceLOG.png used 
 on input line 33.
 (pdftex.def)             Requested size: 204.85844pt x 126.91647pt.
 
-<imagenes/testperformance/TEMPperformance.png, id=98, 1569.865pt x 968.61874pt>
+<imagenes/testperformance/TEMPperformance.png, id=111, 1569.865pt x 968.61874pt
+>
 File: imagenes/testperformance/TEMPperformance.png Graphic file (type png)
-<use imagenes/testperformance/TEMPperformance.png>
+ <use imagenes/testperformance/TEMPperformance.png>
 Package pdftex.def Info: imagenes/testperformance/TEMPperformance.png used on i
 nput line 34.
 (pdftex.def)             Requested size: 204.85844pt x 126.39781pt.
 
-<imagenes/testperformance/TEMPperformancelog.png, id=99, 1569.865pt x 968.61874
-pt>
-File: imagenes/testperformance/TEMPperformancelog.png Graphic file (type png)
- <use imagenes/testperformance/TEMPperformancelog.png>
-Package pdftex.def Info: imagenes/testperformance/TEMPperformancelog.png used o
+<imagenes/testperformance/TEMPperformanceLOG.png, id=112, 1569.865pt x 968.6187
+4pt>
+File: imagenes/testperformance/TEMPperformanceLOG.png Graphic file (type png)
+ <use imagenes/testperformance/TEMPperformanceLOG.png>
+Package pdftex.def Info: imagenes/testperformance/TEMPperformanceLOG.png used o
 n input line 35.
 (pdftex.def)             Requested size: 204.85844pt x 126.39781pt.
 LaTeX Info: Redefining \. on input line 37.
 LaTeX Info: Redefining \% on input line 37.
- [16 <./imagenes/testperformance/sizes.png>]
+ [20 <./imagenes/testperformance/sizes.png>]
 LaTeX Info: Redefining \. on input line 42.
 LaTeX Info: Redefining \% on input line 42.
- [17 <./imagenes/testperformance/BLITperformance.png (PNG copy)> <./imagenes/te
+ [21 <./imagenes/testperformance/BLITperformance.png (PNG copy)> <./imagenes/te
 stperformance/BLITperformanceLOG.png (PNG copy)> <./imagenes/testperformance/ED
 GEperformanceLIN.png (PNG copy)> <./imagenes/testperformance/EDGEperformanceLOG
 .png (PNG copy)> <./imagenes/testperformance/MONOperformanceLIN.png (PNG copy)>
  <./imagenes/testperformance/MONOperformanceLOG.png (PNG copy)> <./imagenes/tes
 tperformance/ONDASperformanceLIN.png (PNG copy)> <./imagenes/testperformance/ON
 DASperformanceLOG.png (PNG copy)> <./imagenes/testperformance/TEMPperformance.p
-ng (PNG copy)> <./imagenes/testperformance/TEMPperformancelog.png (PNG copy)>]
-<imagenes/simdsisd/SIMDvsSISDvsClin.png, id=107, 1558.82375pt x 967.615pt>
+ng (PNG copy)> <./imagenes/testperformance/TEMPperformanceLOG.png (PNG copy)>]
+<imagenes/simdsisd/SIMDvsSISDvsClin.png, id=120, 1558.82375pt x 967.615pt>
 File: imagenes/simdsisd/SIMDvsSISDvsClin.png Graphic file (type png)
 
 <use imagenes/simdsisd/SIMDvsSISDvsClin.png>
@@ -1170,70 +1247,77 @@ Package pdftex.def Info: imagenes/simdsisd/SIMDvsSISDvsClin.png used on input l
 ine 45.
 (pdftex.def)             Requested size: 409.71689pt x 254.32018pt.
 
-<imagenes/simdsisd/SIMDvsSISDvsClog.png, id=108, 1558.82375pt x 967.615pt>
+<imagenes/simdsisd/SIMDvsSISDvsClog.png, id=121, 1558.82375pt x 967.615pt>
 File: imagenes/simdsisd/SIMDvsSISDvsClog.png Graphic file (type png)
 
 <use imagenes/simdsisd/SIMDvsSISDvsClog.png>
 Package pdftex.def Info: imagenes/simdsisd/SIMDvsSISDvsClog.png used on input l
 ine 46.
 (pdftex.def)             Requested size: 409.71689pt x 254.32018pt.
-
-<imagenes/antiTEMP.jpg, id=109, 513.92pt x 513.92pt>
+LaTeX Info: Redefining \. on input line 55.
+LaTeX Info: Redefining \% on input line 55.
+ [22 <./imagenes/simdsisd/SIMDvsSISDvsClin.png (PNG copy)> <./imagenes/simdsisd
+/SIMDvsSISDvsClog.png (PNG copy)>]
+<imagenes/antiTEMP.jpg, id=125, 513.92pt x 513.92pt>
 File: imagenes/antiTEMP.jpg Graphic file (type jpg)
 
 <use imagenes/antiTEMP.jpg>
-Package pdftex.def Info: imagenes/antiTEMP.jpg used on input line 56.
+Package pdftex.def Info: imagenes/antiTEMP.jpg used on input line 82.
 (pdftex.def)             Requested size: 204.85844pt x 204.85858pt.
- <imagenes/random.jpg, id=110, 513.92pt x 513.92pt>
+ <imagenes/random.jpg, id=126, 513.92pt x 513.92pt>
 File: imagenes/random.jpg Graphic file (type jpg)
 
 <use imagenes/random.jpg>
-Package pdftex.def Info: imagenes/random.jpg used on input line 57.
+Package pdftex.def Info: imagenes/random.jpg used on input line 83.
 (pdftex.def)             Requested size: 204.85844pt x 204.85858pt.
-LaTeX Info: Redefining \. on input line 59.
-LaTeX Info: Redefining \% on input line 59.
- [18 <./imagenes/simdsisd/SIMDvsSISDvsClin.png (PNG copy)> <./imagenes/simdsisd
-/SIMDvsSISDvsClog.png (PNG copy)>]
-File: imagenes/simdsisd/SIMDvsSISDvsClin.png Graphic file (type png)
 
-<use imagenes/simdsisd/SIMDvsSISDvsClin.png>
-Package pdftex.def Info: imagenes/simdsisd/SIMDvsSISDvsClin.png used on input l
-ine 63.
-(pdftex.def)             Requested size: 409.71689pt x 254.32018pt.
-File: imagenes/simdsisd/SIMDvsSISDvsClog.png Graphic file (type png)
+<imagenes/branchprediction/branchpredictionLIN.png, id=127, 1558.82375pt x 965.
+6075pt>
+File: imagenes/branchprediction/branchpredictionLIN.png Graphic file (type png)
 
-<use imagenes/simdsisd/SIMDvsSISDvsClog.png>
-Package pdftex.def Info: imagenes/simdsisd/SIMDvsSISDvsClog.png used on input l
-ine 64.
-(pdftex.def)             Requested size: 409.71689pt x 254.32018pt.
-LaTeX Info: Redefining \. on input line 66.
-LaTeX Info: Redefining \% on input line 66.
- [19 <./imagenes/antiTEMP.jpg> <./imagenes/random.jpg>]
-<imagenes/loopunrolling/size.png, id=118, 814.04124pt x 502.87875pt>
+ <use imagenes/branchprediction/branchpredictionLIN.png>
+Package pdftex.def Info: imagenes/branchprediction/branchpredictionLIN.png used
+ on input line 89.
+(pdftex.def)             Requested size: 409.71689pt x 253.79254pt.
+LaTeX Info: Redefining \. on input line 90.
+LaTeX Info: Redefining \% on input line 90.
+ [23 <./imagenes/antiTEMP.jpg> <./imagenes/random.jpg>]
+<imagenes/branchprediction/branchpredictionLOG.png, id=131, 1558.82375pt x 965.
+6075pt>
+File: imagenes/branchprediction/branchpredictionLOG.png Graphic file (type png)
+
+ <use imagenes/branchprediction/branchpredictionLOG.png>
+Package pdftex.def Info: imagenes/branchprediction/branchpredictionLOG.png used
+ on input line 90.
+(pdftex.def)             Requested size: 409.71689pt x 253.79254pt.
+
+<imagenes/loopunrolling/size.png, id=132, 814.04124pt x 502.87875pt>
 File: imagenes/loopunrolling/size.png Graphic file (type png)
 
 <use imagenes/loopunrolling/size.png>
-Package pdftex.def Info: imagenes/loopunrolling/size.png used on input line 72.
-
+Package pdftex.def Info: imagenes/loopunrolling/size.png used on input line 100
+.
 (pdftex.def)             Requested size: 409.71689pt x 253.10385pt.
-
-<imagenes/loopunrolling/time.png, id=119, 814.04124pt x 502.87875pt>
+LaTeX Info: Redefining \. on input line 101.
+LaTeX Info: Redefining \% on input line 101.
+ [24 <./imagenes/branchprediction/branchpredictionLIN.png (PNG copy)> <./imagen
+es/branchprediction/branchpredictionLOG.png (PNG copy)>]
+<imagenes/loopunrolling/time.png, id=136, 814.04124pt x 502.87875pt>
 File: imagenes/loopunrolling/time.png Graphic file (type png)
 
 <use imagenes/loopunrolling/time.png>
-Package pdftex.def Info: imagenes/loopunrolling/time.png used on input line 73.
-
+Package pdftex.def Info: imagenes/loopunrolling/time.png used on input line 101
+.
 (pdftex.def)             Requested size: 409.71689pt x 253.10385pt.
-LaTeX Info: Redefining \. on input line 75.
-LaTeX Info: Redefining \% on input line 75.
- [20 <./imagenes/loopunrolling/size.png (PNG copy)>])
+)
 LaTeX Info: Redefining \. on input line 114.
 LaTeX Info: Redefining \% on input line 114.
- [21 <./imagenes/loopunrolling/time.png (PNG copy)>]
+ [25 <./imagenes/loopunrolling/size.png (PNG copy)> <./imagenes/loopunrolling/t
+ime.png (PNG copy)>]
 (./7-conclusiones.tex)
 LaTeX Info: Redefining \. on input line 117.
 LaTeX Info: Redefining \% on input line 117.
- [22] (./informe.aux
+ [26] (./informe.aux
 LaTeX Info: Redefining \. on input line 7.
 LaTeX Info: Redefining \% on input line 7.
 )
@@ -1242,13 +1326,13 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 4930 strings out of 492995
- 66582 string characters out of 6132703
- 153755 words of memory out of 5000000
- 8294 multiletter control sequences out of 15000+600000
+ 4943 strings out of 492995
+ 67114 string characters out of 6132703
+ 154755 words of memory out of 5000000
+ 8304 multiletter control sequences out of 15000+600000
  27217 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,12n,43p,1034b,599s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 39i,13n,43p,1034b,599s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2017/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texl
 ive/2017/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive
@@ -1266,10 +1350,10 @@ onts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2017/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2017/texmf-dist/font
 s/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2017/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on informe.pdf (22 pages, 6283897 bytes).
+Output written on informe.pdf (26 pages, 6477127 bytes).
 PDF statistics:
- 181 PDF objects out of 1000 (max. 8388607)
- 100 compressed objects within 1 object stream
+ 197 PDF objects out of 1000 (max. 8388607)
+ 109 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 171 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 181 words of extra memory for PDF output out of 10000 (max. 10000000)
 
