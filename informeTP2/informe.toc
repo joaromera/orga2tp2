@@ -12,14 +12,17 @@
 \contentsline {subsubsection}{\numberline {2.2.2}Implementaci\IeC {\'o}n C}{8}
 \contentsline {subsubsection}{\numberline {2.2.3}Implementaci\IeC {\'o}n ASM}{8}
 \contentsline {subsection}{\numberline {2.3}Ondas}{10}
-\contentsline {subsubsection}{\numberline {2.3.1}Implementaci\IeC {\'o}n C}{10}
-\contentsline {subsubsection}{\numberline {2.3.2}Implementaci\IeC {\'o}n ASM}{10}
+\contentsline {subsubsection}{\numberline {2.3.1}Descripci\IeC {\'o}n}{10}
+\contentsline {subsubsection}{\numberline {2.3.2}Implementaci\IeC {\'o}n C}{10}
+\contentsline {subsubsection}{\numberline {2.3.3}Implementaci\IeC {\'o}n ASM}{11}
 \contentsline {subsection}{\numberline {2.4}Temperature}{15}
-\contentsline {subsubsection}{\numberline {2.4.1}Implementaci\IeC {\'o}n C}{15}
-\contentsline {subsubsection}{\numberline {2.4.2}Implementaci\IeC {\'o}n ASM}{15}
+\contentsline {subsubsection}{\numberline {2.4.1}Descripci\IeC {\'o}n}{15}
+\contentsline {subsubsection}{\numberline {2.4.2}Implementaci\IeC {\'o}n C}{15}
+\contentsline {subsubsection}{\numberline {2.4.3}Implementaci\IeC {\'o}n ASM}{15}
 \contentsline {subsection}{\numberline {2.5}Edge}{19}
-\contentsline {subsubsection}{\numberline {2.5.1}Implementaci\IeC {\'o}n C}{19}
-\contentsline {subsubsection}{\numberline {2.5.2}Implementaci\IeC {\'o}n ASM}{19}
+\contentsline {subsubsection}{\numberline {2.5.1}Descripci\IeC {\'o}n}{19}
+\contentsline {subsubsection}{\numberline {2.5.2}Implementaci\IeC {\'o}n C}{19}
+\contentsline {subsubsection}{\numberline {2.5.3}Implementaci\IeC {\'o}n ASM}{19}
 \contentsline {section}{\numberline {3}Mediciones y Experimentos}{20}
 \contentsline {subsection}{\numberline {3.1}Performance}{20}
 \contentsline {subsection}{\numberline {3.2}SIMD vs. SISD}{22}

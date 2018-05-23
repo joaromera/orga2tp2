@@ -1,5 +1,7 @@
 \subsection{Ondas}
 
+\subsubsection{Descripción}
+
 \begin{multicols}{2}
   Este filtro combina la imagen original con una imagen de ondas, dando tonos más oscuros y mas claros en forma de onda. Estas se centran en un punto de la imagen -pasado como parámetro- y se expanden hacia sus bordes de manera concéntrica. Para ello aplicamos implementamos el pseudocódigo del algoritmo otorgado por la cátedra, en el cual a cada pixel de la imagen se le suma un valor de profundidad basado en su distancia al centro de las ondas.
   \begin{center}
@@ -47,12 +49,13 @@ Nuestra implementación en C es una traducción iterativa del mencionado algorit
   si es mayor a $255$ y $x$ en cualquier otro caso.
 \end{itemize}
 
+\newpage
 \subsubsection{Implementación ASM}
 Es este ejercicio procesaremos de a 4 píxeles, por cada iteracion sobre la imagen.
 \subsubsection*{Cálculo de la profudidad}
 Vamos a dar una breve explicación del cáculo de la profundidad en assembler.
 
-\subsubsection*{caculo de la distancia}
+\subsubsection*{Cálculo de la distancia}
 
 Est este ejecicio queremos calcular la distancia, esto es $\sqrt{(x-x_0)^2+(y-y_0)^2} = \sqrt{dx^2+dy^2}$.
 Este proceso lo hacemos con los 4 píxeles juntos.
@@ -78,7 +81,6 @@ La idea es obtener en \emph{xmm3=$|(dx3^2+dy3^2)^{1/2}|$...$|(dx0^2+dy0^2)^{1/2}
     sqrtps xmm3, xmm3       ;xmm3=|(dx3^2+dy3^2)^(1/2)|...|(dx0^2+dy0^2)^(1/2)|
 \end{verbatim}
 \end{codesnippet}
-
 
 \subsubsection*{Cálculos auxiliares(variables R, K, A y T)}
 
