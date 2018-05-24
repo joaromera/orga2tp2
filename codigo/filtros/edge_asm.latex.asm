@@ -40,109 +40,122 @@ edge_asm:									;NOTAR QUE LOS PIXELES MIDEN 1 BYTE
 	.primerFila:	
 		cmp r14, r13						;verificar si es la ultima columna de la fila
 		je .edge
-		movdqu xmm0, [rdi]
-		pslldq xmm0, 12
-		psrldq xmm0, 12
-		movd r8d, xmm0
-		mov [rsi], r8d
+		movdqu xmm0, [rdi]	;xmm0=|a3 b3 g3 r|a2 b2 g2 r2|a1 b1 g1 r1|a0 b0 g0 r0|	
+		pslldq xmm0, 12		;xmm0=|a3 b3 g3 r3|0|0|0| shifteo xmm0 12 bytes a izquierda
+		psrldq xmm0, 12		;xmm0=|0|0|0|a3 b3 g3 r3| shifteo xmm0 12 bytes a derecha
+		movd r8d, xmm0		;r8d=|a3 b3 g3 r3| Muevo la parte baja de xmm0 a r8d
+ 		mov [rsi], r8d		; copio a memoria la primer fila sin modificar
 		add rsi, 4
 		add rdi, 4
 		inc r14
 		jmp .primerFila
 
 	.edge:
-		cmp r11, rdx
+		cmp r11, rdx	; cmp contadorPixel width
 		je .proximaFila
 
 		dec rdx
 
-		cmp r11, rdx
-		jge .ultimoPixel
-		inc rdx
+		cmp r11, rdx	; cmp  contadorPixel width
+		jge .ultimoPixel ; veo si no estoy en la ulima columna de pixeles
+		inc rdx					;Caso q estoy aplicando el edge
 
-		mov eax, [rdi]
-		cmp r11, 0
-		je .primerPixel
+		mov eax, [rdi]			;eax=|a b g r|
+		cmp r11, 0				;comparo si estoy en el primer pixel
+		je .primerPixel		
 
 		.continuarEdge:
-		pxor xmm2, xmm2
-		pxor xmm1, xmm1
-		pxor xmm0, xmm0
-		movd xmm0, eax
-		punpcklbw xmm0, xmm1
-		movd xmm1, eax
-		punpcklbw xmm1, xmm2
-		pslldq xmm0, 8
-		paddw xmm0, xmm1			;xmm0 parte del medio
+								;Caso centro de la matriz
+		pxor xmm2, xmm2			;xmm2=|0 0 0 0|
+		pxor xmm1, xmm1			;xmm1=|0 0 0 0|
+		pxor xmm0, xmm0			;xmm0=|0 0 0 0|
+		movd xmm0, eax			;xmm0=|0|0|0|a b g r|
+		punpcklbw xmm0, xmm1	;xmm0=|0|a b g r| convert de byte a word parte baja
+		movd xmm1, eax			;xmm1=|0|0|0|a b g r|
+		punpcklbw xmm1, xmm2	;xmm1=|0|a b g r|
+		pslldq xmm0, 8			;xmm0=|a b g r|0|
+		paddw xmm0, xmm1		;xmm0=|a b g r|a b g r| Centro: centro de la matriz
 
-		mov eax, [rdi + rdx]
-		pxor xmm3, xmm3
-		pxor xmm2, xmm2
-		pxor xmm1, xmm1
-		movd xmm1, eax
-		punpcklbw xmm1, xmm2
-		movd xmm2, eax
-		punpcklbw xmm2, xmm3
-		pslldq xmm1, 8
-		paddw xmm1, xmm2			;xmm1 parte baja de la matriz
+								;Parte baja de la matriz
+		mov eax, [rdi + rdx]	;eax=|a b g r| 
+		pxor xmm3, xmm3			;xmm3=|0|0|0|0|
+		pxor xmm2, xmm2			;xmm2=|0|0|0|0|
+		pxor xmm1, xmm1			;xmm1=|0|0|0|0|
+		movd xmm1, eax			;xmm1=|0|0|0|a b g r|
+		punpcklbw xmm1, xmm2	;xmm1=|0|a b g r| conver de byte a word parte baja
+		movd xmm2, eax			;xmm2=|0|0|0|a b g r|
+		punpcklbw xmm2, xmm3	;xmm2=|0|a b g r|
+		pslldq xmm1, 8			;xmm1=|a b g r|0|
+		paddw xmm1, xmm2		;xmm1=|a b g r|a b g r| Baja: parte baja de la matriz
 
-		mov eax, [rdi + r9]
-		pxor xmm4, xmm4
-		pxor xmm3, xmm3
-		pxor xmm2, xmm2
-		movd xmm2, eax
-		punpcklbw xmm2, xmm3
-		movd xmm3, eax
-		punpcklbw xmm3, xmm4
-		pslldq xmm2, 8
-		paddw xmm2, xmm3			;xmm2 parte alta de la matriz
+		mov eax, [rdi + r9]		;mov eax,[rdi-width]
+		pxor xmm4, xmm4			;xmm4=|0|0|0|0|
+		pxor xmm3, xmm3			;xmm3=|0|0|0|0|
+		pxor xmm2, xmm2			;xmm2=|0|0|0|0|
+		movd xmm2, eax			;xmm2=|0|0|0|a b g r|
+		punpcklbw xmm2, xmm3	;xmm2=|0|a b g r|
+		movd xmm3, eax			;xmm3=|0|0|0|a b g r|
+		punpcklbw xmm3, xmm4	;xmm3=|0|a b g r|
+		pslldq xmm2, 8			;xmm2=|a b g r|0|;
+		paddw xmm2, xmm3		;xmm2=|a b g r|a b g r| Alta: parte alta de la matriz
+								;divido por 2 a xmm2 y xmm1
+		psrlw xmm2, 1			;xmm2=|a/2 b/2 g/2 r/2|a/2 b/2 g/2 r/2| Alta
+		psrlw xmm1, 1			;xmm1=|a/2 b/2 g/2 r/2|a/2 b/2 g/2 r/2| Baja
 
-		psrlw xmm2, 1				;divido por 2 a xmm2 y xmm1
-		psrlw xmm1, 1
+									 ;xmm0=|a b g r|a b g r| Centro
+		pshuflw xmm0, xmm0, 10010000b;xmm0=|a b g r|b g r r| shift word parte baja [63:0]
+		pshufhw xmm0, xmm0, 11100101b;xmm0=|a b g g|b g r r|  shift word parte alta [127:64]
+ 
+ 									 ;xmm1=|a/2 b/2 g/2 r|a/2 b/2 g/2 r/2| Baja
+		pshuflw xmm1, xmm1, 10010000b;xmm1=|a/2 b/2 g/2 r/2|b/2 g/2 r/2 r/2| 
+		pshufhw xmm1, xmm1, 11100101b;xmm1=|a/2 b/2 g/2 g/2|b/2 g/2 r/2 r/2|
 
-		pshuflw xmm0, xmm0, 10010000b
-		pshufhw xmm0, xmm0, 11100101b
+									 ;xmm2=|a/2 b/2 g/2 r/2|a/2 b/2 g/2 r/2| Alta
+		pshuflw xmm2, xmm2, 10010000b;xmm2=|a/2 b/2 g/2 r/2|b/2 g/2 r/2 r/2|
+		pshufhw xmm2, xmm2, 11100101b;xmm2=|a/2 b/2 g/2 g/2|b/2 g/2 r/2 r/2|
+									;shiftea cada paquete quad word a derecha cant de bits
+		psrlq xmm0, 16; 			;xmm0=|0 a b g|0 b g r| Centro
+		psrlq xmm1, 16;				;xmm1=|0 a/2 b/2 g/2|0 b/2 g/2 r/2| BAja
+		psrlq xmm2, 16				;xmm2=|0 a/2 b/2 g/2|0 b/2 g/2 r/2| Alta
+									;;shiftea cada paquete quad word a izquierda cantidad de bit
+		psllq xmm0, 16				;xmm0=|a b g 0|b g r 0| Centro
+		psllq xmm1, 16				;xmm1=|a/2 b/2 g/2 0|b/2 g/2 r/2 0| Baja
+		psllq xmm2, 16				;xmm2=|a/2 b/2 g/2 0|b/2 g/2 r/2 0| Alta
 
-		pshuflw xmm1, xmm1, 10010000b
-		pshufhw xmm1, xmm1, 11100101b
-
-		pshuflw xmm2, xmm2, 10010000b
-		pshufhw xmm2, xmm2, 11100101b
-
-		psrlq xmm0, 16
-		psrlq xmm1, 16
-		psrlq xmm2, 16
-
-		psllq xmm0, 16
-		psllq xmm1, 16
-		psllq xmm2, 16
-
-		pmullw xmm2, xmm14			;multiplico xmm2 por los valores de la matriz
-		pmullw xmm1, xmm14			;hago lo mismo para xmm1
-		pmullw xmm0, xmm15			;hago lo mismo para xmm0
+									;multiplico xmm2 por los valores de la matriz
+									;xmm14=|1 2 1 1|1 2 1 1|
+									;xmm15=|1 -6 1 1|1 -6 1 1|
+		pmullw xmm2, xmm14			;xmm2=|a/2 b g/2 0|b/2 g r/2 0| Alta
+		pmullw xmm1, xmm14			;xmm1=|a/2 b g/2 0|b/2 g r/2 0| Baja
+		pmullw xmm0, xmm15			;xmm0=|a -6*b g 0|b -6*g r 0| Centro
 									
-		paddw xmm1, xmm2
-		paddw xmm0, xmm1			;tengo la suma de los valores en xmm0
+		paddw xmm1, xmm2			;xmm1=|a/2+a/2 b+b g/2*g/2 0|b/2+b/2 g+g r/2*r/2 0| Baja + Alta
+		paddw xmm0, xmm1			;xmm0=|a+a/2+a/2 -6*b+b+b g+g/2*g/2 0|
+									;     |b+b/2+b/2 -6*g+g+g r+r/2*r/2 0| Centro + Baja + Alta
+									;Sima horizontal
+									;xmm0=|s7 s6 s5 s4| s3 s2 s1 s0|
+		phaddw xmm0, xmm0			;xmm0=|s7+s6 s5+s4 s3+s2 s1+s0|s7+s6 s5+s4 s3+s2 s1+s0|
+		phaddw xmm0, xmm0			;xmm0=|s7+s6+s5+s4 s3+s2+s1+s0 s7+s6+s5+s4 s3+s2+s1+s0|
+									;     |s7+s6+s5+s4 s3+s2+s1+s0 s7+s6+s5+s4 s3+s2+s1+s0|  
+									;xmm0=|s[7:4] s[3:0] s[7:4] s[3:0]|s[7:4] s[3:0] s[7:4] s[3:0]| 
+									; Empaqueto de word a byte
+		packuswb xmm0,xmm0			;xmm0=|s[7:4] s[3:0] s[7:4] s[3:0]|s[7:4] s[3:0] s[7:4] s[3:0]|
+									;	  |s[7:4] s[3:0] s[7:4] s[3:0]|s[7:4] s[3:0] s[7:4] s[3:0]| 
+		pxor xmm2, xmm2				;desempaqueto de byte a word la parte alta de xmm2
+		punpckhbw xmm0, xmm2		;xmm0=|s[7:4] s[3:0] s[7:4] s[3:0]|s[7:4] s[3:0] s[7:4] s[3:0]|
 
-		phaddw xmm0, xmm0
-		phaddw xmm0, xmm0			;hago la suma de todas las componentes
+		pshuflw xmm0, xmm0, 00000000b	;xmm0=|s[7:4] s[3:0] s[7:4] s[3:0]|s[3:0] s[3:0] s[3:0] s[3:0]|
+		pshufhw xmm0, xmm0, 01010101b	;xmm0=|s[7:4] s[7:4] s[7:4] s[7:4]|s[3:0] s[3:0] s[3:0] s[3:0]|
+									;shiftea cada paquete quad word a derecha 48  bits
+		psrlq xmm0, 48; 			;xmm0=|0 0 0 s[7:4]|0 0 0 s[3:0]|
+		movd eax, xmm0				;eax=|0 s[3:0]|
+		mov [rsi], al				;[rsi]= al[7:0] byte
+									; shifteo al xmm0 en 8 bytes
+		psrldq xmm0, 8				;xmm0=|0 0 0 0|0 0 0 s[7:4]|
 
-		packuswb xmm0,xmm0
-		pxor xmm2, xmm2
-		punpckhbw xmm0, xmm2
-
-		pshuflw xmm0, xmm0, 00000000b
-		pshufhw xmm0, xmm0, 01010101b
-
-		psrlq xmm0, 48
-		movd eax, xmm0
-		mov [rsi], al
-
-		psrldq xmm0, 8
-
-		movd eax, xmm0
+		movd eax, xmm0				;eax=|0 s[7:4]|
 		inc rsi
-		mov [rsi], al
+		mov [rsi], al				;[rsi]=eax[7:0]
 
 		inc rsi
 		add rdi, 2
@@ -154,21 +167,21 @@ edge_asm:									;NOTAR QUE LOS PIXELES MIDEN 1 BYTE
 	.primerPixel:
 		inc r11
 		xor r12, r12
-		mov r12b, [rdi]
+		mov r12b, [rdi]		; compio el primer pixel de la fila
 		mov [rsi], r12b
-		inc rsi
+		inc rsi				;; incremento puntero a proximos pixeles de imagen de destino
 		jmp .continuarEdge
 
 	.ultimoPixel:
-		inc r11
+		inc r11				;
 		inc rdx
-		xor r12, r12
+		xor r12, r12		;
 		inc rdi
-		mov r12b, [rdi]
+		mov r12b, [rdi]		; copio el ultimo pixel de la columna sin modificar.
 		mov [rsi], r12b
-		inc rsi
-		inc rdi	
-		jmp .edge
+		inc rsi				; incremento puntero a proximos pixeles de imagen de destino	
+		inc rdi				; incremento puntero a proximos pixeles de la imagen fuente
+		jmp .edge           ; salto al edge
 
 	.proximaFila:
 		inc r10
