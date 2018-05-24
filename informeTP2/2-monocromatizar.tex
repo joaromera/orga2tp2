@@ -40,12 +40,11 @@ A continuación el pseudocódigo de la implementación en C:
 
 \subsubsection{Implementación ASM}
 
-En este filtro procesamos de a 4 píxeles en cada iteración usando las instrucciones \textbf{SSE} de la arquitectura. Por cada iteración se realizaron los calculos del máximo de cada píxel y este se guardó en la imagen de salida.
+En este filtro procesamos de a 4 píxeles en cada iteración usando las instrucciones \textbf{SSE} de la arquitectura. Por cada iteración se realizaron los cálculos del máximo de cada píxel y este se guardó en la imagen de salida.
 
 \begin{itemize}
 
-	\item En los registro \textbf{xmm0,xnm4, xmm5} tenemos la copia de los cuatro pixeles que levantamos de memoria.
-			Y en \textbf{xnm1, xmm2, xmm3} las máscaras q utilizamos para los shuffles que utilizaremos para permutar los componentes.
+	\item En los registros \textbf{xmm0,xnm4, xmm5} tenemos la copia de los cuatro píxeles que levantamos de memoria. Y en \textbf{xnm1, xmm2, xmm3} las máscaras que usamos para los shuffles que luego utilizaremos para permutar los componentes.
 
 		\begin{center}
 		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
@@ -99,7 +98,7 @@ En este filtro procesamos de a 4 píxeles en cada iteración usando las instrucc
 		   \\ \textbf{xmm4 $ \gets $ pmaxub xmm4, xmm0}
 		\end{center}
 
-	\item Realizamos el mismo procedimiento en este paso. Luego nos quedaría el valor del Máximo (ver imagen). 
+	\item Realizamos el mismo procedimiento en este paso. Luego nos quedaría el valor del máximo (ver imagen). 
 		\begin{center}
 		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
 			 \hline
@@ -117,7 +116,7 @@ En este filtro procesamos de a 4 píxeles en cada iteración usando las instrucc
 		\end{center}
 
 
-	\item Solo resta copiar los máximos. Para esto utilizaremos el Shuffle junto con la máscara contenida en xmm3.
+	\item Solo resta copiar los máximos. Para esto utilizaremos el shuffle junto con la máscara contenida en xmm3.
 
 		\begin{center}
 		   \begin{tabular}{| c | c | c | c || c | c | c | c || c | c | c | c || c | c | c | c |}
@@ -147,10 +146,10 @@ monocromatizar_inf_asm:
 		movdqu xmm5, xmm0; xmm5= xmm0
 
 		pshufb xmm4, xmm1; xmm4=|a g g g|a g g g|a g g g|a g g g|
-		pmaxub xmm4, xmm0; xmm4=|a . . max(g,r)|a . . max(g,r)|a . . max(g,r)|a . . max(g,r)|;primer maximo
+		pmaxub xmm4, xmm0; xmm4=|a . . max(g,r)|a . . max(g,r)|a . . max(g,r)|a . . max(g,r)|;1er máximo
  
 		pshufb xmm5, xmm2; xmm5=|a b b b|a b b b|a b b b|a b b b|			
-		pmaxub xmm4, xmm5; xmm4=|a . . max(g,r,b)|a . . max(g,r,b)|a . . max(g,r,b)|;maximo de maximos
+		pmaxub xmm4, xmm5; xmm4=|a . . max(g,r,b)|a . . max(g,r,b)|a . . max(g,r,b)|;máx de máximos
 						 ; xmm4=|a . . max|a . . max|a . . max|a . . max|	
 		pshufb xmm4, xmm3; xmm4=|a max max max|a max max max|a max max max|a max max max|
 
