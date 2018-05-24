@@ -60,23 +60,23 @@ Vamos a dar una breve explicación del cáculo de la profundidad en assembly.
 Queremos calcular la distancia, esto es $\sqrt{(x-x_0)^2+(y-y_0)^2} = \sqrt{dx^2+dy^2}$. Este proceso lo hacemos con los 4 píxeles juntos. La idea es obtener en \emph{xmm3=$|(dx3^2+dy3^2)^{1/2}|$...$|(dx0^2+dy0^2)^{1/2}|$}. Podemos observar abajo el detalle de cada calculo e instrucción usada.
 \begin{codesnippet}
 \begin{verbatim}
-                            ;CÁLCULO DE PROFUNDIDAD
-                            ;xmm11=|x_0|x_0|x_0|x_0| Centro de la onda eje x
-                            :xmm14=|y_0|y_0|y_0|y_0| Centro de la onda eje y
-    movdqu xmm3, xmm11      ;xmm3=|x3|x2|x1|x0| 
-    psubd xmm3, xmm13       ;xmm3=|x3-x_0|x2-x_0|x1-x0|x0-x_0|                    x - x_0
-							
-    movdqu xmm4, xmm12      ;xmm4=|y1|y2|y3|y4|
-    psubd xmm4, xmm14       ;xmm4=|y3-y_0|y2-y_0|y1-y_0|y0-y_0|                     y - y_0	
-                            ;sabiendo dx3=x3-x_0,dx2=x2-x_0,dx1=x1-x_0 y dx0=x0-x_0
-    pmulld xmm3, xmm3       ;xmm3=|dx3^2|dx2^2|dx1^2|dx0^2|
-    pmulld xmm4, xmm4       ;xmm4=|dy3^2|dy2^2|dy1^2|dy0^2|
-                            ;Realizamos la suma dx^2+dy^2
-    paddd xmm3, xmm4        ;xmm3=|dx3^2+dy3^2|...|dx0^2+dy0^2|
-                            ;Convertimos de doble word integer a Float
-    cvtdq2ps xmm3, xmm3     ;xmm3=Convertimos de doble word integer a Float
-                            ;Raiz cuadrada a cada paquet dobleWord, o sea (dx^2+dy^2)^(1/2)
-    sqrtps xmm3, xmm3       ;xmm3=|(dx3^2+dy3^2)^(1/2)|...|(dx0^2+dy0^2)^(1/2)|
+                          ;CÁLCULO DE PROFUNDIDAD
+                          ;xmm11=|x_0|x_0|x_0|x_0| Centro de la onda eje x
+                          :xmm14=|y_0|y_0|y_0|y_0| Centro de la onda eje y
+  movdqu xmm3, xmm11      ;xmm3=|x3|x2|x1|x0| 
+  psubd xmm3, xmm13       ;xmm3=|x3-x_0|x2-x_0|x1-x0|x0-x_0|                    x - x_0
+            
+  movdqu xmm4, xmm12      ;xmm4=|y1|y2|y3|y4|
+  psubd xmm4, xmm14       ;xmm4=|y3-y_0|y2-y_0|y1-y_0|y0-y_0|                     y - y_0	
+                          ;sabiendo dx3=x3-x_0,dx2=x2-x_0,dx1=x1-x_0 y dx0=x0-x_0
+  pmulld xmm3, xmm3       ;xmm3=|dx3^2|dx2^2|dx1^2|dx0^2|
+  pmulld xmm4, xmm4       ;xmm4=|dy3^2|dy2^2|dy1^2|dy0^2|
+                          ;Realizamos la suma dx^2+dy^2
+  paddd xmm3, xmm4        ;xmm3=|dx3^2+dy3^2|...|dx0^2+dy0^2|
+                          ;Convertimos de doble word integer a Float
+  cvtdq2ps xmm3, xmm3     ;xmm3=Convertimos de doble word integer a Float
+                          ;Raiz cuadrada a cada paquet dobleWord, o sea (dx^2+dy^2)^(1/2)
+  sqrtps xmm3, xmm3       ;xmm3=|(dx3^2+dy3^2)^(1/2)|...|(dx0^2+dy0^2)^(1/2)|
 \end{verbatim}
 \end{codesnippet}
 
@@ -174,22 +174,22 @@ Veremos q en $xmm4=|A3*(t3-t3^3/6+t3^5/120-t3^7/5040)*64|...|A1*(t0-t0^3/6+t0^5/
 
   divps xmm3, xmm2        ;xmm3=|(t3^3)/6|(t2^3)/|(t1^3)/6|(t0^3)/6|
   subps xmm1, xmm3        ;xmm1=|t3-(t3^3)/6|t2-(t2^3)/|t1-(t1^3)/6|t0-(t0^3)/6|
-                    ...............                  
+  ...              
                           ;Calculamos T a la quinta
                           ;Los cálculos son análogos y obtenemos lo siguiente
-                    ...............
+  ...
   divps xmm3, xmm2        ;xmm3=|t3^5/120|t2^5/120|t1^5/120|t0^5/120|								
   addps xmm1, xmm3        ;xmm1=|t3-(t3^3)/6+t3^5/120|...|t0-(t0^3)/6+t0^5/120|								
-                    ................... 
+  ...
                           ;Calculamos T a la séptima
                           ;Calculos análogos
-                  ................	
+  ...
   divps xmm3, xmm2        ;xmm3=|t3^7/5040|t2^7/5040|t1^7/5040|t0^7/5040|
                   
   subps xmm1, xmm3        ;xmm1=|t3-(t3^3)/6+t3^5/120-t3^7/5040|...|t0-(t0^3)/6+t0^5/120-t0^7/5040|
 
   subps xmm1, xmm3        ;xmm1=|t3-(t3^3)/6+t3^5/120-t3^7/5040|...|t0-(t0^3)/6+t0^5/120-t0^7/5040|								
-                  ................
+  ...
                           ;Calculamos la multiplicacián por A y por 64
   mulps xmm4, xmm1        ;xmm4=|A3*(t3-t3^3/6+t3^5/120-t3^7/5040)|...|A1*(t0-t0^3/6+t0^5/120-t0^7/5040(|
                           ;Renombramos a xmm4=|prof3|prof2|prof1|prof0|		
@@ -235,16 +235,16 @@ Abajo mostramos los segmentos más importantes del codigo que lo resuelve.
 \begin{codesnippet}
 \begin{verbatim}    
                                   ; De Manera similar obtenmos xmm2
-                              ......................			
+  ...
   paddd xmm2, xmm4                ;xmm2=|a2+prof2*64|b2+prof2*64|g2+prof2*64|r2+prof2*64|
                                   ;xmm2=|O(a2)|O(b2)|O(g2)|O(r2)|	
                                   ;Empaquetamos de DobleWord a Word	
   packssdw xmm2,xmm1              ;xmm2=|O(a3) O(b3) O(g3) O(r3)|O(a2) O(b2) O(g2) O(r2)|
   movdqu xmm5, xmm2               ;xmm5=|O(a3) O(b3) O(g3) O(r3)|O(a2) O(b2) O(g2) O(r2)|
-          .....................
+  ...
   paddd xmm1, xmm4                ;xmm1=|a1+prof1*64|b1+prof1*64|g1+prof1*64|r1+prof1*64|
                                   ;xmm1=|O(a1)|O(b1)|O(g1)|O(r1)|						
-                      .....................
+  ...
   paddd xmm2, xmm4                ;xmm2=|a0+prof0*64|b0+prof0*64|g0+prof0*64|r0+prof0*64| shuffle posicion 0 de dobleWord
                                   ;xmm2=|O(a0)|O(b0)|O(g0)|O(r0)|                   
                                   ;Empaquetamos de DobleWord a Word
@@ -256,4 +256,3 @@ Abajo mostramos los segmentos más importantes del codigo que lo resuelve.
   movdqu [rsi], xmm2              ;Cargamos a memoria xmm2                        			
 \end{verbatim}
 \end{codesnippet}
-

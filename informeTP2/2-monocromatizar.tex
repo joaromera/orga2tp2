@@ -140,20 +140,20 @@ section .data
 section .text
 
 monocromatizar_inf_asm:
-.........
-		movdqu xmm0, [rdi]; xmm0=|a b g r|a b g r|a b g r|a b g r|
-		movdqu xmm4, xmm0; xmm4= xmm0
-		movdqu xmm5, xmm0; xmm5= xmm0
+	...
+	movdqu xmm0, [rdi]; xmm0=|a b g r|a b g r|a b g r|a b g r|
+	movdqu xmm4, xmm0; xmm4= xmm0
+	movdqu xmm5, xmm0; xmm5= xmm0
 
-		pshufb xmm4, xmm1; xmm4=|a g g g|a g g g|a g g g|a g g g|
-		pmaxub xmm4, xmm0; xmm4=|a . . max(g,r)|a . . max(g,r)|a . . max(g,r)|a . . max(g,r)|;1er máximo
- 
-		pshufb xmm5, xmm2; xmm5=|a b b b|a b b b|a b b b|a b b b|			
-		pmaxub xmm4, xmm5; xmm4=|a . . max(g,r,b)|a . . max(g,r,b)|a . . max(g,r,b)|;máx de máximos
-						 ; xmm4=|a . . max|a . . max|a . . max|a . . max|	
-		pshufb xmm4, xmm3; xmm4=|a max max max|a max max max|a max max max|a max max max|
+	pshufb xmm4, xmm1; xmm4=|a g g g|a g g g|a g g g|a g g g|
+	pmaxub xmm4, xmm0; xmm4=|a . . max(g,r)|a . . max(g,r)|a . . max(g,r)|a . . max(g,r)|;1er máximo
 
-		movdqu [rsi], xmm4; [rsi]= xmm4
-......
+	pshufb xmm5, xmm2; xmm5=|a b b b|a b b b|a b b b|a b b b|			
+	pmaxub xmm4, xmm5; xmm4=|a . . max(g,r,b)|a . . max(g,r,b)|a . . max(g,r,b)|;máx de máximos
+						; xmm4=|a . . max|a . . max|a . . max|a . . max|	
+	pshufb xmm4, xmm3; xmm4=|a max max max|a max max max|a max max max|a max max max|
+
+	movdqu [rsi], xmm4; [rsi]= xmm4
+	...
 \end{verbatim}
 \end{codesnippet}
