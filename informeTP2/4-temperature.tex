@@ -59,11 +59,11 @@ El algoritmo implementado en lenguaje C recorre la imagen iterativamente. Por ca
 \end{algorithm}	
 
 \subsubsection{Implementación ASM}
-En este filtro procesaremos de a 4 pixeles. Daremos la explicacion de la partes importantes donde del codigo assembler.
+En este filtro procesaremos de a 4 píxeles. Daremos la explicación de la partes más significativas del código assembler.
 
 \subsubsection*{Cálculo del valor T}
 
-En este tramo de código traigo los 4 pixeles de memoría. Desempaqueto de byte a Word en los registros xmm2(parte baja) y xmm1(parte ata). Despues shifteo 16 bits a izquierda y luego a derecha cada paquete de qwords y se esa manera tener el valor de la trasparencia en 0.
+En este tramo de código traigo los 4 píxeles de memoria. Desempaquetamps de Byte a Word en los registros XMM2(parte baja) y XMM1 (parte ata). Después shifteamos 16 bits a izquierda y luego a derecha cada paquete de QWords para de esta manera tener el valor de la trasparencia en 0.
 
 \begin{codesnippet}
 \begin{verbatim}
@@ -81,7 +81,9 @@ En este tramo de código traigo los 4 pixeles de memoría. Desempaqueto de byte 
     psrlq xmm2, 16          ; xmm2=|0 b1 g1 r1|0 b0 g0 r0|
 \end{verbatim}
 \end{codesnippet}
-Para calcular las sumas de la 3 componentes \emph{b+g+r},Realizamos sumas horizontales con la intrucción \emph{phaddw} y colocamos las sumas en los registros xmm1 y xmm2.
+
+Para calcular las sumas de la 3 componentes \emph{b+g+r}. Realizamos sumas horizontales con la intrucción \emph{phaddw} y colocamos las sumas en los registros XMM1 y XMM2.
+
 \begin{codesnippet}
 \begin{verbatim}
                        ; Sumas horizontal
@@ -95,7 +97,7 @@ Para calcular las sumas de la 3 componentes \emph{b+g+r},Realizamos sumas horizo
 \end{verbatim}
 \end{codesnippet}
 
-El objetivo de este paso es obtener \emph{xmm1=$|s3|s2|s1|s0|$}, donde \emph{s3,s2,s1 y s0} son las sumas \emph{b+g+r} del pixel 3,.., pixel 1 respectivamente.
+El objetivo de este paso es obtener \emph{xmm1=$|s3|s2|s1|s0|$}, donde \emph{s3,s2,s1 y s0} son las sumas \emph{b+g+r} del píxel 3,..,píxel 1 respectivamente.
 
 \begin{codesnippet}
 \begin{verbatim}
@@ -115,7 +117,8 @@ El objetivo de este paso es obtener \emph{xmm1=$|s3|s2|s1|s0|$}, donde \emph{s3,
 \end{verbatim}
 \end{codesnippet}
 
-El objetivo de este paso es obtener \emph{xmm1=$|s3|s2|s1|s0|$}. Para eso prímero convertimos los paquetes de enteros de Doble Word a Floats usando la intrucción \emph{cvtdq2ps}. Para por ultimo usar la funcion \emph{blenps}, que sive para mesclar los registos xmm1 y xmm2 segun el valor q pongamos en la fuente numero 2(en este caso 0011b).
+El objetivo de este paso es obtener \emph{xmm1=$|s3|s2|s1|s0|$}. Para eso primero convertimos los paquetes de enteros de Doble Word a Floats usando la intrucción \emph{cvtdq2ps}. Luego usamos la funcion \emph{blenps}, que sive para mezclar los registos XMM1 y XMM2 según el valor que pongamos en la fuente número 2(en este caso 0011b).
+
 \begin{codesnippet}
 \begin{verbatim}
                                 ; Convierto los valores de xmm1 a float
@@ -126,10 +129,8 @@ El objetivo de este paso es obtener \emph{xmm1=$|s3|s2|s1|s0|$}. Para eso príme
 \end{verbatim}
 \end{codesnippet}
 
-En este ultimo paso queremos obtener \emph{xmm1=$|t4|t3|t2|t1|$}. Para eso dividimos(cvtps2dq)cada paquete de floats por 3.
-convertimos los Floats a enteros dobleWords(cvtps2dq).
-Despues desempaquetamos de dobleWord a Words(packusdw) y de word a byte(packuswb).
-Como ultimo paso usamos shuffle(pshufb), para permutar los paquetes de bytes teniendo como mascara xmm10. 
+En este último paso queremos obtener \emph{xmm1=$|t4|t3|t2|t1|$}. Para eso dividimos (cvtps2dq) cada paquete de floats por 3. Convertimos los Floats a enteros dobleWords (cvtps2dq). Después desempaquetamos de Doble Word a Words (packusdw) y de Word a Byte (packuswb). Como último paso usamos shuffle (pshufb), para permutar los paquetes de Bytes teniendo como máscara xmm10. 
+
 \begin{codesnippet}
 \begin{verbatim}
     ; <t, t, t, t>          t < 32   <0, 0, 0, 4t + 128>
@@ -137,23 +138,18 @@ Como ultimo paso usamos shuffle(pshufb), para permutar los paquetes de bytes ten
     divps xmm1, xmm8        ; xmm1 =|s3/3.0|s2/3.0|s1/3.0|s0/3.0| 
                             ; convierto de Float a dobleWord entero
     cvtps2dq xmm1, xmm1     ; xmm1 =|t3|t2|t1|t0|
-                            ; desempaqueto de dobleWord a Word sin signo y con saturacion
+                            ; desempaqueto de dobleWord a Word sin signo y con saturación
     packusdw xmm1, xmm1     ; xmm1 =|t3|t2|t1|t0|t3|t2|t1|t0|
-                            ; desempaqueto Word sin signo y  byte con saturacion
+                            ; desempaqueto Word sin signo y byte con saturación
     packuswb xmm1, xmm1     ; xmm1 =|t3|t2|t1|t0|t3|t2|t1|t0|t3|t2|t1|t0|t3|t2|t1|t0| 
                             ; xmm10=|3|3|3|3|2|2|2|2|1|1|1|1|0|0|0|0|
     pshufb xmm1, xmm10      ; xmm1 = |t3t3|t3|t3|t2|t2|t2|t2|t1|t1|t1|t1|t0|t0|t0|t0|
                             ; xmm1 = |t3 t3 t3 t3|t2 t2 t2 t2|t1 t1 t1 t1|t0 t0 t0 t0|
-
 \end{verbatim}
 \end{codesnippet}
 
 \subsubsection*{Caso $t<32$}
-El objetivo de este caso es obtner en \emph{xmm4=$|$0 0 0 4.t3+128$|$0 0 0 4.t2+128$|$0 0 0 4.t1+128$|$0 0 0 4.t0+128$|$}.
-Primero multimplicamos por 4.
-Luego Sumamo 128 de manera tal me quede $4.t+128$. 
-Shifteamos cada paquete de DobleWord a derecha 24 bits.
-y guardamos todo en el registro xmm4(ver fragmento de código).
+El objetivo de este caso es obtner en \emph{xmm4=$|$0 0 0 4.t3+128$|$0 0 0 4.t2+128$|$0 0 0 4.t1+128$|$0 0 0 4.t0+128$|$}. Primero multiplicamos por 4. Luego sumamos 128 de manera tal me quede $4.t+128$. Shifteamos cada paquete de DobleWord a derecha 24 bits. Finalmente guardamos todo en el registro xmm4 (ver fragmento de código).
 
 \begin{codesnippet}
 \begin{verbatim}
@@ -193,15 +189,15 @@ La parte interezante es que usamos la instrucción \emph{pinserb}, que inserta e
     psrld xmm5, 16      ;xmm5=|0 0 4.(t3-32) 255|...|0 0 4.(t0-32) 255|                    
 \end{verbatim}
 \end{codesnippet}
+
 Casos restantes se resuelven de igual manera($96\leq t < 160$, $160\leq t <225$ y  $224 \leq t$).
 
 \subsubsection*{Paso final}
 
-Este es el ultimo paso. Aca debemos quedarnos con las valores segun valfa \emph{T}, Son todas operaciones logicas y comparaciones.
-Sólo debemos recordar q en xmm4,  xmm5, xmm6, xmm7 y xmm3 estan los casos T.
+Este es el último paso. Acá debemos quedarnos con las valores según valfa \emph{T}, Son todas operaciones lógicas y comparaciones. Solo debemos recordar q en xmm4,  xmm5, xmm6, xmm7 y xmm3 estan los casos T.
+
 \begin{codesnippet}
 \begin{verbatim}				
-
     psrld xmm1,  24    ; xmm1=|0 0 0 t3|0 0 0 0 t2|0 0 0 t1|0 0 0 t0|
 							; En este paso produzco todas las máscaras segun el valor de T
     pcmpgtd xmm12, xmm1     ; [32 > t?...] Me quedo con t < 32
