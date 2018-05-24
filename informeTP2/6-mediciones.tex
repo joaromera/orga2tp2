@@ -98,7 +98,7 @@ A partir de los resultados pudimos observar lo siguiente: el predictor de saltos
 \newpage
 \subsection{Loop Unrolling}
 
-Luego de verificar el impacto del branch pedictor procedimos a evaluar el impacto del loop unrolling con el filtro Monocromatizar en su implementación de ASM. El loop unrolling es una técncia que consiste en transformar un loop para intentar optimizar la ejecución de un programa a expensas del tamaño de su archivo binario. La ventaja de deshacer el loop y hacer una instrucción detrás de la otra es que se eliminan los branches que componen cualquier loop y desaparecen estas penalizacioesn. Utilizamos la imagen de Lena con tamaño de 512x512 para estas pruebas. La macro utilizada corresponde al segmento de código en el que se levantan los píxeles de la imagen original, se calcula el máximo componente de cada uno y se escribe este valor los píxeles correspondientes de la imagen destino:
+Luego de verificar el impacto del branch pedictor procedimos a evaluar el impacto del loop unrolling con el filtro Monocromatizar en su implementación de ASM. El loop unrolling es una técncia que consiste en transformar un loop para intentar optimizar la ejecución de un programa a expensas del tamaño de su archivo binario. La ventaja de deshacer el loop y hacer una instrucción detrás de la otra es que se eliminan los branches que componen cualquier loop y desaparecen las penalizaciones relacionadas con estos obstáculos; sin embargo, dado que el procesador almacena en la caché las instrucciones a ejecutar, deberíamos notar una caída en performance cuando el código exceda el tamaño de la misma. Utilizamos la imagen de Lena con tamaño de 512x512 para estas pruebas. La macro utilizada corresponde al segmento de código en el que se levantan los píxeles de la imagen original, se calcula el máximo componente de cada uno y se escribe este valor los píxeles correspondientes de la imagen destino:
 
 \begin{center}
 
@@ -115,7 +115,7 @@ Para la ejecución fuimos aumentando la cantidad de repeticiones que se hacían 
 
 \end{center}
 
-Como era de esperar el tamaño del binario aumentó con cada repetición de la macro. Sin hacer loop unrolling, el binario de nuestro filtro original ocupó apróximadamente 2000B, luego para poder procesar una imagen del mismo tamaño se descompuso el loop en 65536 repeticiones de la macro, lo cual llego al binario a pesar varios megas.
+Como era de esperar el tamaño del binario aumentó con cada repetición de la macro. Sin hacer loop unrolling, el binario de nuestro filtro original ocupó apróximadamente 2000B, luego para poder procesar una imagen del mismo tamaño se descompuso el loop en 65536 repeticiones de la macro, lo cual llego al binario a pesar varios megas excediento el tamaño de la caché.
 
 \begin{center}
 
@@ -123,7 +123,7 @@ Como era de esperar el tamaño del binario aumentó con cada repetición de la m
 
 \end{center}
 
-La performance empeoró.
+Notamos que hay una leve mejora cuando extendimos el loop a 32 repeticiones de la macro, a partir de este momento la mientras más descompongamos el loop en más repeticiones, más ciclos de procesador van a ser necesarios para terminar. Esto es coherente con lo expuesto anteriormente, a partir de cierto punto el binario es demasiado grande para la memoria caché y para ejecutar las instrucciones siguientes debe ir a buscar a memoria, provacando que el pipeline se detenga hasta que la próxima instrucción esté disponible e impactando negativamente en el desempeño del algoritmo.
 
 % La forma de medir el rendimiento de nuestras implementaciones se realizará por medio de la toma de tiempos de ejecución del algoritmo (sea este el codigo version asembler o el codigo C). Como los tiempos de ejecución son muy pequeños, se utilizará uno de los contadores de performance que posee el procesador.
 % La instrucción de assembler rdtsc permite obtener el valor del Time Stamp Counter (TSC) del procesador. Este registro se incrementa en uno con cada ciclo del procesador. Obteniendo la diferencia entre los contadores antes y después de la llamada a la función, podemos obtener la cantidad de ciclos de esa ejecución. Esta cantidad de ciclos no es siempre igual entre invocaciones de la función, ya que este registro es global del procesador y se ve afectado por una serie de factores. \newline
