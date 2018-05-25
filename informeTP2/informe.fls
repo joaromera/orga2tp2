@@ -234,6 +234,9 @@ INPUT 5-edge.tex
 INPUT imagenes/lenaEDGA.jpg
 INPUT ./imagenes/lenaEDGA.jpg
 INPUT ./imagenes/lenaEDGA.jpg
+INPUT imagenes/edge/edge1.png
+INPUT ./imagenes/edge/edge1.png
+INPUT ./imagenes/edge/edge1.png
 INPUT 6-mediciones.tex
 INPUT 6-mediciones.tex
 INPUT imagenes/testperformance/sizes.png

@@ -2,7 +2,7 @@
 
 \subsubsection{Descripción}
 
-Esta operación recibe dos imagenes -original y blit- y genera una nueva combinando ambas. La combinación se realiza considerando un determinado color del blit como transparente para que en el resultado final algunos pixeles del blit queden por encima de la imagen original. En el lugar de aquellos que no son interpretados como transparentes quedan los pixeles del original. La imagen obtenida es una superposición de ambas, teniendo transparencias en el blit siempre que el color del pixel sea igual a (255,0,255).
+Esta operación recibe dos imagenes -original y blit- y genera una nueva combinando ambas. La combinación se realiza considerando un determinado color del blit como transparente para que en el resultado final algunos píxeles del blit queden por encima de la imagen original. En el lugar de aquellos que no son interpretados como transparentes quedan los píxeles del original. La imagen obtenida es una superposición de ambas, teniendo transparencias en el blit siempre que el color del píxel sea igual a (255,0,255).
 
 % \begin{center}
 % 	\begin{tabular}{cccc}
@@ -25,13 +25,6 @@ $dst(p) = \begin{cases}
 \end{cases}$ \\
 
 \subsubsection{Implementación C}
-
-% Es decir que si el p\'ixel en la imagen de Per\'on es magenta, entonces el nuevo p\'ixel tendr\'a los colores del p\'ixel correspondiente 
-% en la imagen original; y si no los colores del p\'ixel en la imagen de Per\'on. \\
-
-% Las columnas y filas que no se puedan procesar de esta manera, es decir, 
-% las primeras $h - bh$ filas; y de las filas restantes, las primeras $w - bw$ columnas; 
-% quedar\'an igual que como estaban originalmente. \\
 
 Nuestra implementación en C consiste en dos etapas: primero copiamos los píxeles la imagen original en la imagen destino, luego copiamos los píxeles del blit siempre que los mismos no tengan el color (255,0,255). Como Perón debe estar arriba a la derecha de la imagen final, restamos el tamaño de su imagen al de la original en las dimensiones correspondientes. A continuación el pseudocódigo describe el algoritmo:
 
@@ -168,22 +161,22 @@ blit_asm:
 		movdqu xmm0, [rdi]; xmm0=|A B G R|A B G R|A B G R|A B G R|; img	
 		movdqu xmm14, [r15]; xmm14=|a b g r|a b g r|a b g r|a b g r|; blit
 
-							   ;Filtro los valores color magenta
+							   ;Filtramos los valores color magenta
 		pcmpeqd xmm15, xmm14   ; xmm15=|FF FF FF FF|00 00 00 00|FF FF FF FF|00 00 00 00| 
 		movdqu xmm12, xmm15	   ; xmm12= xmm15 paso la mascara a xmm12 
 
-							   ;Filtro los valores que no son magenta
+							   ;Filtramos los valores que no son magenta
 		pcmpeqd xmm15, xmm13   ; xmm15=|00 00 00 00|FF FF FF FF|00 00 00 00|FF FF FF FF|
 
-							   ;Me quedo con los velores de xmm0 que tengo que poner en la imagen
+							   ;Conservamos con los velores de xmm0 para poner en la imagen
 		pand xmm12, xmm0       ; xmm2=|A B G R|00 00 00 00|A B G R|00 00 00 00|
 
-							   ;Me quedo con los valores de blit que tengo que poner en la imagen
+							   ;Nos quedamos con los valores de blit para en la imagen
 		pand xmm15, xmm14      ; xmm15=|00 00 00 00|a b g r|00 00 00 00|a b g r|
 		
-							   ; Junto los dos valores en xmm15
+							   ; Juntamos los dos valores en xmm15
 		por xmm15, xmm12 	   ;xmm15=|A B G R|a b g r|A B G R|a b g r|
-		movdqu [rsi], xmm15	   ; Copio todo a dst
+		movdqu [rsi], xmm15	   ; Escribimos en el destino
 		movdqu xmm15, [maskMagenta]
 		movdqu xmm13, [maskCero]
 		...

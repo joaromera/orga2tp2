@@ -3,7 +3,7 @@
 \subsubsection{Descripción}
 
 \begin{multicols}{2}
-  Este filtro combina la imagen original con una imagen de ondas, dando tonos más oscuros y mas claros en forma de onda. Estas se centran en un punto de la imagen -pasado como parámetro- y se expanden hacia sus bordes de manera concéntrica. Para ello aplicamos implementamos el pseudocódigo del algoritmo otorgado por la cátedra, en el cual a cada pixel de la imagen se le suma un valor de profundidad basado en su distancia al centro de las ondas.
+  Este filtro combina la imagen original con una imagen de ondas, dando tonos más oscuros y mas claros en forma de onda. Estas se centran en un punto de la imagen -pasado como parámetro- y se expanden hacia sus bordes de manera concéntrica. Para ello aplicamos implementamos el pseudocódigo del algoritmo otorgado por la cátedra, en el cual a cada píxel de la imagen se le suma un valor de profundidad basado en su distancia al centro de las ondas.
   \begin{center}
     \begin{tabular}{cccc}
       \includegraphics[width=0.3\textwidth]{imagenes/lenaONDA.jpg} \\
@@ -42,16 +42,16 @@ Nuestra implementación en C es una traducción iterativa del mencionado algorit
 \end{algorithm}
 
 \begin{itemize}
-  \item $x_0$ e $y_0$ representan la posici'on donde est'a centrada la onda,
+  \item $x_0$ e $y_0$ representan la posición donde está centrada la onda,
   \item $RADIUS$, $WAVELENGTH$ y $TRAINWIDTH$ son constantes que definen la 
   forma de la onda y
-  \item $saturar(x)$ es una funci'on que retorna $0$ si $x$ es menor $0$, $255$
+  \item $saturar(x)$ es una función que retorna $0$ si $x$ es menor $0$, $255$
   si es mayor a $255$ y $x$ en cualquier otro caso.
 \end{itemize}
 
 \newpage
 \subsubsection{Implementación ASM}
-Es este ejercicio procesaremos de a 4 píxeles, por cada iteracion sobre la imagen.
+Es este ejercicio procesaremos de a 4 píxeles, por cada iteración sobre la imagen.
 \subsubsection*{Cálculo de la profudidad}
 Vamos a dar una breve explicación del cáculo de la profundidad en assembly.
 
@@ -64,10 +64,10 @@ Queremos calcular la distancia, esto es $\sqrt{(x-x_0)^2+(y-y_0)^2} = \sqrt{dx^2
                           ;xmm11=|x_0|x_0|x_0|x_0| Centro de la onda eje x
                           :xmm14=|y_0|y_0|y_0|y_0| Centro de la onda eje y
   movdqu xmm3, xmm11      ;xmm3=|x3|x2|x1|x0| 
-  psubd xmm3, xmm13       ;xmm3=|x3-x_0|x2-x_0|x1-x0|x0-x_0|                    x - x_0
+  psubd xmm3, xmm13       ;xmm3=|x3-x_0|x2-x_0|x1-x0|x0-x_0| <-- x - x_0
             
   movdqu xmm4, xmm12      ;xmm4=|y1|y2|y3|y4|
-  psubd xmm4, xmm14       ;xmm4=|y3-y_0|y2-y_0|y1-y_0|y0-y_0|                     y - y_0	
+  psubd xmm4, xmm14       ;xmm4=|y3-y_0|y2-y_0|y1-y_0|y0-y_0| < -- y - y_0	
                           ;sabiendo dx3=x3-x_0,dx2=x2-x_0,dx1=x1-x_0 y dx0=x0-x_0
   pmulld xmm3, xmm3       ;xmm3=|dx3^2|dx2^2|dx1^2|dx0^2|
   pmulld xmm4, xmm4       ;xmm4=|dy3^2|dy2^2|dy1^2|dy0^2|
@@ -107,7 +107,7 @@ En esta sección queremos cálcular:
                               ;Cálculo de K
   movdqu xmm7, xmm3           ;xmm7=|R3|R2|R1|R0|
   movdqu xmm4, xmm3           ;xmm4=|R3|R2|R1|R0|
-                              ;El valor 0001b permite activar la opción de trunca cada Float
+                              ;El valor 0001b permite activar la opción de truncar cada Float
                               ;donde floor(R) es el truncamiento
   roundps xmm3, xmm3, 0001b   ;xmm3=|floor(R3)|floor(R2)|floor(R1)|floor(R0)|
 
@@ -124,8 +124,8 @@ En esta sección queremos cálcular:
   movdqu xmm5, xmm4           ;xmm5=|k3|k2|k1|k0|
                               ;xmm10=|1|1|1|1| 
   paddd xmm10, xmm10          ;xmm10=|2|2|2|2|
-  cvtdq2ps xmm10, xmm10       ;xmm10=|2|2|2|2| convierto a Floats
-  mulps xmm5, xmm10           ;xmm5=|k3*2|k2*2|k1*2|k0*2| multiplico por 2 a los k's
+  cvtdq2ps xmm10, xmm10       ;xmm10=|2|2|2|2| convertimos a Floats
+  mulps xmm5, xmm10           ;xmm5=|k3*2|k2*2|k1*2|k0*2| multiplicamos por 2 a los k's
   divps xmm10, xmm10          ;xmm10=|1.0|1.0|1.0|1.0| floats
   cvtps2dq xmm10, xmm10       ;xmm10=|1|1|1|1| convertimos de floats a integer
                               ;xmm6=|PI|PI|PI|PI|
@@ -158,7 +158,7 @@ En esta parte queremos hacer los cálculos de:
 	$SinTaylor \gets (t - \frac{t^3}{6}+\frac{t^5}{120}-\frac{t^7}{5040})$ \\
 	$prof \gets A * SinTaylor*64$
 \end{center}
-Veremos q en $xmm4=|A3*(t3-t3^3/6+t3^5/120-t3^7/5040)*64|...|A1*(t0-t0^3/6+t0^5/120-t0^7/5040)*64|$ el "Sin Taylor" buscado.
+Veremos que en $xmm4=|A3*(t3-t3^3/6+t3^5/120-t3^7/5040)*64|...|A1*(t0-t0^3/6+t0^5/120-t0^7/5040)*64|$ tenemos el \textit{Sin Taylor} buscado.
 \begin{codesnippet}
 \begin{verbatim}
                           ;sin taylor
@@ -171,7 +171,7 @@ Veremos q en $xmm4=|A3*(t3-t3^3/6+t3^5/120-t3^7/5040)*64|...|A1*(t0-t0^3/6+t0^5/
   movq xmm2, r15          ;xmm2=|0|0|0|6|
   packssdw xmm2, xmm2     ;xmm2=|0|6|0|6|
   packssdw xmm2, xmm2     ;xmm2=|6|6|6|6|
-  cvtdq2ps xmm2, xmm2	    ;xmm2=|6|6|6|6| convierto de integer a Floats
+  cvtdq2ps xmm2, xmm2	    ;xmm2=|6|6|6|6| convertimos de integer a Floats
 
   divps xmm3, xmm2        ;xmm3=|(t3^3)/6|(t2^3)/|(t1^3)/6|(t0^3)/6|
   subps xmm1, xmm3        ;xmm1=|t3-(t3^3)/6|t2-(t2^3)/|t1-(t1^3)/6|t0-(t0^3)/6|
@@ -183,7 +183,7 @@ Veremos q en $xmm4=|A3*(t3-t3^3/6+t3^5/120-t3^7/5040)*64|...|A1*(t0-t0^3/6+t0^5/
   addps xmm1, xmm3        ;xmm1=|t3-(t3^3)/6+t3^5/120|...|t0-(t0^3)/6+t0^5/120|								
   ...
                           ;Calculamos T a la séptima
-                          ;Calculos análogos
+                          ;Cálculos análogos
   ...
   divps xmm3, xmm2        ;xmm3=|t3^7/5040|t2^7/5040|t1^7/5040|t0^7/5040|
                   
@@ -201,7 +201,7 @@ Veremos q en $xmm4=|A3*(t3-t3^3/6+t3^5/120-t3^7/5040)*64|...|A1*(t0-t0^3/6+t0^5/
 
 \subsubsection*{Agregar profundidad a los píxeles (último paso)}
 
-En este paso ya tenemos el cálculo de la profundidad en el registro $xmm4$, solamente nos resta agregar la profundidad a los 4 píxeles que estamos por procesar. O sea falta lo siguinte:
+En este paso ya tenemos el cálculo de la profundidad en el registro $xmm4$, solamente nos resta agregar la profundidad a los 4 píxeles que estamos por procesar. O sea:
 
 \begin{center}
        $pixel \gets prof + I_{src}(x, y)$    
@@ -221,7 +221,7 @@ Abajo mostramos los segmentos más importantes del codigo que lo resuelve.
   pshufd xmm4, xmm4, 11111111b    ;xmm4=|prof3*64|prof3*64|prof3*64|prof3*64|
 
   pxor xmm3, xmm3
-                                  ;Levanto imagen en Xmm1
+                                  ;Levantamos imagen en Xmm1
   movdqu xmm1, [rdi]              ;xmm1=|a3 b3 g3 r3|a2 b2 g2 r2|a1 b1 g1 r1|a0 b0 g0 r0|			
   movdqu xmm0, xmm1               ;xmm0=|a3 b3 g3 r3|a2 b2 g2 r2|a1 b1 g1 r1|a0 b0 g0 r0|
   punpckhbw xmm1, xmm3            ;xmm1=|a3 b3 g3 r3|a2 b2 g2 r2| de byte a word parte alta
@@ -229,14 +229,14 @@ Abajo mostramos los segmentos más importantes del codigo que lo resuelve.
   punpckhwd xmm1, xmm3            ;xmm1=|a3 b3 g3 r3| de word a DobleWord parte alta
   punpcklwd xmm2, xmm3            ;xmm2=|a2 b2 g2 r2| de word a DobleWord parte baja
   paddd xmm1, xmm4                ;xmm1=|prof3*64+a3|prof3*64+b3|prof3*64+g3|prof3*64+r3|
-                                  ;Renombro O(a3)=prof3*64+a3, etc
+                                  ;Renombramos O(a3)=prof3*64+a3, etc
                                   ;xmm1=|O(a3) O(b3) O(g3) O(r3)|
 \end{verbatim}
 \end{codesnippet}
 
 \begin{codesnippet}
 \begin{verbatim}    
-                                  ; De Manera similar obtenmos xmm2
+                                  ; De Manera similar obtenemos xmm2
   ...
   paddd xmm2, xmm4                ;xmm2=|a2+prof2*64|b2+prof2*64|g2+prof2*64|r2+prof2*64|
                                   ;xmm2=|O(a2)|O(b2)|O(g2)|O(r2)|	
@@ -255,6 +255,6 @@ Abajo mostramos los segmentos más importantes del codigo que lo resuelve.
   packuswb xmm2,xmm5              ;xmm2=|O(a3) O(b3) O(g3) O(r3)|O(a2) O(b2) O(g2) O(r2)
                                   ;     |O(a1) O(b1) O(g1) O(r1)|O(a0) O(b0) O(g0) O(r0)|                      
 
-  movdqu [rsi], xmm2              ;Cargamos a memoria xmm2                        			
+  movdqu [rsi], xmm2              ;Escribimos el contenido de xmm2                        			
 \end{verbatim}
 \end{codesnippet}

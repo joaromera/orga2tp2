@@ -3,7 +3,7 @@
 \subsubsection{Descripción}
 
 \begin{multicols}{2}
-El filtro EDGE devuelve una imagen con los bordes de otra imagen original. Esto se logra observando los píxeles donde la intensidad de la imagen cambia de forma abrupta, lo cual puede ser logrado buscando saltos en una función de intensidades. Esta idea de detectar los bordes fue implementada a través del operador de Laplace, cuya matriz es: 
+El filtro EDGE devuelve una imagen con los bordes de otra imagen original. Esto se logra observando los píxeles donde la intensidad de la imagen cambia de forma abrupta. A su vez esto puede ser logrado buscando saltos en una función de intensidades. Esta idea de detectar los bordes fue implementada a través del operador de Laplace, cuya matriz es: 
 
 $$ M = \left(
 \begin{matrix}
@@ -20,16 +20,15 @@ $$ M = \left(
 	\end{center}
 \end{multicols}
 
-La forma de utilizarla es posicionando uno a uno cada pixel en el centro de la matriz y realizando el siguiente cálculo: 
+La forma de utilizarla es posicionando uno a uno cada píxel en el centro de la matriz y realizando el siguiente cálculo: 
 
 $$dst(x, y) = \sum_{k = 0}^2 \sum_{l = 0}^2 src(x + k - 1, y + l - 1) * M(k, l)$$
 
-Al igual que monocromatizar, EDGE opera sobre imágenes en escala de grises (1 componente de color por píxel).
-Como no se pueden procesar los bordes con la función anterior se aplica la siguiente función: $dst(x, y) = src(x,y)$.
+Al igual que monocromatizar, EDGE opera sobre imágenes en escala de grises (1 componente de color por píxel). Como no se pueden procesar los bordes con la función anterior se aplica la siguiente función: $dst(x, y) = src(x,y)$.
 
 \subsubsection{Implementación C}
 
-Ignorando la primera y la última fila al igual que el primer y el último pixel de cada fila, recorrimos iterativamente todos los pixeles de la imagen realizando el siguiente proceso: por cada pixel calculamos todas las sumas parciales de la función que resulta de la aplicación de la matriz de Laplace, luego todas estas sumas fueron almacenadas en una variable auxiliar (\textit{edge}). Si el valor de \textit{edge} requería ser saturado se lo restringió a los valores 0/255 y finalmente se guardó el resultado en el pixel correspondiente de la imagen destino.
+Ignorando la primera y la última fila al igual que el primer y el último pixel de cada fila, recorrimos iterativamente todos los píxeles de la imagen realizando el siguiente proceso: por cada pixel calculamos todas las sumas parciales de la función que resulta de la aplicación de la matriz de Laplace, luego todas estas sumas fueron almacenadas en una variable auxiliar (\textit{edge}). Si el valor de \textit{edge} requería ser saturado se lo restringió a los valores 0/255 y finalmente se guardó el resultado en el píxel correspondiente de la imagen destino.
 
 \begin{algorithm}[H]
   \begin{algorithmic}[1]
@@ -55,17 +54,12 @@ Ignorando la primera y la última fila al igual que el primer y el último pixel
 
 \subsubsection{Implementación ASM}
 
-Como previamente habíamos comentado, copiaremos los píxeles del borde tal como estaban en la imagen original.
-Sabiendo eso explicaremos las partes más relevantes de los cálculos realizados con las intrucciones de assembler.
+Como previamente habíamos comentado, copiaremos los píxeles del borde tal como estaban en la imagen original. Sabiendo eso explicaremos las partes más relevantes de los cálculos realizados con las intrucciones de assembler.
 
 \subsubsection*{Obtenemos la matriz de píxeles}
 
 \begin{multicols}{2}
-En este filtro procesaremos de a 2 componentes por cada píxel.
-Brindamos un dibujo de como se ve la imagen en memoria y donde apuntan los registros(punteros).
-En este caso \emph{rdi} apunta al píxel con el que vamos a trabajar, y \emph{rdx} contiene el ancho de la imagen. \\
-Por otro lado la \emph{matriz} muestra como ven los registros \emph{xmm}a los pixeles. Tenemos la parte  \emph{alta, centro y baja},
-como se muestra en la matriz para procesar la imagen.
+En este filtro procesaremos de a 2 componentes por cada píxel. Brindamos un dibujo de como se ve la imagen en memoria y donde apuntan los registros(punteros). En este caso \emph{rdi} apunta al píxel con el que vamos a trabajar, y \emph{rdx} contiene el ancho de la imagen. Por otro lado la \emph{matriz} muestra como ven los registros \emph{xmm}a los pixeles. Tenemos la parte  \emph{alta, centro y baja}, como se muestra en la matriz para procesar la imagen.
 \begin{center}
 		$rdi \gets PunteroAPixel$ \\
 		$rdx \ width$
@@ -88,22 +82,17 @@ como se muestra en la matriz para procesar la imagen.
 
 \end{center}
 
-
-
     \begin{center}
 	    \begin{tabular}{cccc}
 		  \includegraphics[width=0.6\textwidth]{imagenes/edge/edge1.png} \\
 		\end{tabular}
 	\end{center}
 
-
 \end{multicols}
-
-
 
 \begin{codesnippet}
 \begin{verbatim}    
-;Obtenemos el pixel de la imagen fuente en eax
+;Obtenemos el píxel de la imagen fuente en eax
     mov eax, [rdi]          ;eax=|a b g r|
 
                             ;Caso centro de la matriz
@@ -115,9 +104,9 @@ como se muestra en la matriz para procesar la imagen.
     movd xmm1, eax          ;xmm1=|0|0|0|a b g r|
     punpcklbw xmm1, xmm2    ;xmm1=|0|a b g r|     
     pslldq xmm0, 8          ;xmm0=|a b g r|0|
-    paddw xmm0, xmm1        ;xmm0=|a b g r|a b g r| Centro: centro de la matriz
+    paddw xmm0, xmm1        ;xmm0=|a b g r|a b g r| centro de la matriz
 
-;Caso Parte baja de la matriz, son los mismos cálculos solo cambia el puntero a la imagen
+;Caso Parte baja de la matriz, son los mismos cálculos, solo cambia el puntero a la imagen.
 
     mov eax, [rdi + rdx]    ;eax=|a b g r| observar rdi+rdx donde rdx= width
     paddw xmm1, xmm2        ;xmm1=|a b g r|a b g r| Baja: parte baja de la matriz
@@ -135,7 +124,7 @@ En esta sección hacemos la multiplicación anteriormente mencionada en el enunc
 
 \begin{codesnippet}
 \begin{verbatim}    
-                                   ;divido por 2 a xmm2 y xmm1
+                                   ;dividimos por 2 a xmm2 y xmm1
     psrlw xmm2, 1                  ;xmm2=|a/2 b/2 g/2 r/2|a/2 b/2 g/2 r/2| Matriz Alta
     psrlw xmm1, 1                  ;xmm1=|a/2 b/2 g/2 r/2|a/2 b/2 g/2 r/2| Matriz Baja
 
@@ -159,11 +148,13 @@ En esta sección hacemos la multiplicación anteriormente mencionada en el enunc
     psllq xmm2, 16                 ;xmm2=|a/2 b/2 g/2 0|b/2 g/2 r/2 0| Alta
     psllq xmm0, 16                 ;xmm0=|a    b   g  0|b   g   r   0| Centro
     psllq xmm1, 16                 ;xmm1=|a/2 b/2 g/2 0|b/2 g/2 r/2 0| Baja
+\end{verbatim}
+\end{codesnippet}
 
-;###########################################################################
-
+\begin{codesnippet}
+\begin{verbatim}    
 								   ;Armamos la Matriz
-                                   ;multiplico xmm2 por los valores de la matriz
+                                   ;multiplicamos xmm2 por los valores de la matriz
                                    ;xmm14=|1 2 1 1|1 2 1 1|
                                    ;xmm15=|1 -6 1 1|1 -6 1 1|
     pmullw xmm2, xmm14             ;xmm2=|a/2 b g/2 0|b/2 g r/2 0| Alta
@@ -172,9 +163,7 @@ En esta sección hacemos la multiplicación anteriormente mencionada en el enunc
 \end{verbatim}
 \end{codesnippet}
 
-
-Una vez que tenemos armada la matriz. Solamente hace falta sumarlas, para eso aplicamos sumas verticales y luego sumas horizontales
-como podemos ver aquí abajo.
+Una vez que tenemos armada la matriz. Solamente hace falta sumarlas, para eso aplicamos sumas verticales y luego sumas horizontales como podemos ver a continuación:
 
 \begin{codesnippet}
 \begin{verbatim}    
@@ -192,5 +181,4 @@ como podemos ver aquí abajo.
 \end{verbatim}
 \end{codesnippet}
 
-Y como último paso resta copiar a memoria \emph{xmm0}, para eso usamos instrucciones de \emph{shift} y \emph{movq}.
-Todos estos pasos se repiten para toda la imagen, exceptuando los bordes.
+Y como último paso resta copiar a memoria \emph{xmm0}, para eso usamos instrucciones de \emph{shift} y \emph{movq}. Todos estos pasos se repiten para toda la imagen, exceptuando los bordes.

@@ -1,5 +1,5 @@
 \section{Introducción}
-En el presente trabajo hicimos un primer acercamiento al modelo de ejecución SIMD (Single instruction Multiple Data). Diseñado como una extensión al set de instrucciones de la arquitectura x86 e introducido por Intel en 1999, esta técnica de paralelización puede mejorar notablemente la performance de un sistema en contextos de programación donde se deben aplicar algoritmos repetitivos sobre un mismo conjunto de datos. Esto lo hace particularmente útil para procesamientos multimedia -audio, video e imágenes- donde la reproducción en tiempo real es crítica. Gracias a las instrucciones SIMD podemos ejecutar una misma operación sobre muchos datos al mismo tiempo en una sola instrucción, contrario a realizarlo en un modelo exclusivamente SISD (single instruction single data). Como veremos a lo largo del trabajo su utilización introducirá notables mejoras en performance y eficiencia de nuestros algoritmos siempre que sea posible su aplicación.
+En el presente trabajo hicimos un primer acercamiento al modelo de ejecución SIMD (Single instruction Multiple Data). Diseñado como una extensión al set de instrucciones de la arquitectura x86 e introducido por Intel en 1999, esta técnica de paralelización puede mejorar notablemente la performance de un sistema en contextos de programación donde se deben aplicar algoritmos repetitivos sobre un mismo conjunto de datos. Esto lo hace particularmente útil para procesamientos multimedia -audio, video e imágenes- donde la reproducción en tiempo real es crítica. Gracias a las instrucciones SIMD podemos ejecutar una misma operación sobre muchos datos al mismo tiempo en una sola instrucción, contrario a realizarlo en un modelo exclusivamente SISD (single instruction single data). Como veremos a lo largo del trabajo su utilización introducirá notables mejoras en performance y eficiencia de nuestros algoritmos en una gran cantidad de casos siempre que sea posible su aplicación.
 
 \begin{center}
   \begin{tabular}{cccc}
@@ -39,7 +39,7 @@ Para las mediciones se corrieron los algoritmos en una computadora con las sigui
   \end{tabular}
  \end{center}
 
- Asimismo se utilizó la siguiente combinación de sistema operativo y compiladores: Ubuntu/Xenial64 16.04.4 LTS, GCC versión 5.4.0 y NASM versión 2.11.08. Para compilar el código C se usaron los flags \textit{-ggdb -Wall -Wno-unused-parameter -Wextra -std=c99 -pedantic -m64 -O3} y para ASM \textit{-felf64 -g -F dwarf} conforme a los archivos proporcionados por la cátedra de la materia.
+ Asimismo se utilizó la siguiente combinación de sistema operativo y compiladores: Ubuntu/Xenial64 16.04.4 LTS, GCC versión 5.4.0 y NASM versión 2.11.08. Para compilar el código C se usaron los flags \textit{-ggdb -Wall -Wno-unused-parameter -Wextra -std=c99 -pedantic -m64 -O0} y para ASM \textit{-felf64 -g -F dwarf} conforme a los archivos proporcionados por la cátedra de la materia.
 
 
 A continuación introducimos los filtros y sus respectivas implementaciones, luego describimos los tests realizados y los resultados obtenidos, y finalmente a partir de estos datos otorgamos algunas conclusiones sobre la experiencia realizada.

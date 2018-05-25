@@ -22,7 +22,7 @@
 \contentsline {subsection}{\numberline {2.5}Edge}{19}
 \contentsline {subsubsection}{\numberline {2.5.1}Descripci\IeC {\'o}n}{19}
 \contentsline {subsubsection}{\numberline {2.5.2}Implementaci\IeC {\'o}n C}{19}
-\contentsline {subsubsection}{\numberline {2.5.3}Implementaci\IeC {\'o}n ASM}{19}
+\contentsline {subsubsection}{\numberline {2.5.3}Implementaci\IeC {\'o}n ASM}{20}
 \contentsline {section}{\numberline {3}Mediciones y Experimentos}{22}
 \contentsline {subsection}{\numberline {3.1}Performance}{22}
 \contentsline {subsection}{\numberline {3.2}SIMD vs. SISD}{24}
