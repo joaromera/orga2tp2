@@ -1,1 +1,0 @@
-temperature;img/lena32.bmp;32;1;5090584;5090584.000;1;
