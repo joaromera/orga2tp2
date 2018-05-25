@@ -203,17 +203,10 @@ ondas_asm:
 	packssdw xmm2,xmm1
 	packuswb xmm2,xmm5
 
-<<<<<<< Updated upstream
 	psrld xmm0, 24
 	pslld xmm0, 24
 	
 	por xmm2, xmm0
-=======
-	pinsrb xmm2, r9b, 15
-    pinsrb xmm2, r9b, 11
-    pinsrb xmm2, r9b, 7
-    pinsrb xmm2, r9b, 3
->>>>>>> Stashed changes
 	
 	movdqu [rsi], xmm2
 

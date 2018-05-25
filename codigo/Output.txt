@@ -1,1 +1,1 @@
-monocromatizar_inf;tests/img_generadas/white.64x64.bmp;32;1;256094;256094.000;0;
+temperature;img/lena32.bmp;32;1;5090584;5090584.000;1;

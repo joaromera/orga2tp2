@@ -179,7 +179,7 @@ edge_asm:									;NOTAR QUE LOS PIXELES MIDEN 1 BYTE
 			jmp .edge
 
 		.ultimaFila:
-			cmp r11, r13						;verificar si es la ultima columna de la fila
+			cmp r11, r13				;verificar si es la ultima columna de la fila
 			je .fin
 			movdqu xmm0, [rdi]
 			pslldq xmm0, 12

@@ -12,9 +12,10 @@ IMAGENES=["lena.bmp"]
 
 assure_dirs()
 
-#sizes=['200x200', '204x204', '208x208', '256x256', '512x512', '1024x768']
+sizes=['200x200', '204x204', '208x208', '256x256', '512x512', '1024x768']
 
-sizes=['16x16','32x32','64x64','128x128','256x256','512x512','1024x1024','2048x2048','4096x4096']
+# Imagenes menores a 128x128 dan errores en blit por requerimentos del filtro
+# sizes=['16x16','32x32','64x64','128x128','256x256','512x512','1024x1024','2048x2048','4096x4096']
 
 for filename in IMAGENES:
 	print(filename)
