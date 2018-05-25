@@ -26,6 +26,6 @@
 \contentsline {section}{\numberline {3}Mediciones y Experimentos}{22}
 \contentsline {subsection}{\numberline {3.1}Performance}{22}
 \contentsline {subsection}{\numberline {3.2}SIMD vs. SISD}{24}
-\contentsline {subsection}{\numberline {3.3}Branch Prediction}{25}
-\contentsline {subsection}{\numberline {3.4}Loop Unrolling}{27}
-\contentsline {section}{\numberline {4}Conclusiones y trabajo futuro}{29}
+\contentsline {subsection}{\numberline {3.3}Branch Prediction}{26}
+\contentsline {subsection}{\numberline {3.4}Loop Unrolling}{28}
+\contentsline {section}{\numberline {4}Conclusiones y trabajo futuro}{30}

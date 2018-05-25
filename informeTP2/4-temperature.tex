@@ -67,9 +67,9 @@ En este tramo de código traigo los 4 píxeles de memoria. Desempaquetamps de By
 
 \begin{codesnippet}
 \begin{verbatim}
-    movdqu xmm0, [rdi]      ; xmm0 = |a3 b3 g3 r3|a2 b2 g2 r2|a1 b1 g1 r1|a0 b0 g0 r0| Píxeles originales
-    movdqu xmm1, xmm0       ; xmm1= xmm0
-    movdqu xmm2, xmm0       ; xmm2= xmm0
+    movdqu xmm0, [rdi]      ;Píxeles originales
+    movdqu xmm1, xmm0       
+    movdqu xmm2, xmm0
 
     pxor xmm7, xmm7         ; Masacara de ceros en xmm7 para desempaquetar de byte a word
     punpcklbw xmm2, xmm7    ; xmm2 = |a1 b1 g1 r1|a0 b0 g0 r0| parte baja
@@ -90,8 +90,8 @@ Para calcular las sumas de la 3 componentes \emph{b+g+r}. Realizamos sumas horiz
     phaddw xmm2, xmm2  ; xmm2=|0+b1 g1+r1 0+b0 g0+r0|0+b1 g1+r1 0+b0 g0+r0|
     phaddw xmm1, xmm1  ; xmm1=|0+b3 g3+r3 0+b2 g2+r2| 0+b3 g3+r3 0+b2 g2+r2|
 
-    phaddw xmm2, xmm2  ; xmm2 =|b1+g1+r1 b0+g0+r0 b1+g1+r1 b0+g0+r0|b1+g1+r1 b0+g0+r0 b1+g1+r1 b0+g0+r0|
-    phaddw xmm1, xmm1  ; xmm1 =|b3+g3+r3 b2+g2+r2 b3+g3+r3 b2+g2+r2|b3+g3+r3 b2+g2+r2 b3+g3+r3 b2+g2+r2|
+    phaddw xmm2, xmm2  ; xmm2 =|b1+g1+r1 b0+g0+r0 b1+g1+r1 b0+g0+r0|b1+g1+r1 b0+g0+r0 b1+g1+r1...
+    phaddw xmm1, xmm1  ; xmm1 =|b3+g3+r3 b2+g2+r2 b3+g3+r3 b2+g2+r2|b3+g3+r3 b2+g2+r2 b3+g3+r3...
                        ; xmm2 =|s1 s0 s1 s0|s1 s0 s1 s0|
                        ; xmm1 =|s3 s2 s3 s2|s3 s2 s3 s2|
 \end{verbatim}
@@ -101,14 +101,14 @@ El objetivo de este paso es obtener \emph{xmm1=$|s3|s2|s1|s0|$}, donde \emph{s3,
 
 \begin{codesnippet}
 \begin{verbatim}
-                                  ;shuffle parte baja (bits 63 a 0) de los words, para reordenar las sumas s0,s1,s2ys3
+    ;shuffle parte baja (bits 63 a 0) de los words, para reordenar las sumas s0,s1,s2ys3
                                   ; imm8 = 1 1 0 0
     pshufhw xmm2, xmm2, 01010000b ; xmm2=|s1 s0 s1 s0|s1 s1 s0 s0| 
     pshufhw xmm1, xmm1, 01010000b ; xmm1=|s3 s2 s3 s2|s3 s3 s2 s2|
                                   ;shuffle parte alta(bits 127 a 64) de los word
     pshuflw xmm2, xmm2, 01010000b ; xmm2=|s1 s1 s0 s0|s1 s1 s0 s0|
     pshuflw xmm1, xmm1, 01010000b ; xmm1=|s3 s3 s2 s2|s3 s3 s2 s2|
-                                  ; observar q las sumas s0,...,s1 miden words, shifteo a derecha c/paquete dobleWord 16 bits
+                                  ;shifteo a derecha c/paquete dobleWord 16 bits
     psrld xmm2, 16;               ; xmm2=|0 s1|0 s0|0 s1|0 s0| 
     psrld xmm1, 16                ; xmm1=|0 s3|0 s2|0 s3|0 s2| 
 								  ; Que es lo mismo q decir
@@ -155,14 +155,14 @@ El objetivo de este caso es obtner en \emph{xmm4=$|$0 0 0 4.t3+128$|$0 0 0 4.t2+
 \begin{verbatim}
                         ; Caso: t < 32    <0, 0, 0, 4t + 128>
     movdqu xmm4, xmm1   ; xmm4=|t3 t3 t3 t3|t2 t2 t2 t2|t1 t1 t1 t1|t0 t0 t0 t0|
-                        ; multiplico por 2
-    paddb  xmm4, xmm1   ; xmm4=|2.t3 2.t3 2.t3 2.t3|2.t2 2.t2 2.t2 2.t2|2.t1 2.t1 2.t1 2.t1|2.t0 2.t0 2.t0 2.t0|   
+
+    paddb  xmm4, xmm1   ; multiplico por 2
     paddb  xmm4, xmm1   ; multiplico por 3 y 4
-    paddb  xmm4, xmm1   ; xmm4=|4.t3 4.t3 4.t3 4.t3|4.t2 4.t2 4.t2 4.t2|4.t1 4.t1 4.t1 4.t1|4.t0 4.t0 4.t0 4.t0| 
+    paddb  xmm4, xmm1
                         ; sumo 128 a cada byte de xmm4
-                        ; xmm1=|128|128|128|128|128|128|128|128|128|128|128|128|128|128|128|128|
-    paddb  xmm4, xmm11  ; xmm4=|4.t3+128 4.t3+128 4.t3+128 4.t3+128|4.t2+128 4.t2+128 4.t2+128 4.t2+128
-                        ;      |4.t1+128 4.t1+128 4.t1+128 4.t1+128|4.t0+128 4.t0+128 4.t0+128 4.t0+128|
+                        ; xmm11=|128|128|128|128|128|128|128|128|128|128|128|128|128|128|128|128|
+    paddb  xmm4, xmm11 
+
                         ; shifteo a derecha 24 bits a cada paquete de DobleWord
     psrld  xmm4, 24     ; xmm4=|0 0 0 4.t3+128|0 0 0 4.t2+128|0 0 0 4.t1+128|0 0 0 4.t0+128|
 \end{verbatim}
@@ -176,14 +176,12 @@ La parte interezante es que usamos la instrucción \emph{pinserb}, que inserta e
 \begin{verbatim}				
                         ;xmm11=|128|128|128|128|128|128|128|128|128|128|128|128|128|128|128|128|
                         ;xmm4=|t3 t3 t3 t3|t2 t2 t2 t2|t1 t1 t1 t1|t0 t0 t0 t0|
-    psubb xmm5, xmm11   ;xmm5=|4.t3-128 4.t3-128 4.t3-128 4.t3-128|4.t2-128 4.t2-128 4.t2-128 4.t2-128
-                        ;     |4.t1-128 4.t1-128 4.t1-128 4.t1-128|4.t0-128 4.t0-128 4.t0-128 4.t0-128|
-                        ;xmm5=|4.(t3-32) 4.(t3-32) 4.(t3-32) 4.(t3-32)|....|4.t0-32 4.4.t0-32 4.4.t0-32 4.4.t0-32|                           
-                        ; r9b=255
-    pinsrb xmm5, r9b, 12 ; xmm5=|4.(t3-32) 4.(t3-32) 4.(t3-32) 4.(t3-32)+255|...|4.t0-32 4.4.t0-32 4.4.t0-32 4.4.t0-32|
+    psubb xmm5, xmm11   ;xmm5=|4.t3-128 4.t3-128 4.t3-128 4.t3-128|...
+
+    pinsrb xmm5, r9b, 12 ; xmm5=|4.(t3-32) 4.(t3-32) 4.(t3-32) 4.(t3-32)+255|...
     pinsrb xmm5, r9b, 8  
     pinsrb xmm5, r9b, 4
-    pinsrb xmm5, r9b, 0  ;xmm5=|4.(t3-32) 4.(t3-32) 4.(t3-32) 255|...|4.(t0-32) 4.(t0-32) 4.(t0-32) 255|                    
+    pinsrb xmm5, r9b, 0  ;xmm5=|4.(t3-32) 4.(t3-32) 4.(t3-32) 255|...
 
     pslld xmm5, 16      ;xmm5=|4.(t3-32) 255 0 0|...|4.(t0-32) 255 0 0|
     psrld xmm5, 16      ;xmm5=|0 0 4.(t3-32) 255|...|0 0 4.(t0-32) 255|                    
@@ -199,7 +197,9 @@ Este es el último paso. Acá debemos quedarnos con las valores según valfa \em
 \begin{codesnippet}
 \begin{verbatim}				
     psrld xmm1,  24    ; xmm1=|0 0 0 t3|0 0 0 0 t2|0 0 0 t1|0 0 0 t0|
-							; En este paso produzco todas las máscaras segun el valor de T
+
+    ; En este paso produzco todas las máscaras segun el valor de T
+
     pcmpgtd xmm12, xmm1     ; [32 > t?...] Me quedo con t < 32
     pcmpgtd xmm13, xmm1     ; [96 > t?...] Me quedo con t < 96
     pxor    xmm13, xmm12    ; Me quedo con 32 <= t < 96
@@ -214,8 +214,9 @@ Este es el último paso. Acá debemos quedarnos con las valores según valfa \em
     pxor    xmm9,  xmm13
     pxor    xmm9,  xmm14
     pxor    xmm9,  xmm15
-							; utilizando las mascaras producidas en el paso anterior 
-							; unimos todos los casos
+
+    ; utilizando las mascaras producidas en el paso anterior unimos todos los casos
+    
     pand xmm12, xmm4        ; [t<32, 0, 0 , t<32, ...]
     pand xmm13, xmm5        ; [t<96, t <96, 0,...]
     pand xmm14, xmm3        ; [t<160, t<160, 0, 0 ,t<160]

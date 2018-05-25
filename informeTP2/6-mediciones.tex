@@ -4,22 +4,24 @@ Para poder realizar las mediciones utilizamos la instrucción de assembler \text
 
 \subsection{Performance}
 
-Nos propusimos observar el crecimiento en la cantidad de ciclos por llamada de cada función a medida que crecía el tamaño del archivo de entrada. Para esto utilizamos la imagen de Lena con tamaños de 16x16 píxeles hasta 1024x1024 en incrementos de a 8 píxeles por lado -para el filtro Blit las mediciones arrancaron con imágenes de 128x128 dadas las restricciones del filtro-. El objetivo de estos tests es comparar la performance de la implementación de cada filtro en un lenguaje de alto nivel como C y en uno de nivel más bajo como Assembler. Sabemos que la programación en bajo nivel provee poca -o ninguna- abstracción del set de instrucciones de una arquitectura, debido a esta cercanía del código con el procesador podríamos esperar que la ejecución sea más rápida y que fuese más eficiente en el uso de la memoria. Por el lado del código en C, hicimos las mediciones compilando con los flags O0 y O3 para observar en mayor detalle las variaciones en performance.
+Nos propusimos observar el crecimiento en la cantidad de ciclos por llamada de cada función a medida que crecía el tamaño del archivo de entrada. Para esto utilizamos la imagen de Lena con tamaños de 16x16 píxeles hasta 1024x1024 en incrementos de a 8 píxeles por lado -para el filtro Blit las mediciones arrancaron con imágenes de 128x128 dadas las restricciones del filtro-. El objetivo de estos tests es comparar la performance de la implementación de cada filtro en un lenguaje de alto nivel como C y en uno de nivel más bajo como Assembler. Sabemos que la programación en bajo nivel provee poca -o ninguna- abstracción del set de instrucciones de una arquitectura, debido a esta cercanía del código con el procesador podríamos esperar que la ejecución sea más rápida y que fuese más eficiente en el uso de la memoria. Por el lado del código en C, hicimos las mediciones compilando con los flags O0 y O3 para observar en mayor detalle las variaciones en performance que introducen las optimizaciones del compilador.
 
-En todos los resultados obtenidos observamos que nuestra implementación en ASM requirió menos ciclos de reloj que su contraparte en C en cualquiera de sus variantes. Al mismo tiempo no observamos diferencias notorias entre compilar el código en C usando los flags O0 y O3, al menos no en comparación a la difererencia con el código en assembly. 
+A excepción de Temperature, en todos los resultados obtenidos observamos que nuestra implementación en ASM requirió menos ciclos de reloj que su contraparte en C en cualquiera de sus variantes. Sin embargo, en algunos filtros la diferencia fue menor que en otras. Las diferencias más notorias se dieron en los filtros Ondas y Edge, encontrando las menores diferencias en Monocromatizar y Temperature. Al mismo tiempo observamos diferencias significativos entre compilar el código en C usando los flags O0 y O3, donde encontramos que no utilizar optimizaciones (el flag O0) es la opción que más ciclos de reloj demora por llamada. 
 
-Las diferencias registradas en cada implementación son coherentes con el diseño de los algoritmos dadas las posibilidades de cada paradigma de programación: mientras que en los casos de la programación en alto nivel con C toda la programación la realizamos secuencialmente procesando de a un píxel, en bajo nivel con ASM podemos procesar múltiples píxeles con pocas instrucciones SIMD, acortando significativamente la cantidad de ciclos.
+Las diferencias registradas en cada implementación son coherentes con el diseño de los algoritmos dadas las posibilidades de cada paradigma de programación: mientras que en los casos de la programación en alto nivel con C toda la programación la realizamos secuencialmente procesando de a un píxel, en bajo nivel con ASM podemos procesar múltiples píxeles con pocas instrucciones SIMD, acortando significativamente la cantidad de ciclos. El grado de mejora entre una implementación está relacionado con el provecho que se haga de las ventajas que ofrece la paralelización de los datos, comparando con la compilación O0 -sin optimizaciones- es grande en todos los casos, sin embargo al introducir las optimizaciones con O3 el desempeño se acerca mucho al del ASM. Como contracara de esto debemos resaltar que no poseemos toda la información de cómo funciona exactamente el compilador a este nivel y con esas opciones, por lo que perdemos algo del control que tenemos programando puramente en C sin optimizar o en ASM.
 
 \begin{wrapfigure}{r}{0.3\textwidth}
 	\centering
 	\includegraphics[width=0.3\textwidth]{imagenes/testperformance/sizes.png}
 \end{wrapfigure}
 
+Observamos que el código C optimizado con O3 funcionó mejor que nuestra implementación en ASM para Temperature, asimismo en Ondas sucedió lo contrario. En casos como Monocromatizar y Blit las diferencias fueron menores, probablemente porque el código mismo no tiene grandes saltos condicionales ni cálculos de punto flotante y al ser un simple loop, el código en C puede descomponer este loop y ganar algo de performance sobre el ASM -donde si bien levantamos de a 4 píxeles, tenemos mucho saltos por los ciclos-, este caso será investigado en un experimento posterior.
+
 También podemos apreciar la diferencia en bytes de los archivos objeto producidos por los compiladores (primera columan de la imagen a la derecha). En todos los casos los archivos generados por GCC son más pesados que los ensamblados por NASM, pesando estos últimos entre un 55\% y un 65\% lo que pesan sus pares en C.
 
 Como ventaja innegable que tiene C por sobre Assembly, o la de cualquier lenguaje de alto nivel por sobre uno de bajo nivel, es la facilidad de uso y debuggeo, su legibilidad, portabilidad, etc. Un ejemplo de esta diferencia es la cantidad de líneas de código que requiere cada algoritmo según el tipo de lenguaje utilizado, llegando nuestras implementaciones en ASM a requerir entre 2 y 5 veces la cantidad de líneas que ocupan en C.
 
-En la página siguiente están los gráficos correspondientes a los filtros y sus mediciones de performance.
+A continuación están los gráficos correspondientes a los filtros y sus mediciones de performance. A la izquierda en escala lineal y a la derecha en escala logarítmica.
 
 \begin{center}
 	\begin{tabular}{cccc}
@@ -31,15 +33,19 @@ En la página siguiente están los gráficos correspondientes a los filtros y su
 	  \includegraphics[width=0.45\textwidth]{imagenes/testperformance/MONOperformanceLOG.png} \\
 	  \includegraphics[width=0.45\textwidth]{imagenes/testperformance/ONDASperformanceLIN.png} &
 	  \includegraphics[width=0.45\textwidth]{imagenes/testperformance/ONDASperformanceLOG.png} \\
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{cccc}
 	  \includegraphics[width=0.45\textwidth]{imagenes/testperformance/TEMPperformance.png} &
 	  \includegraphics[width=0.45\textwidth]{imagenes/testperformance/TEMPperformanceLOG.png} \\
 	\end{tabular}
    \end{center}
 
-\newpage
 \subsection{SIMD vs. SISD}
 
-En la misma línea del experimento anterior quisimos evaluar las diferencias de tiempo entre el mismo algoritmo implementado en C, en ASM usando instrucciones SISD y en ASM con SIMD. La reescritura del código utilizando instrucciones SISD requirió 60 líneas de código, usando SIMD 30, y con C apenas 10; el tamaño de los archivos objeto pesó 2592B en SISD, 2608B en SIMD y 4280B en C.
+En la misma línea del experimento anterior quisimos evaluar las diferencias de tiempo entre el mismo algoritmo implementado en C (sin optimizaciones), en ASM usando instrucciones SISD y en ASM con SIMD. La reescritura del código utilizando instrucciones SISD requirió 60 líneas de código, usando SIMD 30, y con C apenas 10; el tamaño de los archivos objeto pesó 2592B en SISD, 2608B en SIMD y 4280B en C.
 
 \begin{center}
 
@@ -48,7 +54,7 @@ En la misma línea del experimento anterior quisimos evaluar las diferencias de 
 
 \end{center}
 
-Nuevamente pudimos apreciar como las instrucciones SIMD logran una superioridad en performance con respecto a la programación trabajando con datos secuencialmente. El mismo algoritmo implementado utilizando instrucciones SISD no logró imponerse sobre C para imagenes pequeñas -por debajo de los 256 píxeles por lado-, aunque sí lo logró para imagenes de mayor tamaño. En este caso el beneficio de trabajar en ASM puede verse opacado por la facilidad de la programación en C si no se utilizan las instrucciones SIMD. Sin embargo de mantenerse este crecimiento en la cantidad de llamadas para cada implementación, C sigue perdiendo cuando es más exigido.
+Pudimos apreciar como las instrucciones SIMD logran una superioridad en performance con respecto a la programación trabajando con datos secuencialmente. El mismo algoritmo implementado utilizando instrucciones SISD no logró imponerse sobre C para imagenes pequeñas -por debajo de los 256 píxeles por lado-, aunque sí lo logró para imagenes de mayor tamaño. En este caso el beneficio de trabajar en ASM puede verse opacado por la facilidad de la programación en C si no se utilizan las instrucciones SIMD. Sin embargo de mantenerse este crecimiento en la cantidad de llamadas para cada implementación, C sigue perdiendo cuando es más exigido.
 
 \newpage
 \subsection{Branch Prediction}
@@ -93,7 +99,7 @@ Las imagenes utilizadas:
 
 \end{center}
 
-A partir de los resultados pudimos observar lo siguiente: el predictor de saltos pudo mejorar los tiempos de ejecución del programa en la imagen negra para todos los casos a partir de un tamaño de 312 píxeles por lado; no hubo diferencias sustanciales entre las imagenes blancas y las que incluyen el patrón, efectivamente las imagenes blancas demoraron unos ciclos más que las del patrón, posiblemente porque tiene que evaluar todas las condiciones antes de caer en el caso correcto, mientras que para el patrón algunos píxeles entran en las primeras ramas del condicional y no hace falta seguir evaluando; finalmente para el caso de la imagen con ruido los ciclos de llamada fueron mucho mayores que para el resto, incluso presentan una tasa crecimiento mayor, especialmente a partir de los 400 píxeles por lado.
+A partir de los resultados pudimos observar lo siguiente: el predictor de saltos pudo mejorar los tiempos de ejecución del programa en la imagen negra para todos los casos a partir de un tamaño de 312 píxeles por lado; no hubo diferencias sustanciales entre las imagenes blancas y las que incluyen el patrón, efectivamente las imagenes blancas demoraron unos ciclos más que las del patrón, posiblemente porque tiene que evaluar todas las condiciones antes de caer en el caso correcto, mientras que para el patrón algunos píxeles entran en las primeras ramas del condicional y no hace falta seguir evaluando; finalmente para el caso de la imagen con ruido los ciclos de llamada fueron mucho mayores que para el resto, incluso presentan una tasa crecimiento mayor, especialmente a partir de los 400 píxeles por lado. También volvemos a notar que las optimizaciones O3 introducen mejoras en rendimiento por sobre O0 en todos los casos probados.
 
 \newpage
 \subsection{Loop Unrolling}
@@ -123,7 +129,7 @@ Como era de esperar el tamaño del binario aumentó con cada repetición de la m
 
 \end{center}
 
-Notamos que hay una leve mejora cuando extendimos el loop a 32 repeticiones de la macro, a partir de este momento la mientras más descompongamos el loop en más repeticiones, más ciclos de procesador van a ser necesarios para terminar. Esto es coherente con lo expuesto anteriormente, a partir de cierto punto el binario es demasiado grande para la memoria caché y para ejecutar las instrucciones siguientes debe ir a buscar a memoria, provacando que el pipeline se detenga hasta que la próxima instrucción esté disponible e impactando negativamente en el desempeño del algoritmo.
+Notamos que hay leves mejoras cuando extendemos el loop hasta 256 repeticiones de la macro, a partir de este momento mientras descompongamos el loop en más repeticiones, más ciclos de procesador van a ser necesarios para terminar. Esto es coherente con lo expuesto anteriormente, a partir de cierto punto el binario es demasiado grande para la memoria caché y para ejecutar las instrucciones siguientes debe ir a buscar a memoria, provacando que el pipeline se detenga hasta que la próxima instrucción esté disponible e impactando negativamente en el desempeño del algoritmo.
 
 % La forma de medir el rendimiento de nuestras implementaciones se realizará por medio de la toma de tiempos de ejecución del algoritmo (sea este el codigo version asembler o el codigo C). Como los tiempos de ejecución son muy pequeños, se utilizará uno de los contadores de performance que posee el procesador.
 % La instrucción de assembler rdtsc permite obtener el valor del Time Stamp Counter (TSC) del procesador. Este registro se incrementa en uno con cada ciclo del procesador. Obteniendo la diferencia entre los contadores antes y después de la llamada a la función, podemos obtener la cantidad de ciclos de esa ejecución. Esta cantidad de ciclos no es siempre igual entre invocaciones de la función, ya que este registro es global del procesador y se ve afectado por una serie de factores. \newline

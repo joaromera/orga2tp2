@@ -95,7 +95,8 @@ En esta sección queremos cálcular:
 \begin{verbatim}
                               ;Cálculo de R, o sea (dx*dx+dy*dy)^(1/2) - RADIO 
                               ;xmm9=|RADIO|RADIO|RADIO|RADIO|
-  subps xmm3, xmm9            ;xmm3=|dxy3-RADIO|dxy2-RADIO|dxy1-RADIO|dxy0-RADIO| donde dxy es la distancia
+  subps xmm3, xmm9            ;xmm3=|dxy3-RADIO|dxy2-RADIO|dxy1-RADIO|dxy0-RADIO|
+                              ; donde dxy es la distancia
                               ;xmm8=|WAVELENGTH|WAVELENGTH|WAVELENGTH|WAVELENGTH|
                               ; R <- ((dx*dx+dy*dy)^(1/2) - RADIO)/WAVELENGTH
   divps xmm3, xmm8            ;xmm3=|R3|R2|R1|R0|	
@@ -186,12 +187,12 @@ Veremos q en $xmm4=|A3*(t3-t3^3/6+t3^5/120-t3^7/5040)*64|...|A1*(t0-t0^3/6+t0^5/
   ...
   divps xmm3, xmm2        ;xmm3=|t3^7/5040|t2^7/5040|t1^7/5040|t0^7/5040|
                   
-  subps xmm1, xmm3        ;xmm1=|t3-(t3^3)/6+t3^5/120-t3^7/5040|...|t0-(t0^3)/6+t0^5/120-t0^7/5040|
+  subps xmm1, xmm3        
 
-  subps xmm1, xmm3        ;xmm1=|t3-(t3^3)/6+t3^5/120-t3^7/5040|...|t0-(t0^3)/6+t0^5/120-t0^7/5040|								
+  subps xmm1, xmm3        
   ...
-                          ;Calculamos la multiplicacián por A y por 64
-  mulps xmm4, xmm1        ;xmm4=|A3*(t3-t3^3/6+t3^5/120-t3^7/5040)|...|A1*(t0-t0^3/6+t0^5/120-t0^7/5040(|
+
+  mulps xmm4, xmm1        ;Calculamos la multiplicación por A y por 64
                           ;Renombramos a xmm4=|prof3|prof2|prof1|prof0|		
   mulps xmm4, xmm8        ;xmm4=|prof3*64|prof2*64|prof1*64|prof0*64|
 
@@ -212,7 +213,8 @@ Abajo mostramos los segmentos más importantes del codigo que lo resuelve.
 
 \begin{codesnippet}
 \begin{verbatim}
-  cvtps2dq xmm4, xmm4             ;xmm4=|prof3*64|prof2*64|prof1*64|prof0*64| conviertimos de float a Integer
+                                  ;convertimos de float a Integer
+  cvtps2dq xmm4, xmm4             ;xmm4=|prof3*64|prof2*64|prof1*64|prof0*64|
 
   movdqu xmm7, xmm4               ;xmm7=|prof3*64|prof2*64|prof1*64|prof0*64|
                                   ;me quedo con el 3er dobleWord usando el shuffle
@@ -245,7 +247,7 @@ Abajo mostramos los segmentos más importantes del codigo que lo resuelve.
   paddd xmm1, xmm4                ;xmm1=|a1+prof1*64|b1+prof1*64|g1+prof1*64|r1+prof1*64|
                                   ;xmm1=|O(a1)|O(b1)|O(g1)|O(r1)|						
   ...
-  paddd xmm2, xmm4                ;xmm2=|a0+prof0*64|b0+prof0*64|g0+prof0*64|r0+prof0*64| shuffle posicion 0 de dobleWord
+  paddd xmm2, xmm4                ;xmm2=|a0+prof0*64|b0+prof0*64|g0+prof0*64|r0+prof0*64|
                                   ;xmm2=|O(a0)|O(b0)|O(g0)|O(r0)|                   
                                   ;Empaquetamos de DobleWord a Word
   packssdw xmm2,xmm1              ;xmm2=|O(a1) O(b1) O(g1) O(r1)|O(a0) O(b0) O(g0) O(r0)|						
