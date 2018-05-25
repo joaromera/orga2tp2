@@ -158,29 +158,29 @@ Para más detalles dejamos un extracto del código ASM:
 
 \begin{codesnippet}
 \begin{verbatim}
-	maskMagenta: db 255	 ,0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255
-	maskCero: db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 
+    maskMagenta: db 255	 ,0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255
+    maskCero: db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 
 
 section .text
 
 blit_asm:
-		...
-		movdqu xmm0, [rdi]; xmm0=|A B G R|A B G R|A B G R|A B G R|; img	
-		movdqu xmm14, [r15]; xmm14=|a b g r|a b g r|a b g r|a b g r|; blit
-							   ;Filtro los valores color magenta
-		pcmpeqd xmm15, xmm14   ; xmm15=|FF FF FF FF|00 00 00 00|FF FF FF FF|00 00 00 00| 
-		movdqu xmm12, xmm15	   ; xmm12= xmm15 paso la mascara a xmm12 
-							   ;Filtro los valores que no son magenta
-		pcmpeqd xmm15, xmm13   ; xmm15=|00 00 00 00|FF FF FF FF|00 00 00 00|FF FF FF FF|
-							   ;Me quedo con los velores de xmm0 que tengo que poner en la imagen
-		pand xmm12, xmm0       ; xmm2=|A B G R|00 00 00 00|A B G R|00 00 00 00|
-							   ;Me quedo con los valores de blit que tengo que poner en la imagen
-		pand xmm15, xmm14      ; xmm15=|00 00 00 00|a b g r|00 00 00 00|a b g r|
-							   ; Junto los dos valores en xmm15
-		por xmm15, xmm12 	   ;xmm15=|A B G R|a b g r|A B G R|a b g r|
-		movdqu [rsi], xmm15	   ; Copio todo a dst
-		movdqu xmm15, [maskMagenta]
-		movdqu xmm13, [maskCero]
-		...
+    ...
+    movdqu xmm0, [rdi]        ; xmm0=|A B G R|A B G R|A B G R|A B G R|; img	
+    movdqu xmm14, [r15]       ; xmm14=|a b g r|a b g r|a b g r|a b g r|; blit
+                              ; Filtro los valores color magenta
+    pcmpeqd xmm15, xmm14      ; xmm15=|FF FF FF FF|00 00 00 00|FF FF FF FF|00 00 00 00| 
+    movdqu xmm12, xmm15       ; xmm12= xmm15 paso la mascara a xmm12 
+                              ; Filtro los valores que no son magenta
+    pcmpeqd xmm15, xmm13      ; xmm15=|00 00 00 00|FF FF FF FF|00 00 00 00|FF FF FF FF|
+                              ; Me quedo con los velores de xmm0 que tengo que poner en la imagen
+    pand xmm12, xmm0          ; xmm2=|A B G R|00 00 00 00|A B G R|00 00 00 00|
+                              ; Me quedo con los valores de blit que tengo que poner en la imagen
+    pand xmm15, xmm14         ; xmm15=|00 00 00 00|a b g r|00 00 00 00|a b g r|
+                              ; Junto los dos valores en xmm15
+    por xmm15, xmm12          ; xmm15=|A B G R|a b g r|A B G R|a b g r|
+    movdqu [rsi], xmm15       ; Copio todo a dst
+    movdqu xmm15, [maskMagenta]
+    movdqu xmm13, [maskCero]
+    ...
 \end{verbatim}
 \end{codesnippet}
