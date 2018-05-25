@@ -63,7 +63,7 @@ En este filtro procesaremos de a 4 píxeles. Daremos la explicación de la parte
 
 \subsubsection*{Cálculo del valor T}
 
-En este tramo de código traigo los 4 píxeles de memoria. Desempaquetamps de Byte a Word en los registros XMM2(parte baja) y XMM1 (parte ata). Después shifteamos 16 bits a izquierda y luego a derecha cada paquete de QWords para de esta manera tener el valor de la trasparencia en 0.
+En este tramo de código traigo los 4 píxeles de memoria. Desempaquetamps de Byte a Word en los registros XMM2 (parte baja) y XMM1 (parte alta). Después shifteamos 16 bits a izquierda y luego a derecha cada paquete de QWords para de esta manera tener el valor de la trasparencia en 0.
 
 \begin{codesnippet}
 \begin{verbatim}
@@ -117,7 +117,7 @@ El objetivo de este paso es obtener \emph{xmm1=$|s3|s2|s1|s0|$}, donde \emph{s3,
 \end{verbatim}
 \end{codesnippet}
 
-El objetivo de este paso es obtener \emph{xmm1=$|s3|s2|s1|s0|$}. Para eso primero convertimos los paquetes de enteros de Doble Word a Floats usando la intrucción \emph{cvtdq2ps}. Luego usamos la funcion \emph{blenps}, que sive para mezclar los registos XMM1 y XMM2 según el valor que pongamos en la fuente número 2(en este caso 0011b).
+El objetivo de este paso es obtener \emph{xmm1=$|s3|s2|s1|s0|$}. Para eso primero convertimos los paquetes de enteros de Doble Word a Floats usando la intrucción \emph{cvtdq2ps}. Luego usamos la funcion \emph{blendps}, que sive para mezclar los registos XMM1 y XMM2 según el valor que pongamos en la fuente número 2 (en este caso 0011b).
 
 \begin{codesnippet}
 \begin{verbatim}
