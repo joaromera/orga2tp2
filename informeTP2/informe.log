@@ -1,10 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.11.21)  25 MAY 2018 10:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.11.21)  25 MAY 2018 10:36
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
-**/Users/joajoa/Dropbox/ORGA/TP2/informeTP2/informe.tex
-(/Users/joajoa/Dropbox/ORGA/TP2/informeTP2/informe.tex
+**informe.tex
+(./informe.tex
 LaTeX2e <2017-04-15>
 Babel <3.10> and hyphenation patterns for 84 language(s) loaded.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/base/article.cls
@@ -1298,13 +1297,13 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 4959 strings out of 492995
- 67667 string characters out of 6132703
+ 4958 strings out of 492995
+ 67543 string characters out of 6132703
  154755 words of memory out of 5000000
  8316 multiletter control sequences out of 15000+600000
  27217 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,13n,43p,1125b,599s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 39i,13n,43p,1083b,599s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2017/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texl
 ive/2017/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive
