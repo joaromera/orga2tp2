@@ -24,7 +24,6 @@
     );                                                      \
 }
 
-
 #define MEDIR_TIEMPO_START(start)                           \
 {                                                           \
     /* warm up ... */                                       \

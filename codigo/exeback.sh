@@ -1,4 +1,5 @@
 #!/bin/bash  
+<<<<<<< Updated upstream
 for i in tests/img_generadas/* ;
 do
     echo $i
@@ -13,3 +14,15 @@ do
         #done
     #fi
 done
+=======
+# myvar=1
+for i in tests/img_generadas/* ;
+do
+    if test -f $i && test ! -x $i ;
+    then
+
+        build/tp2 -i c -o postfiltro monocromatizar_inf $i
+        cat Output.txt >> resultados.csv
+    fi
+done
+>>>>>>> Stashed changes

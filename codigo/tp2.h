@@ -89,7 +89,12 @@ typedef struct filtro_t {
 // ~~~ declaraciones de tp2 ~~~
 filtro_t* detectar_filtro(configuracion_t *config);
 void      correr_filtro_imagen(configuracion_t *config, aplicador_fn_t aplicador);
+<<<<<<< Updated upstream
 void      imprimir_tiempos_ejecucion(unsigned long long int start, unsigned long long int end, int cant_iteraciones, configuracion_t config);
+=======
+void      imprimir_tiempos_ejecucion(unsigned long long int start, unsigned long long int end, int cant_iteraciones,
+									configuracion_t config);
+>>>>>>> Stashed changes
 
 // ~~~ declaraciones de cli.h ~~~
 void      procesar_opciones(int argc, char **argv, configuracion_t *config);

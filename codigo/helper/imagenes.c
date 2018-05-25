@@ -80,6 +80,3 @@ void imagenes_liberar()
 
     bmp_delete(dst_img);
 }
-
-
-
