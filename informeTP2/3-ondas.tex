@@ -200,7 +200,7 @@ Veremos q en $xmm4=|A3*(t3-t3^3/6+t3^5/120-t3^7/5040)*64|...|A1*(t0-t0^3/6+t0^5/
 
 \subsubsection*{Agregar profundidad a los píxeles (último paso)}
 
-En este paso ya tenemos el cálculo de la profundidad en el registro $xmm4$, solamente nos resta agregar la profundidad a los 4 píxeles que estamos por procesar. O sea falta lo siguinte:
+En este paso tenemos el cálculo de la profundidad en el registro $xmm4$, solamente nos resta agregar la profundidad a los 4 píxeles que estamos por procesar. O sea falta lo siguiente:
 
 \begin{center}
        $pixel \gets prof + I_{src}(x, y)$    
